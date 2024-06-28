@@ -1,0 +1,33 @@
+@import url('../css//common.css');
+
+.loombooking-container {
+    display: grid;
+    grid-template-columns: 4fr 2fr;
+    height: 100vh;
+}
+
+.loom_booking_container{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    
+}
+
+
+.infoform-container {
+    position: fixed;
+    top: 0;
+    right: -550px; 
+    width: 550px;
+    height: 100%;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: right 0.3s ease-in-out;
+  }
+  
+  .form-open {
+    right: 0;
+  }
+  
+
+

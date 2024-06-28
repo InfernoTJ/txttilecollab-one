@@ -1,0 +1,122 @@
+/* .home-container {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  text-align: left;
+}
+
+.sub-container {
+  display: flex;
+  flex-direction: column;
+  width: 60%; 
+  max-width: 1000px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 2fr 2fr;
+  gap: 10px 80px;
+  border: 2px solid var(--secondary-color);
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+  border-radius: 20px;
+  width: 100%; 
+  min-width: 640px; 
+  max-width: 100%;
+  margin: auto; 
+}
+
+.grid-title {
+  grid-column: span 2;
+  display: flex;
+  justify-content: left;
+  margin-bottom: 30px;
+  position: relative;
+  
+}
+
+.grid-title h5 {
+  font-size: 16px;
+  color: #fff;
+  background-color: var(--primary-color);
+  padding: 7px;
+  font-weight: 300;
+  margin: 0;
+  border-radius: 5px;
+  position: absolute;
+  top: 50%;
+  
+  left: 15%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 30%;
+  text-align: left;
+  
+}
+
+.form-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  width: 100%;
+}
+
+.form-item label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 0; }
+
+.form-item span {
+  overflow-wrap:break-word;
+  word-break: break-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-left: 10px;
+  text-align: left;
+  flex-grow: 1;
+  min-width: 0; 
+}
+
+
+@media (max-width: 768px) {
+  .sub-container {
+    width: 50%;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+    min-width: 50vh;
+    min-height: 50vh;
+    gap: 10px;
+  }
+
+  .grid-title {
+    grid-column: span 1;
+    justify-content: left;
+  }
+
+  .grid-title h5 {
+    font-size: 20px;
+    padding: 10px;
+    width: auto;
+    position: static;
+    transform: none;
+    text-align: left;
+
+  }
+
+  .form-item {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .form-item label,
+  .form-item span {
+    width: 100%;
+    margin-left: 0;
+    text-align: left;
+
+  }
+} */

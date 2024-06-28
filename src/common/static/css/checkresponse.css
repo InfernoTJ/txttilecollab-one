@@ -1,0 +1,68 @@
+.T-enquieryDetail-overlay-container {
+    width: 550px;
+
+    border-radius: 20px;
+    background-color: #f9f9f9;
+    padding: 30px;
+
+
+}
+  .T-enquieryDetail-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+  }
+
+.T-profile-status-overlay-container{
+    width: 400px;
+    border-radius: 20px;
+    background-color: #f9f9f9;
+    padding: 30px;
+}
+
+.T-profile-status-overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.T-profile-confirm-overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.T-profile-confirm-overlay-container{
+    width: 530px;
+    border-radius: 20px;
+    background-color: #f9f9f9;
+    padding: 30px;
+}
+
+@media (max-width: 768px) {
+    .left-panel, .right-panel {
+      max-width: 100%;
+      flex: 1;
+      border:"3px solid red"
+    }}

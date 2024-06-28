@@ -1,0 +1,40 @@
+.generate_enquiry {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 100%;
+}
+
+.generate_enquiry-left {
+    /* border: 3px solid red; */
+    /* height: 70vh */
+}
+
+
+.generate_enquiry-right {
+    /* border: 3px solid blue; */
+    height: 70vh
+}
+
+
+.label-container {
+    margin-bottom: 15px;
+
+}
+
+.Frames-label-container{
+    margin-bottom: 14px;
+}
+
+
+@media screen and (max-width: 768px) {
+    .generate_enquiry {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+@media screen and (max-width: 884px) {
+    .generate_enquiry {
+        grid-template-columns: 1fr;
+    }
+}

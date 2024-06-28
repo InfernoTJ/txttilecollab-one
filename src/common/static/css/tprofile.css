@@ -1,0 +1,76 @@
+.trader-profile{
+    display: grid;
+    grid-template-columns: 6fr 2fr;
+    height:80vh;
+}
+
+.profile-trader-compamyinfo-form{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.Tprofile_form-contactinfo-btns button{
+    width: 15%;
+}
+
+/* .tprofile-all{
+    width: 90%;
+    margin: '30px'
+
+}
+
+
+@media (max-width: 768px) {
+  
+    .profile-trader-compamyinfo-form {
+        grid-template-columns: 1fr;
+    }
+
+    .btn1,
+    .btn2 {
+        width: 60%;
+        margin: 10px auto;
+    }
+
+    .Tprofile_form-contactinfo-btns{
+        display: flex;
+        flex-direction: column;
+    }
+    .Tprofile_form-contactinfo-btns button{
+        width: 70%; 
+        margin: 10px;
+    
+    }
+    .tprofile-all{
+        width: 100%;
+    
+    }
+} */
+
+
+@media (max-width: 768px) {
+  
+    .profile-trader-compamyinfo-form {
+        grid-template-columns: 1fr;
+    
+    }
+
+    .btn1,
+    .btn2 {
+        width: 60%;
+        margin: 10px auto;
+    }
+
+    .Tprofile_form-contactinfo-btns{
+        display: flex;
+        flex-direction: column;
+    }
+    .Tprofile_form-contactinfo-btns button{
+        width: 70%; 
+        margin: 10px;
+    
+    }
+    .tprofile-all{
+        width: 100%;
+    
+    }}

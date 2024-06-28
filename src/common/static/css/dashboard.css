@@ -1,0 +1,43 @@
+@import url('../css//common.css');
+
+.dashboard-title {
+  display: flex;
+}
+
+.dashboard-title h5 {
+  color: var(--primary-color);
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.dashboard-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 20px;
+  grid-template-areas: "c1 c2 c3" "c4 c4 c5" "c4 c4 c6";
+  height: 83vh;
+  text-align: center;
+  /* border: 1px solid red; */
+}
+
+.dashboard-container h6 {
+  font-size: 16px;
+  color: var(--loom-button);
+}
+
+@media (max-width: 768px) {
+  .dashboard-container {
+    overflow-y: auto;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(6, 200px);
+    grid-template-areas: initial;
+    padding-right: 10px;
+    text-align: center;
+
+  }
+
+  .card {
+    grid-area: initial !important;
+  }
+}
