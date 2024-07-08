@@ -20,7 +20,7 @@ const Users = () => {
         // Add srNo to each item in the result array
         const dataWithSrNo = result.map((item, index) => ({
           ...item,
-          srNo: index + 1, // Auto-incrementing srNo
+          srNo: index + 1,
         }));
 
         setData(dataWithSrNo);

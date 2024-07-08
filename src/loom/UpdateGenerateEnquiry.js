@@ -15,7 +15,7 @@ const UpdateGenerateEnquiry = () => {
     const [agentName, setAgentName] = useState('Hujur');
     const [machineWidth, setMachineWidth] = useState(210);
     const [Rpm, setRpm] = useState(1000);
-
+    const [tblwidth,setTblWidth]=useState(66);
     const [numOfLooms, setNumOfLooms] = useState(10)
     const [jobRate, setjobRate] = useState(20);
     const [machineType, setMachineType] = useState('Rapier ');
@@ -55,16 +55,25 @@ const UpdateGenerateEnquiry = () => {
                         </div>
                     </div>
                     <div style={{ display: "flex", alignItems: 'center', marginTop: '20px' }}>
-                        <b>Width</b>
+                        <b> Fabric Width</b>
                         <div style={{ background: 'white', padding: '5px', borderRadius: '10px', width: '30%', textAlign: 'center', marginLeft: '20px' }}>
                             {machineWidth}
                         </div>
+                        <b><p>Inches</p></b>
                     </div>
                     <div style={{ display: "flex", alignItems: 'center', marginTop: '20px' }}>
                         <b>No of Looms Required</b>
                         <div style={{ background: 'white', padding: '5px', borderRadius: '10px', width: '30%', textAlign: 'center', marginLeft: '20px' }}>
                             {numOfLooms}
                         </div>
+                    </div>
+
+                    <div style={{ display: "flex", alignItems: 'center', marginTop: '25px' }}>
+                        <b>On Table Fabric Width:</b>
+                        <div style={{ background: 'white', padding: '5px', borderRadius: '10px', width: '30%', textAlign: 'center', marginLeft: '20px' }}>
+                            {tblwidth}
+                        </div>
+                        <b><p>Inches</p></b>
                     </div>
                 </div>
 
@@ -96,6 +105,7 @@ const UpdateGenerateEnquiry = () => {
                         <div style={{ background: 'white', padding: '5px', borderRadius: '10px', width: '30%', textAlign: 'center', marginLeft: '20px' }}>
                             {jobRate}
                         </div>
+                        <b><p>paisa</p></b>
                     </div>
                 </div>
 
@@ -104,7 +114,7 @@ const UpdateGenerateEnquiry = () => {
                     <div style={{ display: "flex", alignItems: 'center' }}>
                         <b>Fabric Quality</b>
                         <div style={{ background: 'white', padding: '5px', borderRadius: '10px', width: '59%', textAlign: 'center', marginLeft: '20px' }}>
-                            {fabricQuality}
+                            {fabricQuality}''
                         </div>
                     </div>
 
@@ -126,9 +136,13 @@ const UpdateGenerateEnquiry = () => {
                     <div style={{ display: "flex", alignItems: 'center', marginTop: '20px' }}>
                         <b>Total Fabric Length</b>
                         <div style={{ background: 'white', padding: '5px', borderRadius: '10px', width: '30%', textAlign: 'center', marginLeft: '20px' }}>
-                            {fabricLength}
-                        </div>
+                            {fabricLength} 
+                        </div>                                                                                                                                                                                                                 
+                        <b>M</b>
                     </div>
+
+
+                    
                 </div>
 
 

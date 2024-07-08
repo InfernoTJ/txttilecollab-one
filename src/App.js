@@ -38,6 +38,19 @@ import Admin_yarn from './Admin _side/Admin_yarn.js';
 import Profile from './loom/Profile.js';
 import Tprofile from './trader_Side/Tprofile.js';
 
+import MyLoom from './loom/MyLoom.js';
+import MyLoomDetails from './loom/MyLoomDetails.js';
+
+import TknottingOffer from './trader_Side/TknottingOffer.js';
+import MyEnquiries from './trader_Side/MyEnquiries.js';
+import Notification from '../src/YarnSide/Notification';
+import Y_loom from './YarnSide/Y_loom.js';
+import Y_trader from './YarnSide/Y_trader.js';
+
+import GenerateknottingOffer from '../src/loom/GenerateknottingOffer.js';
+import KnottingResponse from './loom/KnottingResponse.js';
+
+
 
 function App() {
   return (
@@ -54,8 +67,13 @@ function App() {
             <Route path='loombookDetails' element={<LoomBooking />} />
             <Route path='jobwork-enquiry' element={<Jobwork />} />
             <Route path='live-orders' element={<Liveorder />} />
-
+            <Route path='my-loom' element={<MyLoom />} />
             <Route path='cancelled-order' element={<Cancelledorder />} />
+            {/* <Route path='knotting-offers' element={<Knotting_Offer/>}/> */}
+            <Route path='generateknottingOffer' element={<GenerateknottingOffer/>}/>
+            <Route path='knottingResponse' element={<KnottingResponse/>}/>
+
+            <Route path='trader-knotting-offers' element={<TknottingOffer/>}/>
             <Route path='get-yarn' element={<GetYarn />} />
             <Route path='trader-get-yarn' element={<YarnRateT />} />
             <Route path='calculation' element={<Calculation />} />
@@ -66,7 +84,9 @@ function App() {
             {/* trader side */}
             <Route path='check-response' element={<CheckResponse />} />
             <Route path='L-Profile' element={<Profile />} />
+             <Route path='myloomdetails' element={<MyLoomDetails/>}/>
             <Route path='T-Profile' element={<Tprofile />} />
+            <Route path='myenquiries'element={<MyEnquiries/>}/>
             {/* <Route  path='human-resource' element={<HumanResource/>}/> */}
             <Route path="updateenquiry/:enquiryNo" element={<UpdateGenerateEnquiry />} />
             <Route path='live-orders/orderdetails' element={<LoomOrderDetails />} />
@@ -80,7 +100,9 @@ function App() {
             <Route path='loom' element={<Addmin_loom />} />
             <Route path='yarn' element={<Admin_yarn />} />
 
-
+            <Route path='notifications' element={<Notification />} />
+            <Route path='yarn-loom' element={<Y_loom/>} />
+            <Route path='yarn-Trader' element={<Y_trader/>} />
           </Route>
 
           {/* <Route path='/loom_register' element={<LoomRegister />} /> */}

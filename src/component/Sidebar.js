@@ -6,7 +6,7 @@ import { menuItems } from './menuItems';
 import { FaAngleLeft, FaAngleDown, FaAngleUp, FaBars } from "react-icons/fa";
 import { HiOutlineLogout } from "react-icons/hi";
 import logo2 from  "../../src/common/static/image/logo1.png";
-
+import img11 from '../../src/common/static/image/img11.jpg';
 function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
   const [openSubMenu, setOpenSubMenu] = useState(null);
@@ -43,7 +43,7 @@ function Sidebar() {
   // Filter menu items based on user role
   const filteredMenuItems = menuItems.filter(item => item.roles.includes(userRole));
 
-  // 
+   
 
 
 
@@ -55,6 +55,7 @@ function Sidebar() {
   return (
     <div className={`grid-container ${themeMode === "dark" ? "dark-theme" : ""}`}>
       <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: 'var(--primary-color)', padding: '20px', fontWeight: '800' }} className="header">
+       
         <div style={{ display: "flex", flex: "1", gap: '50px' }}>
           <div>Welcome to Kapada Banao !!</div>
           <div style={{ flex: '1', display: "flex", flexDirection: "row", gap: '50px', justifyContent: "flex-end", marginRight: '35px' }}>
@@ -88,12 +89,44 @@ function Sidebar() {
         </div>
 
         <div className="sidebar-content-items">
-          <div style={{ height: '15vh', width: '250px' }}>
+        {/* <div style={{ height: '15vh', width: '250px' }}>
             <div className="logo-container"
-              style={{ flex: '1', justifyContent: "center", alignItems: 'center', display: "flex", background: 'var(--primary-color)' }}>
-              <img style={{ height: "15vh", width: '150px' }} src={logo2} alt="Logo" />
+              style={{ flex: '1', justifyContent: "center", alignItems: 'center', display: "flex", backgroundImage: `url(${img11})`, backgroundSize: 'cover', }}>
+                <div style={{flex:'1',backgroundColor: 'rgba(0, 0, 0, 0.4)',alignItems:'center',justifyContent:'center'}}> 
+              <img style={{ height: "15vh", width: '150px', }} src={logo2} alt="Logo" />
+            </div>
+            </div>
+          </div> */}
+          <div style={{ height: '15vh', width: '250px' }}>
+            <div
+              className="logo-container"
+              style={{
+                flex: '1',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundImage: `url(${img11})`,
+                backgroundSize: 'cover',
+              }}
+            >
+              <div
+                style={{
+                  flex: '1',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: 'rgba(0, 0, 0, 0.4)',
+                }}
+              >
+                <img
+                  style={{ height: '15vh', width: '150px' }}
+                  src={logo2}
+                  alt="Logo"
+                />
+              </div>
             </div>
           </div>
+
 
           <div className="sidebar-items">
             <div className="menu-bar">
@@ -128,9 +161,9 @@ function Sidebar() {
             <div className="bottom-content">
               <ul>
                 <li>
-                  <Link to="#" className="logout-link">
+                  <Link to="#" onClick={handleLogOut}   className="logout-link">
                     <HiOutlineLogout className="logout-icon" />
-                    <span onClick={handleLogOut} className="hidden-text">Logout</span>
+                    <span className="hidden-text">Logout</span>
                   </Link>
                 </li>
               </ul>

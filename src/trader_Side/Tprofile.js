@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../common/static/css/tprofile.css';
-
+import { useNavigate } from 'react-router-dom';
 const Tprofile = () => {
   const [editable, setEditable] = useState(false);
 const [editContact,seteditContact]=useState(false);
@@ -41,13 +41,17 @@ const [editContact,seteditContact]=useState(false);
  toast.success('Contact Updated')
   }
 
+  const navigate = useNavigate();
+  const handleMyenquiriesClick = () => {
+    navigate('/sidebar/myenquiries');
+  };
   return (
     <div className='trader-profile-all'>
       <ToastContainer />
       <div style={{ backgroundColor: 'var(--tershary-color)', paddingBottom: '200px', position: 'relative' }}>
-        <div className='profile-company-info' style={{ position: 'absolute', top: '30px', left: '30px', zIndex: '10', width: 'calc(50%)' }}>
+        <div className='profile-company-info'>
           <div style={{ margin: '30px', boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.5)', background: '#fff' }}>
-            <h3 className='profile-company-info-tittle' style={{ color: 'var(--primary-color)', textAlign: 'center' }}>Company Information</h3>
+            <h3 className='profile-company-info-tittle' style={{ color: 'var(--primary-color)', textAlign: 'center',paddingTop:'40px' }}>Company Information</h3>
             <div className='profile-trader-compamyinfo-form'>
               <div style={{ margin: '5px' }}>
                 <div style={{ marginTop: '10px' }}>
@@ -155,21 +159,23 @@ const [editContact,seteditContact]=useState(false);
                 <div style={{ marginTop: '10px' }}>
                   <label style={{ fontWeight: 'bold', margin: "10px", color: 'var(--primary-color)' }}>Registration Number</label>
                   <input
-                    style={{ width: '90%', margin: "10px", border: '1px solid var(--primary-color)' }}
+                    style={{ width: '90%', margin: "10px", border: '1px solid var(--primary-color)',fontWeight: 'bold' }}
                     type='text'
                     value={registrationNo}
                     onChange={(e) => setRegistrationNo(e.target.value)}
-                    disabled={!editable}
+                    // disabled={!editable}
+                    readOnly
                   />
                 </div>
                 <div style={{ marginTop: '10px' }}>
                   <label style={{ fontWeight: 'bold', margin: "10px", color: 'var(--primary-color)' }}>Role</label>
                   <input
-                    style={{ width: '90%', margin: "10px", border: '1px solid var(--primary-color)' }}
+                    style={{ width: '90%', margin: "10px", border: '1px solid var(--primary-color)',fontWeight: 'bold' }}
                     type='text'
                     value={role}
                     onChange={(e) => setRole(e.target.value)}
-                    disabled={!editable}
+                    // disabled={!editable}
+                    readOnly
                   />
                 </div>
               </div>
@@ -180,9 +186,9 @@ const [editContact,seteditContact]=useState(false);
             </div>
           </div>
         </div>
-        <div className='profile-contact-info' style={{ position: 'absolute', top: '30px', right: '30px', zIndex: '10', width: 'calc(50% - 60px)' }}>
-          <div className='tprofile-all' style={{ margin: '30px', boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.5)', background: '#fff' }}>
-            <h3 style={{ color: 'var(--primary-color)',textAlign:'center' }}>Contact Information</h3>
+        <div className='profile-contact-info' >
+          <div className='tprofile-all'>
+            <h3 style={{ color: 'var(--primary-color)',textAlign:'center',paddingTop:'40px' }}>Contact Information</h3>
 
 
             <div style={{ marginTop: '25px' }}>
@@ -230,8 +236,8 @@ const [editContact,seteditContact]=useState(false);
               <button style={{ margin: '10px' }} className='btn2'onClick={handleContactSave}>Save</button>
             </div>
           </div>
-          <div style={{ margin: '30px', boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.5)', background: '#fff' }} className='trader-profile-MyEnquiries'>
-            <div style={{ marginTop: '75px', padding: "30px" }}>
+          <div className='trader-profile-MyEnquiries'>
+            <div className='Tprofile-MyEnquiries' onClick={handleMyenquiriesClick} >
               <span>My Enquiries </span>
             </div>
           </div>

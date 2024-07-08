@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import '../common/static/css/profile.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
+
 const Profile = () => {
   const [editable, setEditable] = useState(false);
   const [editContact,seteditContact]=useState(false);
@@ -39,13 +41,19 @@ const Profile = () => {
  seteditContact(false);
  toast.success('Contact Updated')
   }
+  const navigate = useNavigate();
+  const handleMyloomClick = () => {
+    navigate('/sidebar/my-loom');
+  };
 
   return (
     <div  className='loom-profile-all'>
       <div style={{ backgroundColor: 'var(  --tershary-color)', paddingBottom: '200px', position: 'relative' }}>
-        <div className='profile-company-info' style={{ position: 'absolute', top: '30px', left: '30px', zIndex: '10', width: 'calc(66%)' }}>
+        <div className='Lprofile-company-info' > 
+       
+       
           <div  style={{ margin: '30px', boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.5)', background: '#fff' }}>
-            <h3 className='profile-company-info-tittle' style={{ color: 'var(--primary-color)', textAlign: 'center',}}>Company Information</h3>
+            <h3 className='profile-company-info-tittle' style={{ color: 'var(--primary-color)', textAlign: 'center',paddingTop:'40px'}}>Company Information</h3>
             <div className='profile-loom-compamyinfo-form'>
               <div style={{ margin: '5px' }}>
                 <div style={{ marginTop: '10px' }}>
@@ -153,21 +161,23 @@ const Profile = () => {
                 <div style={{ marginTop: '10px' }}>
                   <label style={{ fontWeight: 'bold', margin: "10px", color: 'var(--primary-color)' }}>Registration Number</label>
                   <input
-                    style={{ width: '90%', margin: "10px", border: '1px solid var(--primary-color)' }}
+                    style={{ width: '90%', margin: "10px", border: '1px solid var(--primary-color)',fontWeight: 'bold', }}
                     type='text'
                     value={registrationNo}
                     onChange={(e) => setRegistrationNo(e.target.value)}
-                    disabled={!editable}
+                    // disabled={!editable}
+                    readOnly
                   />
                 </div>
                 <div style={{ marginTop: '10px' }}>
                   <label style={{ fontWeight: 'bold', margin: "10px", color: 'var(--primary-color)' }}>Role</label>
                   <input
-                    style={{ width: '90%', margin: "10px", border: '1px solid var(--primary-color)' }}
+                    style={{ width: '90%', margin: "10px", border: '1px solid var(--primary-color)',fontWeight: 'bold', }}
                     type='text'
                     value={role}
                     onChange={(e) => setRole(e.target.value)}
-                    disabled={!editable}
+                    // disabled={!editable}
+                    readOnly
                   />
                 </div>
               </div>
@@ -178,9 +188,9 @@ const Profile = () => {
             </div>
           </div>
         </div>
-        <div className='profile-contact-info' style={{ position: 'absolute', top: '30px', right: '30px', zIndex: '10', width: 'calc(35% - 60px)' }}>
+        <div className='Lprofile-contact-info' >
           <div  style={{ margin: '30px', boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.5)', background: '#fff' }}>
-            <h3 style={{ color: 'var(--primary-color)',textAlign:'center' }}>Contact Information</h3>
+            <h3 style={{ color: 'var(--primary-color)',textAlign:'center',paddingTop:'40px' }}>Contact Information</h3>
             <div style={{padding:"5px"}} className='profile-loom-contact-form'> 
             <div style={{ marginTop: '25px' }}>
               <label style={{ fontWeight: 'bold', margin: "10px", color: 'var(--primary-color)' }}>Primary Contact</label>
@@ -228,11 +238,12 @@ const Profile = () => {
             </div>
           </div>
           </div>
-          {/* <div style={{ margin: '30px', boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.5)', background: '#fff',width: 'calc(55% - 60px)' }} className='loom-profile-myloom'> */}
-            <div className='loom-profileMyloom-all' style={{display:"flex"}}>
-            <div style={{ margin: '30px', boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.5)', background: '#fff',width: 'calc(35% )' }} className='loom-profile-myloom'>
-            <div style={{ padding: "30px" }}>
-              <span>My Loom </span>
+        
+            <div className='loom-profileMyloom-all'>
+            <div  className='loom-profile-myloom'>
+            <div style={{ padding: "30px",cursor:'pointer' }}>
+              <span onClick={handleMyloomClick}>My Loom </span>
+             
             </div>
             </div>
             <div style={{ margin: '30px', boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.5)', background: '#fff',width: 'calc(35%)' }} className='loom-profile-myloom'>

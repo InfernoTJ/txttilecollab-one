@@ -1,9 +1,39 @@
 @import url('../css//common.css');
 
-.btn2.active {
-  color: white;
-  background-color:#046a75
+.livebtn {
+   color: black;
+   background:none;
+   font-size: 18px;
+   font-weight: bold;
+   padding: 14px;
+   cursor: pointer;
+   border: none;
 }
+
+
+.livebtn.active {
+  border: none;
+  background-color: var(--primary-color);
+  padding: 14px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: bold;
+  border-radius: 15px;
+  cursor: pointer;
+  width: 100%; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+
+
+
+
+
+
 
 table {
   width: 100%;
@@ -58,7 +88,95 @@ color:var(--primary-color)
   color: #666; /* Lighter text color */
 }
 
+/* cards */
+.live-ordersCards-container{
+  /* padding: 20px;
+  margin: 10px; */
+  display: grid;
+  grid-template-columns:repeat(8, 1fr) !important ;
+  grid-template-rows: repeat(10, 1fr)!important ;
+  gap: 15px
+}
 
-@media (max-width: 768px) {
+.live-ordersCards-all{
+  border: 3px solid var(--tershary-color); 
+  border-radius: 10px;
+}
+.live-orderCards-btns{
+  display: flex; 
+  flex-direction: row;
+  /* gap: 40px ; */
+}
+
+.confirmOrdersCards-container{
+ /* padding: 20px;
+  margin: 10px;  */
+  display: grid;
+  grid-template-columns: repeat(9, 1fr)!important; 
+   grid-template-rows: repeat(9,1fr)!important; 
+   gap: 20px
+
+}
+
+.confirmOrdersCards-all{
+  border: 3px solid var(--tershary-color);
+   border-radius: 10px 
+}
+
+.cnfm-order-btn{
+  display: flex;
+   flex-direction: row;
+    gap: 40px
+}
+.vl{
+  border-left: 3px solid gray;
+  height: auto;
+}
+
+.live-order-container{
+  overflow-y: auto;
+}
+
+
+@media only screen and (max-width: 902px){
+  .live-ordersCards-container{
+    /* padding: 20px;
+    margin: 10px; */
+    display: grid!important;
+    grid-template-columns:repeat(4, 0.06fr) !important ;
+    grid-template-rows: repeat(10, 0.006fr)!important ;
+    gap: 15px
+  }
   
+  .live-ordersCards-all{
+    border: 3px solid var(--tershary-color); 
+    border-radius: 10px;
+  }
+  .live-orderCards-btns{
+    display: flex; 
+    flex-direction: row;
+    /* gap: 40px ; */
+  }
+  
+  .confirmOrdersCards-container{
+   /* padding: 20px;
+    margin: 10px;  */
+    display: grid !important;
+    grid-template-columns: repeat(6,1fr)!important; 
+     grid-template-rows: repeat(10,1fr)!important; 
+     gap: 20px
+  }
+  
+  .confirmOrdersCards-all{
+    border: 3px solid var(--tershary-color);
+     border-radius: 10px 
+  }
+  
+  .cnfm-order-btn{
+    display: flex;
+     flex-direction: row;
+      gap: 40px
+  }
+  
+
 }

@@ -28,7 +28,7 @@
     border-radius: 20px;
 }
 
-.logo-registration{
+.logo-registration {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -67,27 +67,45 @@
 
 input[type=text] {
     width: 100%;
-    margin-top: 5px; 
-    border: 2px solid var( --primary-color);
+    margin-top: 5px;
+    border: 2px solid var(--primary-color);
     border-radius: 10px;
 }
 
-.login-form > div {
+.login-form>div {
     width: 100%;
     max-width: 95%;
 }
 
 .form-group {
-    margin-bottom: 20px; 
+    margin-bottom: 20px;
 }
 
 .form-group label {
-    margin-bottom: 5px; 
-    display: block; 
+    margin-bottom: 5px;
+    display: block;
 }
 
-.loom-btn{display: flex;
-gap:20px
+.loom-btn {
+    display: flex;
+    gap: 20px
 }
 
 
+
+
+@media only screen and (max-width: 902px) {
+    .loom-login {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-area: "logingpage";
+        margin: 50px;
+        padding: 0px;
+        height: 80vh;
+        border-radius: 20px;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    }
+   .logo-registration{
+    display: none;
+   }
+}

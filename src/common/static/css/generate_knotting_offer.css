@@ -1,0 +1,45 @@
+.knotting_offer_form-all {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.knotting-btns {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.knotting-btns>div {
+  margin: 0 10px;
+}
+
+.kotting-offer-container {
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 30px;
+  background: var(--background-color);
+  height: 75vh;
+}
+
+@media only screen and (max-width: 902px) {
+  .knotting_offer_form-all {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .knotting-btns {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 80px;
+  }
+
+  .knotting-btns.btn1 {
+    width: 100%;
+  }
+
+  .knotting-btns.btn2 {
+    width: 100%;
+  }
+}

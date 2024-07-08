@@ -3,7 +3,8 @@
 .loombooking-container {
     display: grid;
     grid-template-columns: 4fr 2fr;
-    height: 100vh;
+  
+ 
 }
 
 .loom_booking_container{

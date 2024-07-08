@@ -1,0 +1,10 @@
+/* .y-loomcontainer{
+} */
+
+.Y-loom_cards-container{
+display: grid;
+grid-template-columns: repeat(7,1fr);
+grid-template-rows: repeat(10,1fr);
+height: 100vh;
+gap: 20px;
+}

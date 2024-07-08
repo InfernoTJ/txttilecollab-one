@@ -18,7 +18,7 @@ const Forgot_password = () => {
     };
 
   return (
-    <div className='loomregister-container'>
+    <div  className='loomregister-container'>
     <div className='loom-login'>
         <div className='logo-registration'>
             <img src={logo} alt="Logo" />

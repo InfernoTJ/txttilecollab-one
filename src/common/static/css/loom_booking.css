@@ -1,7 +1,9 @@
 .loom_booking-container {
     display: grid;
-    grid-template-columns: 4fr 2fr;
-    height: 100vh;
+     grid-template-columns: 4fr 2fr; 
+    height: 100vh; 
+    overflow-y: auto;
+
 }
 
 .loom_booking_form{
@@ -10,6 +12,15 @@
     
 }
 
+.loom_booking_allcards{
+  padding: 20px;
+    margin: 10px;
+    display: grid;
+    height: 88vh;
+    grid-template-columns: repeat(5, 0.3fr);
+    grid-template-rows: repeat(4, 0.3fr);
+    gap: 30px;
+}
 
 .loom_booking_infoform-container {
     position: fixed;
@@ -40,3 +51,90 @@
     padding: 4px;
   }
 
+
+.loom_booking-form-container{
+   border: 1px solid var(--secondary-color);
+    background: var(--background-color);
+    border-radius: 10px;
+     padding: 10px;
+}
+
+
+.loom_booking_btn-container{
+  display: flex;
+   justify-content: center;
+    align-items: center;
+}
+
+  @media only screen and (max-width: 902px){
+    .loom_booking-container {
+      display: grid;
+       grid-template-columns: 4fr 2fr; 
+      height: 100vh; 
+      overflow-y: auto;
+  
+  }
+  
+  .loom_booking_form{
+      display: grid;
+      grid-template-columns: 1fr ;
+      
+  }
+  
+  .loom_booking_allcards{
+    padding: 20px;
+      margin: 10px;
+      display: grid;
+      height: 88vh;
+      grid-template-columns: repeat(2, 0.35fr);
+      grid-template-rows: repeat(4, 0.35fr);
+      gap: 30px;
+  }
+  
+  .loom_booking_infoform-container {
+      position: fixed;
+      top: 0;
+      right: -600px; 
+      width: 600px;
+      height: 100%;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      transition: right 0.3s ease-in-out;
+    }
+    
+    .form-open {
+      right: 0;
+    }
+    .loom_booking_card1{
+      border: 2px solid var(--secondary-color);
+      border-radius: 8px;
+      position: relative;
+      padding: 4px;
+    }
+  
+    .loom_booking_card2{
+      border: 2px solid var(--secondary-color);
+      border-radius: 8px;
+      position: relative;
+      padding: 4px;
+    }
+
+
+    
+.loom_booking-form-container{
+  border: 1px solid var(--secondary-color);
+   background: var(--background-color);
+   border-radius: 10px;
+    /* padding: 10px; */
+    height: 65vh;
+}
+
+.loom_booking_btn-container{
+  display: flex;
+   justify-content: center;
+    align-items: center;
+}
+
+
+  }

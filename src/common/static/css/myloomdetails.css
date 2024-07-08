@@ -1,0 +1,13 @@
+.detail-form-container{
+    border:'1px solid red';
+    display: grid;
+   
+}
+
+.MyLoom-Details-hedding{
+    display: flex;
+    align-items: center;
+    gap:30px
+}
+
+

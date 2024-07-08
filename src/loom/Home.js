@@ -1,53 +1,65 @@
+
 import React from 'react';
 import '../common/static/css/home.css';
+import user from '../common/static/image/user.jpg';
+// import img9 from '../common/static/image/img9.webp';
+import img12 from '../common/static/image/img12.png';
 
 function Home() {
   return (
-    <div className='home-container'>
-      <div className='sub-container'>
-        <div className='information-container'>
-          <form className='form-grid'>
-            <div className='grid-title'>
-              <h5>Profile Details</h5>
-            </div>
-            <div className='form-item form-name'>
-              <label htmlFor='user-name'>User Name:</label>
-              <span>Radhika  Patil</span>
-            </div>
-            <div className='form-item form-email'>
-              <label htmlFor='email'>Email:</label>
-              <span>radhikajadhbv227@gmail.com</span>
-            </div>
-            <div className='form-item form-address'>
-              <label htmlFor='address'>Address:</label>
-              <span>Rajarampuri 6th lane, takala road mahalaximi pride 6th floor, Kolhapur</span>
-            </div>
-            <div className='form-item form-city'>
-              <label htmlFor='city'>City:</label>
-              <span>Kolhapur</span>
-            </div>
-            <div className='form-item form-state'>
-              <label htmlFor='state'>State:</label>
-              <span>Maharashtara</span>
-            </div>
-            <div className='form-item form-pin'>
-              <label htmlFor='zip'>Pin Code:</label>
-              <span>416216</span>
-            </div>
-            <div className='form-item form-phone'>
-              <label htmlFor='phone'>Phone:</label>
-              <span></span>
-            </div>
-            <div className='form-item form-address'>
-              <label htmlFor='address'> Conatct No. :</label>
-              <span></span>
+    <div>
+      <div className="Home_container"> 
+        <div className='background-image-container' > 
+        <img className="background-image" src={img12} alt="" />   
+      </div>
+      </div>
+
+      <div className="profileUser-card">
+        <img src={user} alt="User" className="profile-image" />
+        <div className="profile-content">
+          <div className="profile-details">
+            <h2>Vivek Textiles</h2>
+            <h3>Registration Num: LU00529</h3>
+            <p>Address: YT park</p>
+          </div>
+          
+          <div className='dashboardd-cards'>
+          <div className='profile-cards'>
+                <div className='company-card' style={{ background: 'var(--secondary-color)', padding:'5px',color:"white" }}>
+                  <p style={{ fontSize: "15px", fontWeight: 'bold' }}>Number of Users</p>
+                </div>
+                <hr />
+                <p className='count'>50+</p>
+          
             </div>
 
-            <div className='form-item form-address'>
-              <label htmlFor='address'>GST Number :</label>
-              <span></span>
+            <div className='profile-cards'>
+            <div className='company-card' style={{ background: 'var(--secondary-color)', padding:'5px',color:"white" }}>
+              <p style={{fontSize:"15px",fontWeight:'bold'}}>Number of Loom owner</p>
+              </div>
+              <hr/>
+              <p className='count'>50</p>
             </div>
-          </form>
+
+            <div className='profile-cards'>
+              <div className='company-card' style={{ background: 'var(--secondary-color)', padding:'5px',color:"white" }}>
+              <p style={{fontSize:"15px",fontWeight:'bold'}}>Number of Fabric trader</p>
+              </div>
+              <hr/>
+              <p className='count'>50</p>
+            </div>
+
+           
+            <div className='profile-cards'>
+            <div className='company-card' style={{ background: 'var(--secondary-color)', padding:'5px',color:"white" }}>
+              <p style={{fontSize:"15px",fontWeight:'bold'}}>Job Work Enquiries</p>
+              </div>
+              <hr/>
+              <p className='count'>50</p>
+            </div>
+
+          </div>
+
         </div>
       </div>
     </div>

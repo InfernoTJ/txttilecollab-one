@@ -155,6 +155,7 @@ function LoomBooking() {
                             </div>
                         </div>
 
+                        {/* <div style={{ border: '1px solid red' }} classname="box"></div>
                         <div style={{ border: '1px solid red' }} classname="box"></div>
                         <div style={{ border: '1px solid red' }} classname="box"></div>
                         <div style={{ border: '1px solid red' }} classname="box"></div>
@@ -171,8 +172,13 @@ function LoomBooking() {
                         <div style={{ border: '1px solid red' }} classname="box"></div>
                         <div style={{ border: '1px solid red' }} classname="box"></div>
                         <div style={{ border: '1px solid red' }} classname="box"></div>
-                        <div style={{ border: '1px solid red' }} classname="box"></div>
-                        <div style={{ border: '1px solid red' }} classname="box"></div>
+                        <div style={{ border: '1px solid red' }} classname="box"></div> */}
+
+
+
+
+                        
+                       
                     </div>
 
 

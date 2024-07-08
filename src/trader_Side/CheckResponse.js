@@ -10,7 +10,7 @@ import { BiSolidUserDetail } from "react-icons/bi";
 import '../common/static/css/checkresponse.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { SiTicktick } from "react-icons/si";
 const transformedData = [
   {
     srNo: 1,
@@ -450,8 +450,8 @@ const CheckResponse = () => {
         Cell: ({ cell, row }) => (
           <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
             <span>{cell.getValue()}</span>
-            <BiSolidUserDetail
-              style={{ marginLeft: '5px', cursor: 'pointer', color: 'var(--complementary-color)', fontSize: '28px' }}
+            <SiTicktick
+              style={{ marginLeft: '5px', cursor: 'pointer', color: 'var(--complementary-color)', fontSize: '25px' }}
               onClick={(e) => {
                 e.stopPropagation();
                 handleBiSolidUserDetailClick(row.original);
@@ -557,7 +557,7 @@ const CheckResponse = () => {
             {showNewTable && (
               <div>
 
-                <div style={{ display: 'flex', gap: '20px',alignItems:'center',justifyContent:'center' }}>
+                <div style={{ display: 'flex', gap: '20px',alignItems:'center',justifyContent:'center',background:'var(--background-color)',padding:'5px',margin:'10px' }}>
 
 
                   <div> <b>Enquiry No:</b>10</div>

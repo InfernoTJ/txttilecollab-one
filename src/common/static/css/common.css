@@ -3,7 +3,8 @@
 
 
 :root {
-    --primary-color: #003C43;
+     --primary-color: #003C43; 
+     /* --primary-color: #e4f5f7; */
     --secondary-color:#135D66;
     --color: #defdf8;
     --testcolor: rgba(255, 86, 8, 0.178);

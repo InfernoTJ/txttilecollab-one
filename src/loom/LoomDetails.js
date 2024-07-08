@@ -39,7 +39,7 @@ const LoomDetails = () => {
     };
 
     return (
-        <div className='loom_details-container'>
+        <div  className='loom_details-container'>
             <div style={{ borderRadius: '10px', padding: '20px', marginTop: '30px', background: 'var(--background-color)' }} className='loom_details'>
                 <div>
                     <h1 style={{ color: 'var(--primary-color)', margin: '30px' }}>Loom Details</h1>

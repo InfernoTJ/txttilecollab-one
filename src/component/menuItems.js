@@ -72,11 +72,11 @@ import { GrCompliance,GrDocumentTime  } from "react-icons/gr";
 import { MdPeople } from "react-icons/md";
 // import { BsPersonWorkspace } from "react-icons/bs";
 import { RiHome2Fill, RiCalculatorLine, RiPriceTag3Fill,} from "react-icons/ri";
-import { FaChartLine, FaUserTie, FaUser, FaBell } from "react-icons/fa"; // Import additional icons for trader, yarn, and admin
-import { MdPostAdd,  MdNotificationAdd } from "react-icons/md";
+import { FaChartLine, FaUserTie, FaUser, FaBell, } from "react-icons/fa"; // Import additional icons for trader, yarn, and admin
+import { MdPostAdd,  MdNotificationAdd,MdOutlineAddToPhotos } from "react-icons/md";
 import { SiGitbook } from "react-icons/si";
-
-
+import { AiOutlineAudit } from "react-icons/ai";
+import { BsFillStickiesFill } from "react-icons/bs";
 
 export const menuItems = [
   // Common items
@@ -86,19 +86,7 @@ export const menuItems = [
     path: "home",
     roles: ["L", "T", "Y", "A"],
   },
-  // Loom-specific items
-  // {
-  //   title: "Dashboard",
-  //   path: "dashboard",
-  //   icon: <FaRegChartBar />,
-  //   roles: ["L"],
-  // },
-  // {
-  //   title: "Dashboard",
-  //   path: "tdashboard",
-  //   icon: <FaRegChartBar />,
-  //   roles: ["T"],
-  // },
+
   {
     title: "Loom Details",
     path: "loomdetails",
@@ -123,25 +111,33 @@ export const menuItems = [
       }
     ]
   },
+  
+  
+
+
+
+
+
   {
     title: "Loom Booking",
     path: "loombookDetails",
     icon: <SiGitbook />,
     roles: ["L"],
   },
+
   {
     title: "Job Work Enquiry",
     icon: <MdNotificationAdd />,
     path: "jobwork-enquiry",
     roles: ["L"],
   },
+
   {
     title: "Live Orders",
     icon: <GrDocumentTime />,
     path: "live-orders",
     roles: ["L"]
   },
-
 
   {
     title: "Live Orders",
@@ -156,6 +152,36 @@ export const menuItems = [
     path: "cancelled-order",
     roles: ["L"],
   },
+
+
+
+  {
+    title: "Knotting Offers",
+    // path: "plan-loom",
+    icon: <AiOutlineAudit />,
+    roles: ["L"],
+    submenus: [
+      {
+        title: "Generate Knotting Offer",
+        path: "generateknottingOffer",
+        icon: <MdOutlineAddToPhotos />,
+      },
+      {
+        title: "Knotting Response",
+        path: "knottingResponse",
+        icon: <BsFillStickiesFill />,
+      }
+    ]
+  },
+
+
+  {
+    title: "Knotting Offers",
+    icon: <AiOutlineAudit />,
+    path: "trader-knotting-offers",
+    roles: ["T"],
+  },
+
   {
     title: "Get Yarn Rates",
     icon: <RiPriceTag3Fill />,
@@ -169,12 +195,13 @@ export const menuItems = [
     path: "trader-get-yarn",
     roles: ["T"],
   },
-  {
-    title: "Calculation",
-    icon: <RiCalculatorLine />,
-    path: "calculation",
-    roles: ["L"],
-  },
+
+  // {
+  //   title: "Calculation",
+  //   icon: <RiCalculatorLine />,
+  //   path: "calculation",
+  //   roles: ["L"],
+  // },
 
   {
     title: "Calculation",
@@ -182,6 +209,7 @@ export const menuItems = [
     path: "Tcalculation",
     roles: ["T"],
   },
+
   {
     title: "Completed Orders",
     icon: <GrCompliance />,
@@ -195,32 +223,50 @@ export const menuItems = [
     path: "T-completed-orders",
     roles: ["T"],
   },
+
   {
     title: "Profile",
-    icon: <MdPeople />,
+    icon: <FaUser  />,
     path: "L-Profile",
     roles: ["L"],
   },
- 
-  {
-    title: "Profile",
-    icon: <MdPeople />,
-    path: "T-Profile",
-    roles: ["T"],
-  },
+
   {
     title: "Incomplete Task",
     path: "incomplete-task",
     icon: <FaUserTie />,
     roles: ["T"],
   },
-  // Yarn-specific items
   {
-    title: "Notifications",
-    path: "notifications",
+    title: "Profile",
+    icon: <FaUser  />,
+    path: "T-Profile",
+    roles: ["T"],
+  },
+  // Yarn-specific items
+  // {
+  //   title: "Notifications",
+  //   path: "notifications",
+  //   icon: <FaBell />,
+  //   roles: ["Y"],
+  // },
+
+  {
+    title: "Loom",
+    path: "yarn-loom",
     icon: <FaBell />,
     roles: ["Y"],
   },
+
+  {
+    title: "Trader",
+    path: "yarn-Trader",
+    icon: <FaBell />,
+    roles: ["Y"],
+  },
+
+
+
   // Admin-specific items
   {
     title: "Users",

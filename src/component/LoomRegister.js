@@ -28,7 +28,7 @@ const LoomRegister = () => {
 
     return (
 
-        <div className='loomregister-container'>
+        <div  className='loomregister-container'>
             <div className='loom-login'>
                 <div className='logo-registration' >
                     <div>

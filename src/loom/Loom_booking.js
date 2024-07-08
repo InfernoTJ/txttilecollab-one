@@ -1,8 +1,9 @@
 
 import React, { useState, useEffect } from "react";
 import "../common/static/css/loomBooking.css";
-import { IoMdInformationCircleOutline } from "react-icons/io";
+
 import { IoClose } from "react-icons/io5";
+import { HiMiniInformationCircle } from "react-icons/hi2";
 import "../common/static/css/loom_booking.css";
 
 function Loom_booking() {
@@ -70,7 +71,7 @@ function Loom_booking() {
     const handleFormClose = () => {
         setisInfoFormOpen(false);
     };
-    const loomTraderId = 493;
+    // const loomTraderId = 493;
 
     // //
     const [loomNo, setLoomNo] = useState('2');
@@ -87,23 +88,126 @@ function Loom_booking() {
     const [loomAvailableFrom, setLoomAvailableFrom] = useState('2024-06-05');
     const [loomAvailableTo, setLoomAvailableTo] = useState('2024-12-05');
 
+
+    const looms = [
+        { id: 1, loomNumber: 'L-1', orderNum: 'OR1234', bookedDate: '2024-06-05' },
+        { id: 2, loomNumber: 'L-2', orderNum: 'OR65123', bookedDate: '2024-06-05' },
+    
+        { id: 1, loomNumber: 'L-1', orderNum: 'OR1234', bookedDate: '2024-06-05' },
+        { id: 2, loomNumber: 'L-2', orderNum: 'OR65123', bookedDate: '2024-06-05' },
+
+
+        { id: 1, loomNumber: 'L-1', orderNum: 'OR1234', bookedDate: '2024-06-05' },
+        { id: 2, loomNumber: 'L-2', orderNum: 'OR65123', bookedDate: '2024-06-05' },
+
+
+
+        { id: 1, loomNumber: 'L-1', orderNum: 'OR1234', bookedDate: '2024-06-05' },
+        { id: 2, loomNumber: 'L-2', orderNum: 'OR65123', bookedDate: '2024-06-05' },
+
+
+        { id: 1, loomNumber: 'L-1', orderNum: 'OR1234', bookedDate: '2024-06-05' },
+        { id: 2, loomNumber: 'L-2', orderNum: 'OR65123', bookedDate: '2024-06-05' },
+
+
+        { id: 1, loomNumber: 'L-1', orderNum: 'OR1234', bookedDate: '2024-06-05' },
+        { id: 2, loomNumber: 'L-2', orderNum: 'OR65123', bookedDate: '2024-06-05' },
+    
+        { id: 1, loomNumber: 'L-1', orderNum: 'OR1234', bookedDate: '2024-06-05' },
+        { id: 2, loomNumber: 'L-2', orderNum: 'OR65123', bookedDate: '2024-06-05' },
+
+
+        { id: 1, loomNumber: 'L-1', orderNum: 'OR1234', bookedDate: '2024-06-05' },
+        { id: 2, loomNumber: 'L-2', orderNum: 'OR65123', bookedDate: '2024-06-05' },
+
+
+
+        { id: 1, loomNumber: 'L-1', orderNum: 'OR1234', bookedDate: '2024-06-05' },
+        { id: 2, loomNumber: 'L-2', orderNum: 'OR65123', bookedDate: '2024-06-05' },
+
+
+        { id: 1, loomNumber: 'L-1', orderNum: 'OR1234', bookedDate: '2024-06-05' },
+        { id: 2, loomNumber: 'L-2', orderNum: 'OR65123', bookedDate: '2024-06-05' },
+
+
+        { id: 1, loomNumber: 'L-1', orderNum: 'OR1234', bookedDate: '2024-06-05' },
+        { id: 2, loomNumber: 'L-2', orderNum: 'OR65123', bookedDate: '2024-06-05' },
+    
+        { id: 1, loomNumber: 'L-1', orderNum: 'OR1234', bookedDate: '2024-06-05' },
+        { id: 2, loomNumber: 'L-2', orderNum: 'OR65123', bookedDate: '2024-06-05' },
+
+
+        { id: 1, loomNumber: 'L-1', orderNum: 'OR1234', bookedDate: '2024-06-05' },
+        { id: 2, loomNumber: 'L-2', orderNum: 'OR65123', bookedDate: '2024-06-05' },
+
+
+
+        { id: 1, loomNumber: 'L-1', orderNum: 'OR1234', bookedDate: '2024-06-05' },
+        { id: 2, loomNumber: 'L-2', orderNum: 'OR65123', bookedDate: '2024-06-05' },
+
+
+        { id: 1, loomNumber: 'L-1', orderNum: 'OR1234', bookedDate: '2024-06-05' },
+        { id: 2, loomNumber: 'L-2', orderNum: 'OR65123', bookedDate: '2024-06-05' },
+
+
+        { id: 1, loomNumber: 'L-1', orderNum: 'OR1234', bookedDate: '2024-06-05' },
+        { id: 2, loomNumber: 'L-2', orderNum: 'OR65123', bookedDate: '2024-06-05' },
+    
+        { id: 1, loomNumber: 'L-1', orderNum: 'OR1234', bookedDate: '2024-06-05' },
+        { id: 2, loomNumber: 'L-2', orderNum: 'OR65123', bookedDate: '2024-06-05' },
+
+
+        { id: 1, loomNumber: 'L-1', orderNum: 'OR1234', bookedDate: '2024-06-05' },
+        { id: 2, loomNumber: 'L-2', orderNum: 'OR65123', bookedDate: '2024-06-05' },
+
+
+
+        { id: 1, loomNumber: 'L-1', orderNum: 'OR1234', bookedDate: '2024-06-05' },
+        { id: 2, loomNumber: 'L-2', orderNum: 'OR65123', bookedDate: '2024-06-05' },
+
+
+        { id: 1, loomNumber: 'L-1', orderNum: 'OR1234', bookedDate: '2024-06-05' },
+        { id: 2, loomNumber: 'L-2', orderNum: 'OR65123', bookedDate: '2024-06-05' },
+    ]
+        // Add more looms as needed
     return (
         <>
-            <div className='loom_booking-container'>
+            <div style={{border:'3px solid red'}}  className='loom_booking-container'>
                 <div className='loom_booking-left'>
                     <div>
                         <h1 style={{ textAlign: 'center', color: 'var( --primary-color)' }}>Loom Booking panel</h1>
                     </div>
-                    <div
-                        style={{
-                            padding: '20px', margin: '10px', display: 'grid', height: '88vh', gridTemplateColumns: 'repeat(5, 0.3fr)', gridTemplateRows: 'repeat(4,0.3fr)', gap: '30px'
-                        }}
-                        className='loom_booking_allcards'>
-                        <div className='loom_booking_card1' onClick={() => handleLoomSelection('L-1')} >
+                    <div className='loom_booking_allcards'>
+                    
+                        {/* <div className='loom_booking_card1' onClick={() => handleLoomSelection('L-1')} >
                      
                      
                             <div style={{ position: 'absolute', top: '0px', right: '0px', cursor: 'pointer', fontSize: '30px' }}>
-                                <IoMdInformationCircleOutline onClick={handleInfoBtnClick} style={{ color: "white" }} />
+                                <HiMiniInformationCircle onClick={handleInfoBtnClick} style={{ color: "white",fontSize: '25px',marginRight:'3px'}} />
+                            </div>
+                            <div>
+                                <div className='loom_number' style={{background:'var(--secondary-color)',color: 'white', display: 'flex', alignItems: 'center', gap: '10px', justifyContent: 'center'}}>
+
+                                
+                                    <p style={{ cursor: 'pointer', fontSize: '20px' }} onClick={toggleBookingStatus}> L-1 </p>
+                                </div>
+                                <hr />
+                                
+                                    <>
+                                        <p style={{ fontSize: '13px', fontWeight: 'bold', marginLeft: '10px', color: 'var(--primary-color)' }}>OR: <span>{orderNum}</span></p>
+                                        <p style={{ fontSize: '13px', marginLeft: '10px' }}>To: <span>{bookedDate}</span></p>
+                                        <p style={{ fontSize: '13px', marginLeft: '10px' }}>Party: </p>
+                                    </>
+                             
+                            </div>
+                        </div> */}
+
+                        {looms.map((loom) => (
+                            <div className='loom_booking_card1' onClick={() => handleLoomSelection('L-1')} >
+                     
+                     
+                            <div style={{ position: 'absolute', top: '0px', right: '0px', cursor: 'pointer', fontSize: '30px' }}>
+                                <HiMiniInformationCircle onClick={handleInfoBtnClick} style={{ color: "white",fontSize: '25px',marginRight:'3px'}} />
                             </div>
                             <div>
                                 <div className='loom_number' style={{background:'var(--secondary-color)',color: 'white', display: 'flex', alignItems: 'center', gap: '10px', justifyContent: 'center'}}>
@@ -121,9 +225,10 @@ function Loom_booking() {
                              
                             </div>
                         </div>
+                        ))}
                         <div className='loom_booking_card2' onClick={() => handleLoomSelection('L-2')}>
                             <div style={{ position: 'absolute', top: '0px', right: '0px', cursor: 'pointer', fontSize: '30px' }}>
-                                <IoMdInformationCircleOutline onClick={handleInfoBtnClick} style={{ color: "white" }} />
+                                <HiMiniInformationCircle onClick={handleInfoBtnClick} style={{ color: "white",fontSize: '25px',marginRight:'3px' }} />
                             </div>
                             <div style={{ textAlign: 'center' }}>
                                 <div className='loomnumber'
@@ -149,7 +254,9 @@ function Loom_booking() {
                         <h2 style={{ textAlign: 'center', color: 'var(--primary-color)' }}>
                             {selectedLoom ? `Selected Loom: ${selectedLoom}` : "Select Loom No"}
                         </h2>
-                        <div style={{ border: "1px solid var(--secondary-color)", background: 'var(--background-color)', borderRadius: '10px', padding: '10px' }} className='loom_booking-form-container'>
+                        <div 
+                        // style={{ border: "1px solid var(--secondary-color)", background: 'var(--background-color)', borderRadius: '10px', padding: '10px' }} 
+                        className='loom_booking-form-container'>
                             <div style={{ display: 'flex', alignItems: 'center', marginTop: '20px', justifyContent: 'center' }}>
                                 <label style={{ fontWeight: 'bold', padding: '10px', fontSize: 18 }}>Order No</label>
                                 <input style={{ width: '40%', margin: '10px', border: '1px solid var(--primary-color)' }} type="text" placeholder='Order No' />
@@ -184,7 +291,9 @@ function Loom_booking() {
                                     </div>
                                 </div>
                             </div>
-                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <div className="loom_booking_btn-container"
+                            //  style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+                             >
                                 <button style={{ width: '30%', marginTop: '20px', margin: '10px' }} className='btn1'>Submit</button>
                             </div>
                             <div className={`loom_booking_infoform-container ${isInfoFormOpen ? "form-open" : ""}`}>
@@ -215,6 +324,108 @@ function Loom_booking() {
 }
 
 export default Loom_booking;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

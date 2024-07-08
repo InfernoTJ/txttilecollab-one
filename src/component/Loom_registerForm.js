@@ -1,12 +1,18 @@
 
-
-
-
 import React, { useState } from 'react';
 import OtpInput from 'react-otp-input';
 import logo from '../common/static/image/logo.png';
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { useNavigate } from 'react-router-dom';
+import './../common/static/css/loomregister.css';
+import img6 from '../common/static/image/img6.jpeg';
+// import img8 from '../common/static/image/img8.jpg';
+
+import img13 from '../common/static/image/img13.jfif';
+import img14 from '../common/static/image/img14.jfif';
+
+import img15 from '../common/static/image/img15.webp';
+import img16 from '../common/static/image/img16.jpg';
 
 const RegistrationForm = () => {
     const [selectedCategory, setSelectedCategory] = useState('');
@@ -74,7 +80,7 @@ const RegistrationForm = () => {
     };
 
     return (
-        <div className='loomregister-container'>
+        <div  className='loomregister-container'>
             <div className='loom-login'>
                 <div className='logo-registration'>
                     <img src={logo} alt="Logo" />
@@ -87,32 +93,158 @@ const RegistrationForm = () => {
                                 <h2 style={{ color: 'var(--primary-color)' }}>Select your role</h2>
                             </div>
                             <div style={{ display: 'flex', gap: '30px' }}>
-                                <div className='card' onClick={() => setSelectedCategory('Loom')} style={{ display: 'flex', height: '50px', width: '150px', padding: '30px', alignItems: 'center', justifyContent: 'center', background: 'var(--complementary-color)', color: 'var(--main)', cursor: 'pointer' }}>
-                                    <h3>Loom</h3>
+                                <div
+                                    className='card'
+                                    onClick={() => setSelectedCategory('Loom')}
+                                    style={{
+                                        display: 'flex',
+                                        height: '150px',
+                                        width: '220px',
+                                        padding: '0',
+                                        position: 'relative',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        color: 'var(--primary-color)',
+                                        cursor: 'pointer',
+                                        borderRadius: '30px',
+                                    }}
+                                >
+                                    <img
+                                        style={{
+                                            height: '170px',
+                                            width: '200px',
+                                            objectFit: 'cover',
+                                            borderRadius: '30px'
+                                        }}
+                                        src={img6}
+                                        alt="Loom"
+                                    />
+                                    <h3
+                                        style={{
+                                            position: 'absolute',
+                                            color: 'white',
+                                            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                                            padding: '75px',
+                                            borderRadius: '30px'
+                                        }}
+                                    >
+                                        Loom
+                                    </h3>
                                 </div>
-                                <div className='card' onClick={() => setSelectedCategory('Trader')} style={{ display: 'flex', height: '50px', width: '150px', padding: '30px', alignItems: 'center', justifyContent: 'center', background: 'var(--complementary-color)', color: 'var(--main)', cursor: 'pointer' }}>
+                                
+                                {/* <div className='card' onClick={() => setSelectedCategory('Trader')} style={{ display: 'flex', height: '50px', width: '150px', padding: '30px', alignItems: 'center', justifyContent: 'center', background: 'var(--complementary-color)', color: 'var(--main)', cursor: 'pointer' }}>
                                     <h3>Trader</h3>
+                                </div> */}
+
+                                <div
+                                    className='card'
+                                    onClick={() => setSelectedCategory('Trader')}
+                                    style={{
+                                        display: 'flex',
+                                        height: '150px',
+                                        width: '220px',
+                                        padding: '0',
+                                        position: 'relative',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        color: 'var(--primary-color)',
+                                        cursor: 'pointer',
+                                        borderRadius: '30px',
+                                    }}
+                                >
+                                    <img
+                                        style={{
+                                            height: '170px',
+                                            width: '200px',
+                                            objectFit: 'cover',
+                                            borderRadius: '30px'
+                                        }}
+                                        src={img13}
+                                        alt="yarn"
+                                    />
+                                    <h3
+                                        style={{
+                                            position: 'absolute',
+                                            color: 'white',
+                                            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                                            padding: '73px',
+                                            borderRadius: '30px'
+                                        }}
+                                    >
+                                      Trader
+                                    </h3>
                                 </div>
-                                <div className='card' onClick={() => setSelectedCategory('Yarn')} style={{ display: 'flex', height: '50px', width: '150px', padding: '30px', alignItems: 'center', justifyContent: 'center', background: 'var(--complementary-color)', color: 'var(--main)', cursor: 'pointer' }}>
-                                    <h3>Yarn</h3>
+                                
+
+
+
+
+
+
+
+                               
+                               <div
+                                    className='card'
+                                    onClick={() => setSelectedCategory('Yarn')}
+                                    style={{
+                                        display: 'flex',
+                                        height: '150px',
+                                        width: '220px',
+                                        padding: '0',
+                                        position: 'relative',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        color: 'var(--primary-color)',
+                                        cursor: 'pointer',
+                                        borderRadius: '30px',
+                                    }}
+                                >
+                                    <img
+                                        style={{
+                                            height: '170px',
+                                            width: '200px',
+                                            objectFit: 'cover',
+                                            borderRadius: '30px'
+                                        }}
+                                        src={img15}
+                                        alt="yarn"
+                                    />
+                                    <h3
+                                        style={{
+                                            position: 'absolute',
+                                            color: 'white',
+                                            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                                            padding: '80px',
+                                            borderRadius: '30px'
+                                        }}
+                                    >
+                                        Yarn
+                                    </h3>
                                 </div>
+
+
+
+
+
+                                
                             </div>
                         </>
                     )}
 
                     {selectedCategory && !showSignup && (
-                        <>
+                   
+                        <div> 
                             <div style={{ display: "flex", alignItems: 'center', gap: '30px', width: '85%', }}>
                                 <IoMdArrowRoundBack onClick={handleBackToSelection} style={{ float: 'left', cursor: 'pointer', color: 'var(--primary-color)' }} />
                                 <h2 style={{ color: 'var(--primary-color)' }}>Registration Form for {selectedCategory}</h2>
                             </div>
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', height: '90%', }}>
+                            <div className='signup_resgistration' style={{ display: 'grid', gridTemplateColumns: '1fr 1fr',  }}>
                                 <div style={{ margin: '15px', padding: '10px' }}>
                                     <div>
                                         <label>Company Name</label>
                                         <input style={{ width: '90%', margin: "10px" }} placeholder='Enter Company Name' type='text' value={companyName} onChange={(e) => setCompanyName(e.target.value)} />
                                     </div>
-                                    <div style={{ color: 'var(--primary-color)', padding: '10px' }}>
+                                    <div style={{ color: 'var(--primary-color)', padding: '5px' }}>
                                         <h3>Address</h3>
                                     </div>
                                     <div>
@@ -141,7 +273,7 @@ const RegistrationForm = () => {
                                         <label>GST No</label>
                                         <input style={{ width: '90%', margin: "10px" }} placeholder='Enter 15 digit GST No' type='text' value={gstNo} onChange={(e) => setGstNo(e.target.value)} />
                                     </div>
-                                    <div style={{ color: 'var(--primary-color)', padding: '10px' }}>
+                                    <div style={{ color: 'var(--primary-color)', padding: '5px' }}>
                                         <h3>Contact Info</h3>
                                     </div>
                                     <div>
@@ -160,14 +292,18 @@ const RegistrationForm = () => {
                                         <label>Other Contact</label>
                                         <input style={{ width: '90%', margin: "10px" }} placeholder='Enter Other Contact' type='text' value={otherContact} onChange={(e) => setOtherContact(e.target.value)} />
                                     </div>
+
+                                    
                                 </div>
                             </div>
-                            <div style={{ margin: '10px' }}>
-                                <button onClick={handleSubmit} className='btn1'>
+                            <div style={{display:'flex',alignItems:'center',justifyContent:'center'}}>
+                                <button style={{width:'20%'}} onClick={handleSubmit} className='btn1'>
                                     Register
                                 </button>
                             </div>
-                        </>
+
+                            </div>
+                     
                     )}
 
                     {showSignup && !showOtp && (
@@ -182,9 +318,9 @@ const RegistrationForm = () => {
                                     <label>Username</label>
                                     <input placeholder='Enter Username' value={username} onChange={handleUsernameChange} type='text'></input>
                                 </div>
-                                <div className='form-group'>
+                                <div  className='form-group'>
                                     <label>Password</label>
-                                    <input value={password} onChange={handlePasswordChange} placeholder='Enter Password' type='password'></input>
+                                    <input style={{border:'2px solid var(--primary-color)'}} value={password} onChange={handlePasswordChange} placeholder='Enter Password' type='password' ></input>
                                 </div>
                             </div>
                             <div style={{ display: 'flex', justifyContent: "center" }} className='loom-btn'>
@@ -198,14 +334,14 @@ const RegistrationForm = () => {
                     {showOtp && (
                         <div>
                             <div >
-                                <div style={{marginBottom:'30px'}}>
-                                <label >Enter OTP</label>
+                                <div style={{marginBottom:'30px',textAlign:'center'}}>
+                                <label style={{fontWeight:'bold',fontSize:'20px'}} >Enter OTP</label>
                                 </div>
                                 <OtpInput 
                                     value={otp}
                                     onChange={setOtp}
-                                    numInputs={6}
-                                    separator={<span style={{ width: '1rem' }}></span>} // Adding space between inputs
+                                    numInputs={7}
+                                    separator={<span style={{ width: '1rem' }}></span>} 
                                     inputStyle={{
                                         width: '3rem',
                                         height: '3rem',

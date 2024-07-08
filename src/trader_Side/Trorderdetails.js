@@ -60,6 +60,7 @@ export default function VerticalTabs() {
     //         setTableRows([...tableRows, { date: '', tippanNumber: '' }]);
     //     }
     // };
+    
     const beamdate = (index, date) => {
         const updatedRows = [...tableRows];
         updatedRows[index].date = date;
@@ -75,6 +76,18 @@ export default function VerticalTabs() {
         const updatedRows = tableRows.filter((_, i) => i !== index);
         setTableRows(updatedRows);
     };
+
+
+    const beamphoto = (index, photo) => {
+        const updatedRows = [...tableRows];
+        updatedRows[index].photo = photo;
+        setTableRows(updatedRows);
+    };
+
+
+
+    
+
     const [weftRow, setWeftRow] = React.useState([]);
     const weftaddrow = () => {
         setWeftRow([...weftRow, { date: '', gatepassno: '', photo: '' }]);
@@ -198,7 +211,7 @@ export default function VerticalTabs() {
     };
       
     return (
-        <div style={{ flex: '1', }}>
+        <div style={{ flex: '1' }}>
             <div style={{ borderRadius: '20px', backgroundColor: 'var(  --background-color)', margin: '10px' }}>
                 <h3 style={{ color: 'var(--primary-color)', marginLeft: '50px', paddingTop: '20px' }}> Order Details </h3>
                 <div style={{ display: 'flex', flexDirection: 'row', marginTop: '-17px', margin: '10px' }}>
@@ -253,6 +266,7 @@ export default function VerticalTabs() {
                                     <tr>
                                         <th>Date</th>
                                         <th>Sizing Tippan Number</th>
+                                        <th>Upload Image</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -275,6 +289,15 @@ export default function VerticalTabs() {
                                                     onChange={(e) => beamtippan(index, e.target.value)}
                                                 />
                                             </td>
+
+                                            <td>
+                                                <input
+                                                    style={{ width: '70%', margin: '8px', border: '1px solid var(--primary-color)' }}
+                                                    type='file'
+                                                    onChange={(e) => beamphoto(index, e.target.files[0])}
+                                                />
+                                            </td>
+                                          
                                             <td style={{ color: 'red', fontSize: '25px', cursor: 'pointer' }} onClick={() => beamrowdel(index)}>
                                                 <RiDeleteBinLine />
                                             </td>
