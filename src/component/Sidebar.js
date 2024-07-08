@@ -7,11 +7,15 @@ import { FaAngleLeft, FaAngleDown, FaAngleUp, FaBars } from "react-icons/fa";
 import { HiOutlineLogout } from "react-icons/hi";
 import logo2 from  "../../src/common/static/image/logo1.png";
 import img11 from '../../src/common/static/image/img11.jpg';
+
 function Sidebar() {
+
+  const userString = sessionStorage.getItem('user');
+  const user = userString ? JSON.parse(userString) : null;
   const [collapsed, setCollapsed] = useState(false);
   const [openSubMenu, setOpenSubMenu] = useState(null);
   const [openSubsubMenu, setOpenSubsubMenu] = useState(null);
-  const [userRole, setUserRole] = useState("L"); // "L", "T", "Y", or "A"
+  const [userRole, setUserRole] = useState(user.LoomOrTrader); // "L", "T", "Y", or "A"
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -59,8 +63,8 @@ function Sidebar() {
         <div style={{ display: "flex", flex: "1", gap: '50px' }}>
           <div>Welcome to Kapada Banao !!</div>
           <div style={{ flex: '1', display: "flex", flexDirection: "row", gap: '50px', justifyContent: "flex-end", marginRight: '35px' }}>
-            <div>{userName}</div>
-            <div>{loomnum}</div>
+            <div>{user.Name}</div>
+            <div>{user.RegistrationNumber}</div>
           </div>
         </div>
         <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>

@@ -9,14 +9,16 @@ import "../common/static/css/loom_booking.css";
 function Loom_booking() {
     const [isBooked, setIsBooked] = useState(true);
     const [isLoomBooked, setLoomIsBooked] = useState(false);
-    const [id, setId] = useState(493);
+    const userString = sessionStorage.getItem('user');
+    const user = userString ? JSON.parse(userString) : null;
+
     const [data, setData] = useState();
 
     const [orderNum, setOrderNum] = useState(null);
     const [bookedDate, setBookedDate] = useState(null);
 
     const getloom = () => {
-        fetch('https://textileapp.microtechsolutions.co.in/php/bookingjoin.php?LoomTraderId=493')
+        fetch('https://textileapp.microtechsolutions.co.in/php/bookingjoin.php?LoomTraderId='+user.Id)
             .then(response => response.json())
             .then(jsonData => {
                 console.log(jsonData);
@@ -89,86 +91,7 @@ function Loom_booking() {
     const [loomAvailableTo, setLoomAvailableTo] = useState('2024-12-05');
 
 
-    const looms = [
-        { id: 1, loomNumber: 'L-1', orderNum: 'OR1234', bookedDate: '2024-06-05' },
-        { id: 2, loomNumber: 'L-2', orderNum: 'OR65123', bookedDate: '2024-06-05' },
-    
-        { id: 1, loomNumber: 'L-1', orderNum: 'OR1234', bookedDate: '2024-06-05' },
-        { id: 2, loomNumber: 'L-2', orderNum: 'OR65123', bookedDate: '2024-06-05' },
-
-
-        { id: 1, loomNumber: 'L-1', orderNum: 'OR1234', bookedDate: '2024-06-05' },
-        { id: 2, loomNumber: 'L-2', orderNum: 'OR65123', bookedDate: '2024-06-05' },
-
-
-
-        { id: 1, loomNumber: 'L-1', orderNum: 'OR1234', bookedDate: '2024-06-05' },
-        { id: 2, loomNumber: 'L-2', orderNum: 'OR65123', bookedDate: '2024-06-05' },
-
-
-        { id: 1, loomNumber: 'L-1', orderNum: 'OR1234', bookedDate: '2024-06-05' },
-        { id: 2, loomNumber: 'L-2', orderNum: 'OR65123', bookedDate: '2024-06-05' },
-
-
-        { id: 1, loomNumber: 'L-1', orderNum: 'OR1234', bookedDate: '2024-06-05' },
-        { id: 2, loomNumber: 'L-2', orderNum: 'OR65123', bookedDate: '2024-06-05' },
-    
-        { id: 1, loomNumber: 'L-1', orderNum: 'OR1234', bookedDate: '2024-06-05' },
-        { id: 2, loomNumber: 'L-2', orderNum: 'OR65123', bookedDate: '2024-06-05' },
-
-
-        { id: 1, loomNumber: 'L-1', orderNum: 'OR1234', bookedDate: '2024-06-05' },
-        { id: 2, loomNumber: 'L-2', orderNum: 'OR65123', bookedDate: '2024-06-05' },
-
-
-
-        { id: 1, loomNumber: 'L-1', orderNum: 'OR1234', bookedDate: '2024-06-05' },
-        { id: 2, loomNumber: 'L-2', orderNum: 'OR65123', bookedDate: '2024-06-05' },
-
-
-        { id: 1, loomNumber: 'L-1', orderNum: 'OR1234', bookedDate: '2024-06-05' },
-        { id: 2, loomNumber: 'L-2', orderNum: 'OR65123', bookedDate: '2024-06-05' },
-
-
-        { id: 1, loomNumber: 'L-1', orderNum: 'OR1234', bookedDate: '2024-06-05' },
-        { id: 2, loomNumber: 'L-2', orderNum: 'OR65123', bookedDate: '2024-06-05' },
-    
-        { id: 1, loomNumber: 'L-1', orderNum: 'OR1234', bookedDate: '2024-06-05' },
-        { id: 2, loomNumber: 'L-2', orderNum: 'OR65123', bookedDate: '2024-06-05' },
-
-
-        { id: 1, loomNumber: 'L-1', orderNum: 'OR1234', bookedDate: '2024-06-05' },
-        { id: 2, loomNumber: 'L-2', orderNum: 'OR65123', bookedDate: '2024-06-05' },
-
-
-
-        { id: 1, loomNumber: 'L-1', orderNum: 'OR1234', bookedDate: '2024-06-05' },
-        { id: 2, loomNumber: 'L-2', orderNum: 'OR65123', bookedDate: '2024-06-05' },
-
-
-        { id: 1, loomNumber: 'L-1', orderNum: 'OR1234', bookedDate: '2024-06-05' },
-        { id: 2, loomNumber: 'L-2', orderNum: 'OR65123', bookedDate: '2024-06-05' },
-
-
-        { id: 1, loomNumber: 'L-1', orderNum: 'OR1234', bookedDate: '2024-06-05' },
-        { id: 2, loomNumber: 'L-2', orderNum: 'OR65123', bookedDate: '2024-06-05' },
-    
-        { id: 1, loomNumber: 'L-1', orderNum: 'OR1234', bookedDate: '2024-06-05' },
-        { id: 2, loomNumber: 'L-2', orderNum: 'OR65123', bookedDate: '2024-06-05' },
-
-
-        { id: 1, loomNumber: 'L-1', orderNum: 'OR1234', bookedDate: '2024-06-05' },
-        { id: 2, loomNumber: 'L-2', orderNum: 'OR65123', bookedDate: '2024-06-05' },
-
-
-
-        { id: 1, loomNumber: 'L-1', orderNum: 'OR1234', bookedDate: '2024-06-05' },
-        { id: 2, loomNumber: 'L-2', orderNum: 'OR65123', bookedDate: '2024-06-05' },
-
-
-        { id: 1, loomNumber: 'L-1', orderNum: 'OR1234', bookedDate: '2024-06-05' },
-        { id: 2, loomNumber: 'L-2', orderNum: 'OR65123', bookedDate: '2024-06-05' },
-    ]
+   
         // Add more looms as needed
     return (
         <>
@@ -202,8 +125,8 @@ function Loom_booking() {
                             </div>
                         </div> */}
 
-                        {looms.map((loom) => (
-                            <div className='loom_booking_card1' onClick={() => handleLoomSelection('L-1')} >
+{data && data.map((data) => (   
+                            <div className='loom_booking_card1' onClick={() => handleLoomSelection(data)} >
                      
                      
                             <div style={{ position: 'absolute', top: '0px', right: '0px', cursor: 'pointer', fontSize: '30px' }}>
@@ -213,46 +136,28 @@ function Loom_booking() {
                                 <div className='loom_number' style={{background:'var(--secondary-color)',color: 'white', display: 'flex', alignItems: 'center', gap: '10px', justifyContent: 'center'}}>
 
                                 
-                                    <p style={{ cursor: 'pointer', fontSize: '20px' }} onClick={toggleBookingStatus}> L-1 </p>
+                                    <p style={{ cursor: 'pointer', fontSize: '20px' }} onClick={toggleBookingStatus}>{data.LoomNo} </p>
                                 </div>
                                 <hr />
                                 
                                     <>
-                                        <p style={{ fontSize: '13px', fontWeight: 'bold', marginLeft: '10px', color: 'var(--primary-color)' }}>OR: <span>{orderNum}</span></p>
-                                        <p style={{ fontSize: '13px', marginLeft: '10px' }}>To: <span>{bookedDate}</span></p>
-                                        <p style={{ fontSize: '13px', marginLeft: '10px' }}>Party: </p>
+                                    {(data.Available===0) && <><p style={{ fontSize: '13px', fontWeight: 'bold', marginLeft: '10px', color: 'var(--primary-color)' }}>OR: <span>{data.OrderNo}</span></p>
+                                        <p style={{ fontSize: '13px', marginLeft: '10px' }}>To: <span>{data.BookedDateTo && data.BookedDateTo.date.substring(0,10)}</span></p>
+                                        <p style={{ fontSize: '13px', marginLeft: '10px' }}>Party: {data.PartyName} </p></>}
+                                        {(data.Available===1) && <> <p>Available from {data.LoomAvailableFrom.date.substring(0,10)}</p>
+                                        </>
+                                        }
                                     </>
                              
                             </div>
                         </div>
-                        ))}
-                        <div className='loom_booking_card2' onClick={() => handleLoomSelection('L-2')}>
-                            <div style={{ position: 'absolute', top: '0px', right: '0px', cursor: 'pointer', fontSize: '30px' }}>
-                                <HiMiniInformationCircle onClick={handleInfoBtnClick} style={{ color: "white",fontSize: '25px',marginRight:'3px' }} />
-                            </div>
-                            <div style={{ textAlign: 'center' }}>
-                                <div className='loomnumber'
-                                 style={{ background:'var(--secondary-color)', color: 'white', display: 'flex', alignItems: 'center', gap: '10px', justifyContent: 'center' }}
-                                
-                                 >
-                                    <p style={{ cursor: 'pointer', fontSize: '20px' }} onClick={loomBookingStatus}> L-2 </p>
-                                </div>
-                                <hr />
-                               
-                                    <>
-                                        <p style={{ fontSize: '13px', fontWeight: 'bold', marginLeft: '10px', color: 'var(--primary-color)' }}>OR: <span>{orderId}</span></p>
-                                        <p style={{ fontSize: '13px', marginLeft: '10px' }}>To: <span>{toDate}</span></p>
-                                        <p style={{ fontSize: '13px', marginLeft: '10px' }}>Party: </p>
-                                    </>
-                               
-                            </div>
-                        </div>
+                        ))} 
                     </div>
                 </div>
                 {selectedLoom && (
                     <div className='loom_booking-right' style={{ margin: '10px' }}>
                         <h2 style={{ textAlign: 'center', color: 'var(--primary-color)' }}>
-                            {selectedLoom ? `Selected Loom: ${selectedLoom}` : "Select Loom No"}
+                            {selectedLoom ? `Selected Loom: ${selectedLoom.LoomNo}` : "Select Loom No"}
                         </h2>
                         <div 
                         // style={{ border: "1px solid var(--secondary-color)", background: 'var(--background-color)', borderRadius: '10px', padding: '10px' }} 
@@ -296,23 +201,24 @@ function Loom_booking() {
                              >
                                 <button style={{ width: '30%', marginTop: '20px', margin: '10px' }} className='btn1'>Submit</button>
                             </div>
+
                             <div className={`loom_booking_infoform-container ${isInfoFormOpen ? "form-open" : ""}`}>
                                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                                     <h2 style={{ color: 'var(--primary-color)', padding: '20px' }}>Loom Information</h2>
                                     <IoClose style={{ fontSize: '30px', color: 'var(--primary-color)' }} onClick={handleFormClose} />
                                 </div>
                                 <div style={{ marginLeft: '50px' }}>
-                                    <div><h3>Loom No: {loomNo}</h3></div>
-                                    <div><h3>Machine Type: {machineType}</h3></div>
-                                    <div><h3>Shedding Type: {sheddingType}</h3></div>
-                                    <div><h3>Width: {width}</h3></div>
-                                    <div><h3>RPM: {rpm}</h3></div>
-                                    <div><h3>No of Frames: {noOfFrames}</h3></div>
-                                    <div><h3>No of Feeders: {noOfFeeders}</h3></div>
-                                    <div><h3>Selvage Jacquard: {selvageJacquard}</h3></div>
-                                    <div><h3>Top Beam: {topBeam}</h3></div>
-                                    <div><h3>Cramming: {cramming}</h3></div>
-                                    <div><h3>Leno Design Equipment: {lenoDesignEquipment}</h3></div>
+                                      <div><h3>Loom No: {selectedLoom.LoomNo}</h3></div>
+                                    <div><h3>Machine Type: {selectedLoom.MachineType}</h3></div>
+                                    <div><h3>Shedding Type: {selectedLoom.SheddingType}</h3></div>
+                                    <div><h3>Width: {selectedLoom.Width}</h3></div>
+                                    <div><h3>RPM: {selectedLoom.RPM}</h3></div>
+                                    <div><h3>No of Frames: {selectedLoom.NoofFrames}</h3></div>
+                                    <div><h3>No of Feeders: {selectedLoom.NoofFeeders}</h3></div>
+                                    { (selectedLoom.SelvageJacquard===1) && <div><h3>Selvage Jacquard: Available </h3></div>}
+                                    {selectedLoom.TopBeam===1 && <div><h3>Top Beam: Available</h3></div>}
+                                    {selectedLoom.Cramming===1 && <div><h3>Cramming: Available </h3></div>}
+                                    {selectedLoom.LenoDesignEquipment===1 && <div><h3>Leno Design Equipment: Available </h3></div>}
                                 </div>
                             </div>
                         </div>

@@ -1,42 +1,155 @@
 
 import React, { useState, useEffect } from 'react';
 import '../../src/common/static/css/generateenquiry.css'
-
+import {  useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 
 const UpdateGenerateEnquiry = () => {
-    const [enquiryNum, setEnquiryNum] = useState('EN438');
-    const [tradersName, setTradersName] = useState('Kalashree textiles ');
-    const [dateFrom, setDateFrom] = useState('02-06-2024');
-    const [dateTo, setDateTo] = useState('22-06-2024');
-    const [fabricQuality, setFabricQuality] = useState(' 68/5 * 100 / 60 * 60:68  ');
-    const [fabricLength, setFabricLenth] = useState(10000.000);
+    const userString = sessionStorage.getItem('user');
+    const user = userString ? JSON.parse(userString) : null;
 
-    const [agentName, setAgentName] = useState('Hujur');
-    const [machineWidth, setMachineWidth] = useState(210);
-    const [Rpm, setRpm] = useState(1000);
-    const [tblwidth,setTblWidth]=useState(66);
-    const [numOfLooms, setNumOfLooms] = useState(10)
-    const [jobRate, setjobRate] = useState(20);
-    const [machineType, setMachineType] = useState('Rapier ');
-    const [numoFFeeders, setNumOfFeeders] = useState(8);
-    const [sheddingType, setSheddingType] = useState('CAM');
-    const [frames, setFrames] = useState(10)
+    const [cansetlooms, setcansetlooms] = useState('')
+    const [counteroffer, setcounteroffer] = useState('')
 
-    const [description, setDescription] = useState('zxczcxcxzcvcvxcvcvcxvc hfsfhsdhfo asdf ;lkj asdfg ;lkjh qwert ;poiuy zxcv b,.,m  v')
-    const [loomAttachments, setLoomAttachments] = useState('Selvadge Jacquard')
-    const [loomNumber, setLoomNumber] = useState('L-1');
-    
-    const [SelvadgeJacquard,setSelvadgeJacquard]= useState('SelvadgeJacquard')
+    const navigate=useNavigate()
+       const [machineType, setMachineType] = useState('');
+    const [machineWidth, setMachineWidth] = useState('');
+    const [Rpm, setRpm] = useState('');
+    const [sheddingType, setSheddingType] = useState('');
+    const [frames, setFrames] = useState('');
+    const [numOfFeeders, setNumOfFeeders] = useState('');
+    const [SelvadgeJacquard, setSelvadgeJacquard] = useState('');
+    const [TopBeam, setTopBeam] = useState('');
+    const [Cramming, setCramming] = useState('');
+    const [LenoDesignEquipment, setLenoDesignEquipment] = useState('');
+    const [checkavaliabilityee, setcheckavaliabilityee] = useState(false)
+    const { enquiryNo } = useParams();
+    const [data, setData] = useState([]);
+    const [checkdata, setcheckdata] = useState([])
 
-     const [Required ,setRequired]=useState('Required')
-    
+    const [fromdate, setfromdate] = useState('')
+    const [todate, settodate] = useState('')
+
+    const getEnquiry = () => {
+        fetch('https://textileapp.microtechsolutions.co.in/php/getjoin.php?EnquiryId=' + enquiryNo)
+            .then(response => response.json())
+            .then(jsonData => {
+                console.log(jsonData);
+                setData(jsonData); 
+                if (jsonData.length > 0) {
+                    const enquiry = jsonData[0];
+                    setMachineType(enquiry.MachineType);
+                    setMachineWidth(enquiry.Width);
+                    setRpm(enquiry.RPM);
+                    setSheddingType(enquiry.SheddingType);
+                    setFrames(enquiry.NoofFrame);
+                    setNumOfFeeders(enquiry.NoofFeedero);
+                    setSelvadgeJacquard(enquiry.SelvageJacquard);
+                    setTopBeam(enquiry.TopBeam);
+                    setCramming(enquiry.Cramming);
+                    setLenoDesignEquipment(enquiry.LenoDesignEquipment);
+                    setfromdate(enquiry.BookingFrom?.date?.substring(0, 10) || '');
+                    settodate(enquiry.BookingTo?.date?.substring(0, 10) || '');
+                }
+
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    };
        
+    const checkavaliability = () => {
+        console.log(machineType + '  ' + machineWidth + '  ' + Rpm + '  ' + sheddingType + '  ' + frames + '  ' + numOfFeeders + '  ' + SelvadgeJacquard + '  ' + TopBeam + '  ' + Cramming + '  ' + LenoDesignEquipment)
+        const formdata = new FormData();
+        formdata.append("LoomDetailId", user.Id);
+        formdata.append("MachineType", machineType);
+        formdata.append("Width", machineWidth);
+        formdata.append("RPM", Rpm);
+        formdata.append("SheddingType", sheddingType);
+        formdata.append("NoofFrames", frames);
+        formdata.append("NoofFeeders", numOfFeeders);
+        formdata.append("SelvageJacquard", SelvadgeJacquard);
+        formdata.append("TopBeam", TopBeam);
+        formdata.append("Cramming", Cramming);
+        formdata.append("LenoDesignEquipment", LenoDesignEquipment);
+        formdata.append("FromDate", fromdate);
+        formdata.append("ToDate", todate);
+
+        const requestOptions = {
+            method: "POST",
+            body: formdata,
+            redirect: "follow"
+        };
+
+        fetch("https://textileapp.microtechsolutions.co.in/php/postloom.php", requestOptions)
+            .then((response) => response.json())
+            .then(result => {
+                console.log(result);
+                setcheckdata(result);
+                setcheckavaliabilityee(true)
+                if (result.length === 0) { toast.error('No Looms Found') } else { toast.success('Looms Found') }
+            })
+            .catch((error) => console.error(error));
+
+    }
+    const sendreq = () => {
+        if( !cansetlooms && !counteroffer ){
+          toast.error('Fill Loom to assign and Counter Offer')
+          return
+        }else{
+            if(!cansetlooms)
+            {
+                toast.error('Fill Loom to assign ')
+                return
+            }
+            if(!counteroffer){
+                toast.error('Fill Counter Offer')
+                return
+            }
+        }
+        const formdata = new FormData();
+        formdata.append("EnquiryId", enquiryNo);
+        formdata.append("LoomTraderId", user.Id);
+        formdata.append("DatePossibleFrom", fromdate);
+        formdata.append("DatePossibleTo", todate);
+        formdata.append("JobRateExp", counteroffer);
+        formdata.append("Status", "");
+        formdata.append("LoomPossible", cansetlooms);
+         
+        const requestOptions = {
+            method: "POST",
+            body: formdata,
+            redirect: "follow"
+        };
+
+        fetch("https://textileapp.microtechsolutions.co.in/php/postenquiryconfirm.php", requestOptions)
+            .then((response) => response.text())
+            .then((result) => {console.log(result)
+                toast.success('Response Sent')
+            })
+            .catch((error) => console.error(error));
+
+        navigate('../jobwork-enquiry')
+
+       
+}
+const back=()=>{
+    toast.info('Not Interested')
+    navigate('../jobwork-enquiry')
+}
+
+
+    useEffect(() => {
+        getEnquiry();
+
+    }, []);
 
     return (
 
         <div style={{ borderRadius: '10px', padding: '20px', background: 'var(  --background-color)' }} className='generate_enquiry_container'>
-            <div >
+            {data && data.map((data) => (<><div >
                 <h1 style={{ color: 'var(--primary-color)', textAlign: 'center' }}>Enquiry Details </h1>
             </div>
 
@@ -45,35 +158,35 @@ const UpdateGenerateEnquiry = () => {
                     <div style={{ display: "flex", alignItems: 'center' }}>
                         <b>Enquiry No</b>
                         <div style={{ background: 'white', padding: '5px', borderRadius: '10px', width: '30%', textAlign: 'center', marginLeft: '20px' }}>
-                            {enquiryNum}
+                            {data.EnquiryNo}
                         </div>
                     </div>
                     <div style={{ display: "flex", alignItems: 'center', marginTop: '20px' }}>
                         <b>Date From </b>
                         <div style={{ background: 'white', padding: '5px', borderRadius: '10px', width: '30%', textAlign: 'center', marginLeft: '20px' }}>
-                            {dateFrom}
+                            {data.BookingFrom.date.substring(0, 10)}
                         </div>
                     </div>
                     <div style={{ display: "flex", alignItems: 'center', marginTop: '20px' }}>
                         <b> Fabric Width</b>
                         <div style={{ background: 'white', padding: '5px', borderRadius: '10px', width: '30%', textAlign: 'center', marginLeft: '20px' }}>
-                            {machineWidth}
+                            {data.Width}
                         </div>
-                        <b><p>Inches</p></b>
+                        <b><p>in</p></b>
                     </div>
                     <div style={{ display: "flex", alignItems: 'center', marginTop: '20px' }}>
                         <b>No of Looms Required</b>
                         <div style={{ background: 'white', padding: '5px', borderRadius: '10px', width: '30%', textAlign: 'center', marginLeft: '20px' }}>
-                            {numOfLooms}
+                            {data.LoomRequired}
                         </div>
                     </div>
 
                     <div style={{ display: "flex", alignItems: 'center', marginTop: '25px' }}>
                         <b>On Table Fabric Width:</b>
                         <div style={{ background: 'white', padding: '5px', borderRadius: '10px', width: '30%', textAlign: 'center', marginLeft: '20px' }}>
-                            {tblwidth}
+                            {data.Width}
                         </div>
-                        <b><p>Inches</p></b>
+                        <b><p>in</p></b>
                     </div>
                 </div>
 
@@ -81,21 +194,21 @@ const UpdateGenerateEnquiry = () => {
                     <div style={{ display: "flex", alignItems: 'center' }}>
                         <b>Traders Name </b>
                         <div style={{ background: 'white', padding: '5px', borderRadius: '10px', width: '50%', textAlign: 'center', marginLeft: '20px' }}>
-                            {tradersName}
+                            {data.Name}
                         </div>
                     </div>
 
                     <div style={{ display: "flex", alignItems: 'center', marginTop: '20px' }}>
                         <b>Date To</b>
                         <div style={{ background: 'white', padding: '5px', borderRadius: '10px', width: '30%', textAlign: 'center', marginLeft: '20px' }}>
-                            {dateTo}
+                            {data.BookingTo.date.substring(0, 10)}
                         </div>
                     </div>
 
                     <div style={{ display: "flex", alignItems: 'center', marginTop: '20px' }}>
                         <b>RPM </b>
                         <div style={{ background: 'white', padding: '5px', borderRadius: '10px', width: '30%', textAlign: 'center', marginLeft: '20px' }}>
-                            {Rpm}
+                            {data.RPM}
                         </div>
                     </div>
 
@@ -103,7 +216,7 @@ const UpdateGenerateEnquiry = () => {
                     <div style={{ display: "flex", alignItems: 'center', marginTop: '20px' }}>
                         <b>Job Rate Offered</b>
                         <div style={{ background: 'white', padding: '5px', borderRadius: '10px', width: '30%', textAlign: 'center', marginLeft: '20px' }}>
-                            {jobRate}
+                            {data.OfferedJobRate}
                         </div>
                         <b><p>paisa</p></b>
                     </div>
@@ -114,14 +227,14 @@ const UpdateGenerateEnquiry = () => {
                     <div style={{ display: "flex", alignItems: 'center' }}>
                         <b>Fabric Quality</b>
                         <div style={{ background: 'white', padding: '5px', borderRadius: '10px', width: '59%', textAlign: 'center', marginLeft: '20px' }}>
-                            {fabricQuality}''
+                            {data.FabricQuality}''
                         </div>
                     </div>
 
                     <div style={{ display: "flex", alignItems: 'center', marginTop: '20px' }}>
                         <b>Machine Type</b>
                         <div style={{ background: 'white', padding: '5px', borderRadius: '10px', width: '30%', textAlign: 'center', marginLeft: '20px' }}>
-                            {machineType}
+                        {data.MachineType}
                         </div>
                     </div>
 
@@ -129,16 +242,16 @@ const UpdateGenerateEnquiry = () => {
                     <div style={{ display: "flex", alignItems: 'center', marginTop: '20px' }}>
                         <b>No of Frames</b>
                         <div style={{ background: 'white', padding: '5px', borderRadius: '10px', width: '30%', textAlign: 'center', marginLeft: '20px' }}>
-                            {frames}
+                            {data.NoofFrame}
                         </div>
                     </div>
 
                     <div style={{ display: "flex", alignItems: 'center', marginTop: '20px' }}>
                         <b>Total Fabric Length</b>
                         <div style={{ background: 'white', padding: '5px', borderRadius: '10px', width: '30%', textAlign: 'center', marginLeft: '20px' }}>
-                            {fabricLength} 
-                        </div>                                                                                                                                                                                                                 
-                        <b>M</b>
+                            {data.FabricLength} 
+                        </div>                                                  
+                        <b>m</b>
                     </div>
 
 
@@ -151,21 +264,21 @@ const UpdateGenerateEnquiry = () => {
                     <div style={{ display: "flex", alignItems: 'center' }}>
                         <b>Dalal/Agent Name</b>
                         <div style={{ background: 'white', padding: '5px', borderRadius: '10px', width: '30%', textAlign: 'center', marginLeft: '20px' }}>
-                            {agentName}
+                            {data.AgentName}
                         </div>
                     </div>
 
                     <div style={{ display: "flex", alignItems: 'center', marginTop: '20px' }}>
                         <b>Shedding Type</b>
                         <div style={{ background: 'white', padding: '5px', borderRadius: '10px', width: '30%', textAlign: 'center', marginLeft: '20px' }}>
-                            {sheddingType}
+                            {data.SheddingType}
                         </div>
                     </div>
 
                     <div style={{ display: "flex", alignItems: 'center', marginTop: '20px' }}>
                         <b>No of Feeders</b>
                         <div style={{ background: 'white', padding: '5px', borderRadius: '10px', width: '30%', textAlign: 'center', marginLeft: '20px' }}>
-                            {numoFFeeders}
+                            {data.NoofFeedero}
                         </div>
                     </div>
 
@@ -173,7 +286,7 @@ const UpdateGenerateEnquiry = () => {
                     <div style={{ display: "flex", alignItems: 'center', marginTop: '20px' }}>
                         <b>Description</b>
                         <div style={{ background: 'white', padding: '5px', borderRadius: '10px', width: '80%', textAlign: 'center', marginLeft: '20px' }}>
-                            {description}
+                            {data.Description}
                         </div>
                     </div>
 
@@ -188,17 +301,23 @@ const UpdateGenerateEnquiry = () => {
                     </div>
 
                     <div style={{display:"flex",gap:"10px"}}>
-                        <b>{loomAttachments}</b>:
-                          <b>{Required}</b>    
+                    {data.SelvageJacquard === 1 && <><b>SelvadgeJacquard</b>:
+                                    <b>Required</b></>}
+                                {data.TopBeam === 1 && <><b>TopBeam</b>:
+                                    <b>Required</b></>}
+                                {data.Cramming === 1 && <><b>Cramming</b>:
+                                    <b>Required</b></>}
+                                {data.LenoDesignEquipment === 1 && <><b>LenoDesignEquipment</b>:
+                                    <b>Required</b></>}   
                     </div>
 
 
                 </div>
 
-                <div style={{ border: '1px solid var(--primary-color)', height: '10vh', width: '120px', borderRadius: '10px', }}>
-                    img
+                <div style={{ border: '1px solid var(--primary-color)', height: '10vh', width: '120px', borderRadius: '10px',overflow: 'hidden' }}>
+                <img src={data.Photopath} height='100%' width='100%' alt='photo' />
                 </div>
-            </div>
+            </div></>))}
 
 
 
@@ -206,6 +325,8 @@ const UpdateGenerateEnquiry = () => {
                 <div style={{ marginTop: '13px', marginLeft: '25px' }}>
                     <label style={{ fontWeight: 'bold', margin: '10px' }}> From Date</label>
                     <input
+                     value={fromdate}
+                     onChange={(e) => setfromdate(e.target.value)}
                         style={{ width: '100%', margin: "10px", border: '1px solid var(--primary-color)' }}
                         type='date'
                     />
@@ -215,13 +336,15 @@ const UpdateGenerateEnquiry = () => {
                 <div style={{ marginTop: '13px', marginLeft: '25px' }}>
                     <label style={{ fontWeight: 'bold', margin: '10px' }}> To Date </label>
                     <input
+                     value={todate}
+                     onChange={(e) => settodate(e.target.value)}
                         style={{ width: '100%', margin: "10px", border: '1px solid var(--primary-color)' }}
                         type='date'
                     />
                 </div>
 
                 <div style={{ marginTop: '35px', marginLeft: '15px' }}>
-                    <button style={{ padding: '5px 8px' }} className='btn1'>Check Loom Availability</button>
+                    <button style={{ padding: '5px 8px' }} className='btn1' onClick={checkavaliability}>Check Loom Availability</button>
                 </div>
 
 
@@ -232,7 +355,35 @@ const UpdateGenerateEnquiry = () => {
 
             <div style={{ marginTop: '20px', marginLeft: '35px', display: 'flex', alignItems: 'center' }}>
                 <span style={{ fontWeight: 'bold' }}>Available Loom Numbers :</span>
-                <span style={{ fontWeight: 'bold', color: 'var(--complementary-color)', marginLeft: '5px', background: "#fff", borderRadius: '5px', padding: '5px' }}>{loomNumber}, </span>
+                {checkavaliabilityee && (checkdata.length === 0 ? (
+                        <span
+
+                            style={{
+                                fontWeight: 'bold',
+                                color: 'var(--complementary-color)',
+                                marginLeft: '5px',
+                                background: "#fff",
+                                borderRadius: '5px',
+                                padding: '5px'
+                            }}
+                        >
+                            No Looms Found
+                        </span>
+                    ) : (checkdata.map((item, index) => (
+                        <span
+                            key={index}
+                            style={{
+                                fontWeight: 'bold',
+                                color: 'var(--complementary-color)',
+                                marginLeft: '5px',
+                                background: "#fff",
+                                borderRadius: '5px',
+                                padding: '5px'
+                            }}
+                        >
+                            {item.LoomNo},
+                        </span>
+                    ))))}
 
             </div>
 
@@ -241,6 +392,8 @@ const UpdateGenerateEnquiry = () => {
                     <label style={{ fontWeight: 'bold' }}>Looms Possible to Assign</label>
                     <input
                         style={{ border: '1px solid var(--primary-color)' }}
+                        value={cansetlooms} 
+                        onChange={(e)=>setcansetlooms(e.target.value)}
                         type="text"
                         placeholder="Looms Possible to Assign"
                     />
@@ -251,6 +404,8 @@ const UpdateGenerateEnquiry = () => {
                         <div style={{ display: 'flex', alignItems: 'center', width: '330px', gap: '10px' }}>
                             <input
                                 style={{ border: '1px solid var(--primary-color)', width: '95%' }}
+                                value={counteroffer}
+                                onChange={(e)=>setcounteroffer(e.target.value)}
                                 type="text"
                                 placeholder="Send Counter Offer"
                             />
@@ -264,8 +419,8 @@ const UpdateGenerateEnquiry = () => {
 
             <div>
                 <div style={{ marginTop: '20px', marginLeft: '20px', gap: "20px", display: 'flex' }}>
-                    <button className='btn2'  >Submit</button>
-                    <button className='btn1'  >Not Interested</button>
+                    <button className='btn2' onClick={sendreq} >Submit</button>
+                    <button className='btn1' onClick={back} >Not Interested</button>
                 </div>
             </div>
 

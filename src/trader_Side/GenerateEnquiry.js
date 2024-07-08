@@ -8,7 +8,7 @@ import '../../src/common/static/css/generateenquiry.css';
 import Select from 'react-select';
 import React, { useState} from 'react';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+
 
 const GenerateEnquiry = () => {
 
@@ -402,7 +402,7 @@ const [LenoDesignEquipment, setLenoDesignEquipment] = useState('false');
             <div style={{ padding: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <button onClick={handleSubmit} style={{ width: '10%' }} className='btn2'>Submit</button>
             </div>
-            <ToastContainer/>
+           
         </div>
     );
 };

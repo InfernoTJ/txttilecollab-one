@@ -38,7 +38,7 @@ import Admin_yarn from './Admin _side/Admin_yarn.js';
 import Profile from './loom/Profile.js';
 import Tprofile from './trader_Side/Tprofile.js';
 
-import MyLoom from './loom/MyLoom.js';
+import MyLoom from './loom/Myloom.js';
 import MyLoomDetails from './loom/MyLoomDetails.js';
 
 import TknottingOffer from './trader_Side/TknottingOffer.js';

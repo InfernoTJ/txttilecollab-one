@@ -96,16 +96,7 @@ const Profile = () => {
                     disabled={!editable}
                   />
                 </div>
-                <div style={{ marginTop: '10px' }}>
-                  <label style={{ fontWeight: 'bold', margin: "10px", color: 'var(--primary-color)' }}>Primary Contact</label>
-                  <input
-                    style={{ width: '90%', margin: "10px", border: '1px solid var(--primary-color)' }}
-                    type='text'
-                    value={primaryContact}
-                    onChange={(e) => setPrimaryContact(e.target.value)}
-                    disabled={!editable}
-                  />
-                </div>
+                
                 <div style={{ marginTop: '10px' }}>
                   <label style={{ fontWeight: 'bold', margin: "10px", color: 'var(--primary-color)' }}>GST Num</label>
                   <input

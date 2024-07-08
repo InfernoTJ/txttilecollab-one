@@ -1,10 +1,13 @@
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import '../common/static/css/loomdetails.css';
+import { toast } from "react-toastify";
 
 const LoomDetails = () => {
- 
+    const userString = sessionStorage.getItem('user');
+    const user = userString ? JSON.parse(userString) : null;
+
     const [loomNumber, setLoomNumber] = useState('');
     const [rpm, setRpm] = useState('');
     const [machineType, setMachineType] = useState(null);
@@ -20,8 +23,81 @@ const LoomDetails = () => {
         cramming: false,
     });
 
- 
-    const handleSubmit = () => {
+    const [machineTypeoption, setMachineTypeoption] = useState(null);
+    const [shreddingtypeoptions, setshreddingtypeoptions] = useState(null);
+    const [nooffeedersoptions, setnooffeedersoptions] = useState(null);
+    const [noofframesoptions, setnoofframesoptions] = useState(null);
+
+
+    const today = new Date();
+
+    const futureDate = new Date(today);
+    futureDate.setMonth(today.getMonth() + 3);
+
+    // Handle year change if necessary
+    if (futureDate.getMonth() !== (today.getMonth() + 3) % 12) {
+        futureDate.setDate(0); // Set date to the last day of the previous month
+    }
+
+    // Format date to yyyy-mm-dd
+    const formatDate = (date) => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
+
+    // Format today and future dates
+    const formattedToday = formatDate(today);
+    const formattedFutureDate = formatDate(futureDate);
+
+    const handleSubmit = async() => {
+        
+        const formdata = new FormData();
+        formdata.append("LoomTraderId", user.Id);
+        formdata.append("LoomNo", loomNumber);
+        formdata.append("MachineType", machineType.value);
+        formdata.append("Width", width);
+        formdata.append("RPM", rpm);
+        formdata.append("SheddingType", sheddingType.value);
+        formdata.append("NoofFrames", numFrames.value);
+        formdata.append("NoofFeeders", numFeeders.value);
+        formdata.append("SelvageJacquard", attachments.selvadgeJacquard);
+        formdata.append("TopBeam", attachments.topBeam);
+        formdata.append("Cramming", attachments.cramming);
+        formdata.append("LenoDesignEquipment", attachments.lenoDesignEquipment);
+        formdata.append("Available", true);
+        formdata.append("LoomAvailableFrom", formattedToday);
+        formdata.append("LoomAvailableTo", formattedFutureDate);
+        formdata.append("NoOfLooms", numLooms);
+
+        try {
+            console.log("Data = ", user.Id, loomNumber, machineType.value, width, rpm, sheddingType.value, numFrames.value, numFeeders.value, attachments.selvadgeJacquard, attachments.topBeam, attachments.cramming, attachments.lenoDesignEquipment, formattedToday, formattedFutureDate, numLooms)
+            const response = await fetch("https://textileapp.microtechsolutions.co.in/php/postloomdetail.php", {
+                method: "POST",
+                body: formdata,
+                redirect: "follow"
+            })
+
+
+
+            if (!response.ok) {
+
+                toast.error("Error While Sending Data")
+            }
+            if (response.ok) {
+
+
+
+                toast.success('Data Sent')
+
+
+            }
+        } catch (error) {
+            alert(user.Id)
+            toast.error('Error While Sending Data')
+        }
+
         setLoomNumber('');
         setRpm('');
         setMachineType(null);
@@ -37,9 +113,88 @@ const LoomDetails = () => {
             cramming: false,
         });
     };
+    useEffect(() => {
+        const fetchMachineTypes = async () => {
+            try {
+                const response = await fetch('https://textileapp.microtechsolutions.co.in/php/gettable.php?table=MachineType');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                const options = data.map((item) => ({
+                    value: item.Name, // Use a unique identifier if available, otherwise use Name as value
+                    label: item.Name // Use the "Name" field for the label
+                }));
+                setMachineType(options.value)
+                setMachineTypeoption(options);
+
+            } catch (error) {
+                toast.error(error)
+            }
+        };
+        const fetchshreddingTypes = async () => {
+            try {
+                const response = await fetch('https://textileapp.microtechsolutions.co.in/php/gettable.php?table=SheddingType');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                const options = data.map((item) => ({
+                    value: item.Name, // Use a unique identifier if available, otherwise use Name as value
+                    label: item.Name // Use the "Name" field for the label
+                }));
+                setSheddingType(options.value)
+                setshreddingtypeoptions(options);
+
+            } catch (error) {
+                toast.error(error)
+            }
+        };
+        const fetchnooffeederTypes = async () => {
+            try {
+                const response = await fetch('https://textileapp.microtechsolutions.co.in/php/gettable.php?table=NoOfFeeders');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                const options = data.map((item) => ({
+                    value: item.Range, // Use a unique identifier if available, otherwise use Name as value
+                    label: item.Range // Use the "Name" field for the label
+                }));
+                setNumFeeders(options.value)
+                setnooffeedersoptions(options);
+
+            } catch (error) {
+                toast.error(error)
+            }
+        };
+        const fetchnoofframesTypes = async () => {
+            try {
+                const response = await fetch('https://textileapp.microtechsolutions.co.in/php/gettable.php?table=NoOfFrame');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                const options = data.map((item) => ({
+                    value: item.Range, // Use a unique identifier if available, otherwise use Name as value
+                    label: item.Range // Use the "Name" field for the label
+                }));
+                setNumFrames(options.value)
+                setnoofframesoptions(options);
+
+            } catch (error) {
+                toast.error(error)
+            }
+        };
+
+        fetchMachineTypes();
+        fetchshreddingTypes();
+        fetchnooffeederTypes();
+        fetchnoofframesTypes();
+    }, []);
 
     return (
-        <div  className='loom_details-container'>
+        <div className='loom_details-container'>
             <div style={{ borderRadius: '10px', padding: '20px', marginTop: '30px', background: 'var(--background-color)' }} className='loom_details'>
                 <div>
                     <h1 style={{ color: 'var(--primary-color)', margin: '30px' }}>Loom Details</h1>
@@ -79,6 +234,7 @@ const LoomDetails = () => {
                                     isSearchable
                                     value={machineType}
                                     onChange={(selectedOption) => setMachineType(selectedOption)}
+                                    options={machineTypeoption}
                                 />
                             </div>
 
@@ -91,7 +247,7 @@ const LoomDetails = () => {
                                     placeholder="No of Feeders"
                                     isSearchable
                                     value={numFeeders}
-                                    onChange={(selectedOption) => setNumFeeders(selectedOption)}
+                                    onChange={(selectedOption) => setNumFeeders(selectedOption)} options={nooffeedersoptions}
                                 />
                             </div>
                         </div>
@@ -107,6 +263,7 @@ const LoomDetails = () => {
                                     isSearchable
                                     value={sheddingType}
                                     onChange={(selectedOption) => setSheddingType(selectedOption)}
+                                    options={shreddingtypeoptions}
                                 />
                             </div>
 
@@ -120,6 +277,7 @@ const LoomDetails = () => {
                                     isSearchable
                                     value={numFrames}
                                     onChange={(selectedOption) => setNumFrames(selectedOption)}
+                                    options={noofframesoptions}
                                 />
                             </div>
                         </div>
@@ -211,7 +369,7 @@ const LoomDetails = () => {
                             </div>
                         </div>
                     </div>
-                   
+
                     <div style={{ padding: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <button style={{ width: '10%', fontSize: 18 }} className='btn2' onClick={handleSubmit}>
                             Submit

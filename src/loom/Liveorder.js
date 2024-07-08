@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useEffect,useState } from 'react';
 import '../common/static/css/Liveorder.css';
 import { useNavigate } from 'react-router-dom';
 
@@ -7,175 +7,7 @@ function Liveorder() {
   const navigate = useNavigate();
 
   const [view, setView] = useState('liveOrders');
-  const [liveOrders, setLiveOrders] = useState([
-    { id: 1, or: 10, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 2, or: 11, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 3, or: 12, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 4, or: 13, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 5, or: 14, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 6, or: 15, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 7, or: 16, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 8, or: 17, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 9, or: 18, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 10, or: 19, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 11, or: 20, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 12, or: 21, party: 'fgttyrty', quality: 'tuhty' },
-
-    { id: 13, or: 22, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 14, or: 23, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 15, or: 24, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 16, or: 25, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 17, or: 26, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 18, or: 27, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 19, or: 28, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 20, or: 29, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 21, or: 30, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 22, or: 31, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 23, or:32, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 24, or: 33, party: 'fgttyrty', quality: 'tuhty' },
-
-
-
-    { id: 25, or: 34, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 26, or: 35, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 27, or: 36, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 28, or: 37, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 29, or: 38, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 30, or: 39, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 31, or: 40, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 32, or: 41, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 33, or: 42, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 34, or: 43, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 35, or: 44, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 36, or: 45, party: 'fgttyrty', quality: 'tuhty' },
-
-    { id: 37, or: 46, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 38, or: 47, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 39, or: 48, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 40, or: 49, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 41, or: 50, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 42, or: 51, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 43, or: 51, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 44, or: 52, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 45, or: 53, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 46, or: 54, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 47, or:55, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 48, or: 56, party: 'fgttyrty', quality: 'tuhty' },
-
-
-
-
-
-    { id: 1, or: 10, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 2, or: 11, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 3, or: 12, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 4, or: 13, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 5, or: 14, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 6, or: 15, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 7, or: 16, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 8, or: 17, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 9, or: 18, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 10, or: 19, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 11, or: 20, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 12, or: 21, party: 'fgttyrty', quality: 'tuhty' },
-
-    { id: 13, or: 22, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 14, or: 23, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 15, or: 24, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 16, or: 25, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 17, or: 26, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 18, or: 27, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 19, or: 28, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 20, or: 29, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 21, or: 30, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 22, or: 31, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 23, or:32, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 24, or: 33, party: 'fgttyrty', quality: 'tuhty' },
-
-
-
-    { id: 25, or: 34, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 26, or: 35, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 27, or: 36, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 28, or: 37, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 29, or: 38, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 30, or: 39, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 31, or: 40, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 32, or: 41, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 33, or: 42, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 34, or: 43, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 35, or: 44, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 36, or: 45, party: 'fgttyrty', quality: 'tuhty' },
-
-    { id: 37, or: 46, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 38, or: 47, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 39, or: 48, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 40, or: 49, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 41, or: 50, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 42, or: 51, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 43, or: 51, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 44, or: 52, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 45, or: 53, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 46, or: 54, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 47, or:55, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 48, or: 56, party: 'fgttyrty', quality: 'tuhty' },
-
-
-
-    { id: 1, or: 10, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 2, or: 11, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 3, or: 12, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 4, or: 13, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 5, or: 14, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 6, or: 15, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 7, or: 16, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 8, or: 17, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 9, or: 18, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 10, or: 19, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 11, or: 20, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 12, or: 21, party: 'fgttyrty', quality: 'tuhty' },
-
-    { id: 13, or: 22, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 14, or: 23, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 15, or: 24, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 16, or: 25, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 17, or: 26, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 18, or: 27, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 19, or: 28, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 20, or: 29, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 21, or: 30, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 22, or: 31, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 23, or:32, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 24, or: 33, party: 'fgttyrty', quality: 'tuhty' },
-
-
-
-    { id: 25, or: 34, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 26, or: 35, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 27, or: 36, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 28, or: 37, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 29, or: 38, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 30, or: 39, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 31, or: 40, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 32, or: 41, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 33, or: 42, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 34, or: 43, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 35, or: 44, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 36, or: 45, party: 'fgttyrty', quality: 'tuhty' },
-
-    { id: 37, or: 46, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 38, or: 47, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 39, or: 48, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 40, or: 49, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 41, or: 50, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 42, or: 51, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 43, or: 51, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 44, or: 52, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 45, or: 53, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 46, or: 54, party: 'fgttyrty', quality: 'tuhty' },
-    { id: 47, or:55, party: 'asxsaxsd', quality: 'yutuy' },
-    { id: 48, or: 56, party: 'fgttyrty', quality: 'tuhty' },
-  ]);
+  const [liveOrders, setLiveOrders] = useState([]);
   const [confirmOrders, setConfirmOrders] = useState([]);
   const [isOrderStarted, setIsOrderStarted] = useState(false);
 
@@ -207,7 +39,26 @@ function Liveorder() {
     navigate('../live-orders/orderdetails');
   };
 
+  useEffect(() => {
 
+    const loadliveorders = () => {
+
+      const requestOptions = {
+        method: "GET",
+        redirect: "follow"
+      };
+
+      fetch("https://textileapp.microtechsolutions.co.in/php/loomliveorder.php?LoomTraderId=529", requestOptions)
+        .then((response) => response.json())
+        .then((result) => {
+          console.log(result)
+          setLiveOrders(Array.isArray(result) ? result : [])
+        })
+        .catch((error) => console.error(error));
+    }
+
+    loadliveorders()
+  }, [])
 
 
   
@@ -231,12 +82,14 @@ function Liveorder() {
           <div>
             {view === 'liveOrders' && (
               <div className='live-ordersCards-container'>
-                {liveOrders.map((order) => (
+                {liveOrders
+                .filter((order) => order.Confirmed === 0)
+                .map((order) => (
                   <div className='live-ordersCards-all' key={order.id} style={{ border: '3px solid var(--tershary-color)', borderRadius: '10px' }}>
                     <div onClick={() => handleCardClick(order.id)}>
-                      <div style={{ color: 'var(--secondary-color)', fontWeight: 'bold',margin:'10px' }}><p>OR: {order.or}</p></div>
-                      <div style={{ color: 'var(--secondary-color)', fontWeight: 'bold',margin:'10px' }}><p>Party: {order.party}</p></div>
-                      <div style={{ color: 'var(--secondary-color)', fontWeight: 'bold',margin:'10px',fontSize:'13px'}}><p>Quality: {order.quality}</p></div>
+                      <div style={{ color: 'var(--secondary-color)', fontWeight: 'bold',margin:'10px' }}><p>OR: {order.OrderNo}</p></div>
+                      <div style={{ color: 'var(--secondary-color)', fontWeight: 'bold',margin:'10px' }}><p>Party: {order.PartyName}</p></div>
+                      <div style={{ color: 'var(--secondary-color)', fontWeight: 'bold',margin:'10px',fontSize:'13px'}}><p>Quality: {order.Quality}</p></div>
                     </div>
                     <hr />
                     <div className='live-orderCards-btns'>
@@ -260,14 +113,16 @@ function Liveorder() {
             )}
             {view === 'confirmOrders' && (
               <div className='confirmOrdersCards-container'>
-                {confirmOrders.map((order) => (
+                {liveOrders
+                 .filter((order) => order.Confirmed === 1)
+                 .map((order) => (
                   <div key={order.id} className='confirmOrdersCards-all'
                   //  style={{ border: '3px solid var(--tershary-color)', borderRadius: '10px' }} 
                    >
                     <div onClick={handlecardclick} style={{ marginLeft: '10px', cursor: 'pointer' }}>
-                      <div style={{ color: 'var(--secondary-color)', fontWeight: 'bold' }}><p>OR: {order.or}</p></div>
-                      <div style={{ color: 'var(--secondary-color)', fontWeight: 'bold' }}><p>Party: {order.party}</p></div>
-                      <div style={{ color: 'var(--secondary-color)', fontWeight: 'bold' }}><p>Quality: {order.quality}</p></div>
+                      <div style={{ color: 'var(--secondary-color)', fontWeight: 'bold' }}><p>OR: {order.OrderNo}</p></div>
+                      <div style={{ color: 'var(--secondary-color)', fontWeight: 'bold' }}><p>Party: {order.PartyName}</p></div>
+                      <div style={{ color: 'var(--secondary-color)', fontWeight: 'bold' }}><p>Quality: {order.Quality}</p></div>
                     </div>
                     <hr />
                     <div className='cnfm-order-btn'>
