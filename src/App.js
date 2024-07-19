@@ -40,6 +40,7 @@ import Tprofile from './trader_Side/Tprofile.js';
 
 import MyLoom from './loom/Myloom.js';
 import MyLoomDetails from './loom/MyLoomDetails.js';
+import Compltedorderdetails from './loom/CompletedordersDetails.js'
 
 import TknottingOffer from './trader_Side/TknottingOffer.js';
 import MyEnquiries from './trader_Side/MyEnquiries.js';
@@ -50,7 +51,8 @@ import Y_trader from './YarnSide/Y_trader.js';
 import GenerateknottingOffer from '../src/loom/GenerateknottingOffer.js';
 import KnottingResponse from './loom/KnottingResponse.js';
 
-
+import Update_myenquiries from './trader_Side/Update_myenquiries.js';
+import UpdateMyEnquiry_form from './trader_Side/UpdateMyEnquiry_form.js';
 
 function App() {
   return (
@@ -63,7 +65,7 @@ function App() {
             <Route path='dashboard' element={<Dashboard />} />
             <Route path='tdashboard' element={<Tdashboard />} />
             <Route path='loomdetails' element={<LoomDetails />} />
-            <Route path='loom/LoomBooking' element={<LoomsBooking />} />
+            <Route path='loom/LoomBooking/:oid' element={<LoomsBooking />} />
             <Route path='loombookDetails' element={<LoomBooking />} />
             <Route path='jobwork-enquiry' element={<Jobwork />} />
             <Route path='live-orders' element={<Liveorder />} />
@@ -84,15 +86,18 @@ function App() {
             {/* trader side */}
             <Route path='check-response' element={<CheckResponse />} />
             <Route path='L-Profile' element={<Profile />} />
-             <Route path='myloomdetails' element={<MyLoomDetails/>}/>
+             <Route path='myloomdetails/:loomid' element={<MyLoomDetails/>}/>
             <Route path='T-Profile' element={<Tprofile />} />
             <Route path='myenquiries'element={<MyEnquiries/>}/>
+            <Route path='updatemyenquiries' element={<Update_myenquiries/>}/>
+            <Route path='updatemyenquiriesform/:enquiryid' element={<UpdateMyEnquiry_form/>}/>
+
             {/* <Route  path='human-resource' element={<HumanResource/>}/> */}
             <Route path="updateenquiry/:enquiryNo" element={<UpdateGenerateEnquiry />} />
-            <Route path='live-orders/orderdetails' element={<LoomOrderDetails />} />
-
+            <Route path='live-orders/orderdetails/:orderid' element={<LoomOrderDetails />} />
+  <Route path='completed-orders/loom-completed-orders/:orderid' element={<Compltedorderdetails />} />
             <Route path='trader-live-orders' element={<Trliveorder />} />
-            <Route path='trader-live-orders/trorderdetails' element={<Trorderdetails />} />
+            <Route path='trader-live-orders/trorderdetails/:orderid' element={<Trorderdetails />} />
             <Route path='incomplete-task' element={<IncompleteTask />} />
 
             <Route path='users' element={<Users />} />

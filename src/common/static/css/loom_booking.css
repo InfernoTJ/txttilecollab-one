@@ -39,6 +39,7 @@
   }
   .loom_booking_card1{
     border: 2px solid var(--secondary-color);
+    
     border-radius: 8px;
     position: relative;
     padding: 4px;

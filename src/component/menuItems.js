@@ -71,13 +71,14 @@ import { MdCancelPresentation } from "react-icons/md";
 import { GrCompliance,GrDocumentTime  } from "react-icons/gr";
 import { MdPeople } from "react-icons/md";
 // import { BsPersonWorkspace } from "react-icons/bs";
-import { RiHome2Fill, RiCalculatorLine, RiPriceTag3Fill,} from "react-icons/ri";
+import { RiHome2Fill, RiCalculatorLine, RiPriceTag3Fill, RiStickyNoteAddLine } from "react-icons/ri";
 import { FaChartLine, FaUserTie, FaUser, FaBell, } from "react-icons/fa"; // Import additional icons for trader, yarn, and admin
 import { MdPostAdd,  MdNotificationAdd,MdOutlineAddToPhotos } from "react-icons/md";
 import { SiGitbook } from "react-icons/si";
 import { AiOutlineAudit } from "react-icons/ai";
-import { BsFillStickiesFill } from "react-icons/bs";
-
+import { BsFillStickiesFill ,BsCardChecklist } from "react-icons/bs";
+import { CgDatabase } from "react-icons/cg";
+import { GiYarn } from "react-icons/gi";
 export const menuItems = [
   // Common items
   {
@@ -102,13 +103,18 @@ export const menuItems = [
       {
         title: "Generate Enquiry",
         path: "plan-loom",
-        icon: <FaUserTie />,
+        icon: <RiStickyNoteAddLine />,
       },
       {
         title: "Check Response",
         path: "check-response",
-        icon: <FaUserTie />,
-      }
+        icon: <BsCardChecklist  />,
+      },
+      {
+        title: "My Enquiries",
+        path: "updatemyenquiries",
+        icon: <CgDatabase />,
+      },
     ]
   },
   
@@ -254,14 +260,14 @@ export const menuItems = [
   {
     title: "Loom",
     path: "yarn-loom",
-    icon: <FaBell />,
+    icon: <SiGitbook />,
     roles: ["Y"],
   },
 
   {
     title: "Trader",
     path: "yarn-Trader",
-    icon: <FaBell />,
+    icon: <GiYarn style={{fontWeight:'bold'}} />,
     roles: ["Y"],
   },
 

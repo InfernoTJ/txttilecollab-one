@@ -32,10 +32,10 @@ const LoomDetails = () => {
     const today = new Date();
 
     const futureDate = new Date(today);
-    futureDate.setMonth(today.getMonth() + 3);
+    futureDate.setMonth(today.getMonth() + 6);
 
     // Handle year change if necessary
-    if (futureDate.getMonth() !== (today.getMonth() + 3) % 12) {
+    if (futureDate.getMonth() !== (today.getMonth() + 6) % 12) {
         futureDate.setDate(0); // Set date to the last day of the previous month
     }
 

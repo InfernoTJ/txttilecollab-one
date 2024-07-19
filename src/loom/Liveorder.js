@@ -2,16 +2,22 @@
 import React, { useEffect,useState } from 'react';
 import '../common/static/css/Liveorder.css';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 function Liveorder() {
   const navigate = useNavigate();
 
+  const userString = sessionStorage.getItem('user');
+  const user = userString ? JSON.parse(userString) : null;
   const [view, setView] = useState('liveOrders');
   const [liveOrders, setLiveOrders] = useState([]);
   const [confirmOrders, setConfirmOrders] = useState([]);
   const [isOrderStarted, setIsOrderStarted] = useState(false);
 
+  const [orderid, setorderid] = useState();
+
   const handleLiveOrdersClick = () => {
+
     setView('liveOrders');
   };
 
@@ -26,36 +32,51 @@ function Liveorder() {
     setConfirmOrders([...confirmOrders, selectedOrder]);
   };
 
-  const handleStartOrderClick = () => {
-    navigate('../loom/LoomBooking');
+  const handleStartOrderClick=(oid) =>{
+
+        navigate(`../loom/LoomBooking/${oid}`);
+      
+  
   };
 
   const handleCancelOrderClick = (orderId) => {
+    const requestOptions = {
+      method: "GET",
+      redirect: "follow"
+    };
+    
+    fetch(`https://textileapp.microtechsolutions.co.in/php/updateloomorder.php?LoomOrderId=${orderId}&Confirmed=false`, requestOptions)
+      .then((response) => response.text())
+      .then((result) => {console.log(result)
+        toast.success('Cancelled OR'+ orderId)
+        loadliveorders()
+      })
+      .catch((error) => console.error(error));
     setLiveOrders(liveOrders.filter((order) => order.id !== orderId));
   };
 
-  const handlecardclick = (e) => {
-    e.preventDefault();
-    navigate('../live-orders/orderdetails');
+  const handlecardclick = (orderid) => {
+ 
+    navigate('../live-orders/orderdetails/'+orderid);
   };
+  const loadliveorders = () => {
 
+    const requestOptions = {
+      method: "GET",
+      redirect: "follow"
+    };
+
+    fetch("https://textileapp.microtechsolutions.co.in/php/loomliveorder.php?LoomTraderId="+user.Id, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result)
+        setLiveOrders(Array.isArray(result) ? result : [])
+      })
+      .catch((error) => console.error(error));
+  }
   useEffect(() => {
 
-    const loadliveorders = () => {
-
-      const requestOptions = {
-        method: "GET",
-        redirect: "follow"
-      };
-
-      fetch("https://textileapp.microtechsolutions.co.in/php/loomliveorder.php?LoomTraderId=529", requestOptions)
-        .then((response) => response.json())
-        .then((result) => {
-          console.log(result)
-          setLiveOrders(Array.isArray(result) ? result : [])
-        })
-        .catch((error) => console.error(error));
-    }
+   
 
     loadliveorders()
   }, [])
@@ -83,25 +104,25 @@ function Liveorder() {
             {view === 'liveOrders' && (
               <div className='live-ordersCards-container'>
                 {liveOrders
-                .filter((order) => order.Confirmed === 0)
+                .filter((order) => order.Confirmed === null && order.Completed===null)
                 .map((order) => (
                   <div className='live-ordersCards-all' key={order.id} style={{ border: '3px solid var(--tershary-color)', borderRadius: '10px' }}>
-                    <div onClick={() => handleCardClick(order.id)}>
+                    <div >
                       <div style={{ color: 'var(--secondary-color)', fontWeight: 'bold',margin:'10px' }}><p>OR: {order.OrderNo}</p></div>
                       <div style={{ color: 'var(--secondary-color)', fontWeight: 'bold',margin:'10px' }}><p>Party: {order.PartyName}</p></div>
-                      <div style={{ color: 'var(--secondary-color)', fontWeight: 'bold',margin:'10px',fontSize:'13px'}}><p>Quality: {order.Quality}</p></div>
+                      <div style={{ color: 'var(--secondary-color)', fontWeight: 'bold',margin:'10px',fontSize:'13px'}}><p>Qlt: {order.Quality}</p></div>
                     </div>
                     <hr />
                     <div className='live-orderCards-btns'>
                       <button
-                        onClick={handleStartOrderClick}
-                        className='start-order-btn'
+                        onClick={()=>handleStartOrderClick(order.LoomOrderId)}
+                        className='start-order-btn' 
                         style={{ backgroundColor: 'var(--tershary-color)', borderRadius: '10px', color: 'var(--main)', border: 'none', cursor: 'pointer', padding: '10px 15px', margin: '5px', width: '50%',  }}
                       >
                         Start
                       </button>
                       <button className='btn2'
-                        onClick={() => handleCancelOrderClick(order.id)}
+                        onClick={() => handleCancelOrderClick(order.LoomOrderId)}
                         style={{ backgroundColor: 'var(--complementary-color)', borderRadius: '10px', color: 'var(--main)', border: 'none', cursor: 'pointer', padding: '10px 15px', margin: '5px', width: '50%' }}
                       >
                         Cancel
@@ -114,19 +135,19 @@ function Liveorder() {
             {view === 'confirmOrders' && (
               <div className='confirmOrdersCards-container'>
                 {liveOrders
-                 .filter((order) => order.Confirmed === 1)
+                 .filter((order) => order.Confirmed === 1 && order.Completed===null)
                  .map((order) => (
                   <div key={order.id} className='confirmOrdersCards-all'
                   //  style={{ border: '3px solid var(--tershary-color)', borderRadius: '10px' }} 
                    >
-                    <div onClick={handlecardclick} style={{ marginLeft: '10px', cursor: 'pointer' }}>
+                    <div onClick={ ()=>handlecardclick(order.LoomOrderId)} style={{ marginLeft: '10px', cursor: 'pointer' }}>
                       <div style={{ color: 'var(--secondary-color)', fontWeight: 'bold' }}><p>OR: {order.OrderNo}</p></div>
                       <div style={{ color: 'var(--secondary-color)', fontWeight: 'bold' }}><p>Party: {order.PartyName}</p></div>
-                      <div style={{ color: 'var(--secondary-color)', fontWeight: 'bold' }}><p>Quality: {order.Quality}</p></div>
+                      <div style={{ color: 'var(--secondary-color)', fontWeight: 'bold' }}><p>Qlt: {order.Quality}</p></div>
                     </div>
                     <hr />
                     <div className='cnfm-order-btn'>
-                      <p style={{ color: 'var(--complementary-color)' }}>Cancel Order</p>
+                      <button className='btn1' style={{margin:'0 auto'}}  onClick={() => handleCancelOrderClick(order.LoomOrderId)} >Cancel Order</button>
                     </div>
                   </div>
                 ))}

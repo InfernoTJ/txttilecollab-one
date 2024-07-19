@@ -6,14 +6,15 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "../common/static/css/Liveorder.css";
-import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import { useNavigate } from 'react-router-dom';
-   
+
+import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-
   return (
     <div
       role="tabpanel"
@@ -30,24 +31,21 @@ function TabPanel(props) {
     </div>
   );
 }
-
 TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.number.isRequired,
   value: PropTypes.number.isRequired,
 };
-
 function a11yProps(index) {
   return {
     id: `vertical-tab-${index}`,
     "aria-controls": `vertical-tabpanel-${index}`,
   };
 }
-
 export default function VerticalTabs() {
-  const navigate=useNavigate()
-const[checkbeamgetting,setcheckbeamgetting]=useState()
-const[checkdrawingin,setcheckdrawingin]=useState()
+  const userString = sessionStorage.getItem("user");
+  const user = userString ? JSON.parse(userString) : null;
+
   const [beamindata, setbeamindata] = useState([]);
   const [weftyarnindata, setweftyarnindata] = useState([]);
   const [drawingindata, setdrawingindata] = useState();
@@ -58,12 +56,9 @@ const[checkdrawingin,setcheckdrawingin]=useState()
   const [fabricdispatchdata, setfabricdispatchdata] = useState([]);
   const [goodsreturnsdata, setgoodsreturnsdata] = useState([]);
   const [value, setValue] = React.useState(0);
-  const [data, setdata] = useState([]);
   const { orderid } = useParams();
-  const userString = sessionStorage.getItem("user");
-  const user = userString ? JSON.parse(userString) : null;
   const [tableRows, setTableRows] = React.useState([]);
-
+  const [data, setdata] = useState([]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -72,6 +67,12 @@ const[checkdrawingin,setcheckdrawingin]=useState()
   const beamaddrow = () => {
     setTableRows([...tableRows, { date: "", tippanNumber: "" }]);
   };
+  // const beamaddrow = () => {
+  //     const lastRow = tableRows[tableRows.length - 1];
+  //     if (!lastRow || (lastRow.date !== '' && lastRow.tippanNumber !== '')) {
+  //         setTableRows([...tableRows, { date: '', tippanNumber: '' }]);
+  //     }
+  // };
 
   const beamdate = (index, date) => {
     const updatedRows = [...tableRows];
@@ -84,7 +85,6 @@ const[checkdrawingin,setcheckdrawingin]=useState()
     updatedRows[index].tippanNumber = tippanNumber;
     setTableRows(updatedRows);
   };
-
   const beamrowdel = (index) => {
     const updatedRows = tableRows.filter((_, i) => i !== index);
     setTableRows(updatedRows);
@@ -95,81 +95,67 @@ const[checkdrawingin,setcheckdrawingin]=useState()
     updatedRows[index].photo = photo;
     setTableRows(updatedRows);
   };
-  const [weftRow, setWeftRow] = React.useState([]);
 
+  const [weftRow, setWeftRow] = React.useState([]);
   const weftaddrow = () => {
     setWeftRow([...weftRow, { date: "", gatepassno: "", photo: "" }]);
   };
-
   const weftdate = (index, date) => {
     const updatedRows = [...weftRow];
     updatedRows[index].date = date;
     setWeftRow(updatedRows);
   };
-
   const weftgatepass = (index, gatepassno) => {
     const updatedRows = [...weftRow];
     updatedRows[index].gatepassno = gatepassno;
     setWeftRow(updatedRows);
   };
-
   const weftphoto = (index, photo) => {
     const updatedRows = [...weftRow];
     updatedRows[index].photo = photo;
     setWeftRow(updatedRows);
   };
-
   const weftrowdel = (index) => {
     const updatedRows = weftRow.filter((_, i) => i !== index);
     setWeftRow(updatedRows);
   };
-
   const [fabricRow, setFabricRow] = React.useState([]);
-
   const fabricaddrow = () => {
     setFabricRow([
       ...fabricRow,
       { date: "", gatepassno: "", photopath: "", meter: "", weight: "" },
     ]);
   };
-
   const fabricdate = (index, date) => {
     const updatedRows = [...fabricRow];
     updatedRows[index].date = date;
     setFabricRow(updatedRows);
   };
-
   const fabricgatepass = (index, gatepassno) => {
     const updatedRows = [...fabricRow];
     updatedRows[index].gatepassno = gatepassno;
     setFabricRow(updatedRows);
   };
-
   const fabricmeter = (index, meter) => {
     const updatedRows = [...fabricRow];
     updatedRows[index].meter = meter;
     setFabricRow(updatedRows);
   };
-
   const fabricweight = (index, weight) => {
     const updatedRows = [...fabricRow];
     updatedRows[index].weight = weight;
     setFabricRow(updatedRows);
   };
-
   const fabricphoto = (index, photo) => {
     const updatedRows = [...fabricRow];
     updatedRows[index].photo = photo;
     setFabricRow(updatedRows);
   };
-
   const fabricrowdel = (index) => {
     const updatedRows = fabricRow.filter((_, i) => i !== index);
     setFabricRow(updatedRows);
   };
-
   const [returnRow, setReturnRow] = React.useState([]);
-
   const returnaddrow = () => {
     setReturnRow([
       ...returnRow,
@@ -185,52 +171,53 @@ const[checkdrawingin,setcheckdrawingin]=useState()
       },
     ]);
   };
-
   const returngpno = (index, gpno) => {
     const updatedRows = [...returnRow];
     updatedRows[index].gpno = gpno;
     setReturnRow(updatedRows);
   };
-
   const returnyarncount = (index, yarncount) => {
     const updatedRows = [...returnRow];
     updatedRows[index].yarncount = yarncount;
     setReturnRow(updatedRows);
   };
-
   const returnweight = (index, weigth) => {
     const updatedRows = [...returnRow];
     updatedRows[index].weigth = weigth;
     setReturnRow(updatedRows);
   };
-
   const returncutpiece = (index, cutpiece) => {
     const updatedRows = [...returnRow];
     updatedRows[index].cutpiece = cutpiece;
     setReturnRow(updatedRows);
   };
-
   const returnmeter = (index, meter) => {
     const updatedRows = [...returnRow];
     updatedRows[index].meter = meter;
     setReturnRow(updatedRows);
   };
-
   const returnphoto = (index, photo) => {
     const updatedRows = [...returnRow];
     updatedRows[index].photo = photo;
     setReturnRow(updatedRows);
   };
-
   const returnrowdel = (index) => {
     const updatedRows = returnRow.filter((_, i) => i !== index);
     setReturnRow(updatedRows);
   };
-
   //for First Piece Approval
   const [inputText, setInputText] = useState("");
 
   const handleSendClick = () => {
+    // if (inputText.trim() !== "") {
+    //   const newMessage = {
+    //     name: username,
+    //     date: new Date().toLocaleString(),
+    //     message: inputText,
+    //   };
+    //   setMessages([...messages, newMessage]);
+    //   setInputText("");
+    // }
     const formdata = new FormData();
     formdata.append("OrderNoId", orderid);
     formdata.append("LoomTraderId", user.Id);
@@ -255,6 +242,16 @@ const[checkdrawingin,setcheckdrawingin]=useState()
       })
       .catch((error) => console.error(error));
   };
+
+  const navigate = useNavigate();
+  const handleOrderConfirm = (e) => {
+    toast.success("OrderDetails Submitted Successfully");
+    setTimeout(() => {
+      navigate("../trader-live-orders");
+    }, 1000);
+    e.preventDefault();
+  };
+
   const getorderdetailss = () => {
     const requestOptions = {
       method: "GET",
@@ -273,196 +270,6 @@ const[checkdrawingin,setcheckdrawingin]=useState()
       })
       .catch((error) => console.error(error));
   };
-
-  const beaminsubmit = () => {
-    const formdata = new FormData();
-    tableRows.map((tableRows) => {
-      const date = tableRows.date;
-      const tippanNumber = tableRows.tippanNumber;
-      const photo = tableRows.photo;
-
-      formdata.append("OrderNoId", orderid);
-      formdata.append("Date", date);
-      formdata.append("SizingTippanNo", tippanNumber);
-      formdata.append("PhotoPath", photo);
-
-      const requestOptions = {
-        method: "POST",
-        body: formdata,
-        redirect: "follow",
-      };
-
-      fetch(
-        "https://textileapp.microtechsolutions.co.in/php/postorderbeam.php",
-        requestOptions
-      )
-        .then((response) => response.text())
-        .then((result) => {
-          console.log(result);
-          beamindetails();
-          setTableRows([]);
-          toast.success("Response submitted");
-        })
-        .catch((error) => console.error(error));
-    });
-  };
-  const weftyarmsubmit = () => {
-    const formdata = new FormData();
-    weftRow.map((weftRow) => {
-      const date = weftRow.date;
-      const gatepassno = weftRow.gatepassno;
-      const photo = weftRow.photo;
-
-      formdata.append("OrderNoId", orderid);
-      formdata.append("Date", date);
-      formdata.append("GatePassNo", gatepassno);
-      formdata.append("PhotoPath", photo);
-
-      const requestOptions = {
-        method: "POST",
-        body: formdata,
-        redirect: "follow",
-      };
-
-      fetch(
-        "https://textileapp.microtechsolutions.co.in/php/postorderyarn.php",
-        requestOptions
-      )
-        .then((response) => response.text())
-        .then((result) => {
-          console.log(result);
-          toast.success("Response submitted");
-          setWeftRow([])
-          weftyarndetails();
-        })
-        .catch((error) => console.error(error));
-    });
-  };
-
-  const drawinginsubmit = () => {
-    const formdata = new FormData();
-
-    formdata.append("OrderNoId", orderid);
-    formdata.append("Status", checkdrawingin);
-
-    const requestOptions = {
-      method: "POST",
-      body: formdata,
-      redirect: "follow",
-    };
-
-    fetch(
-      "https://textileapp.microtechsolutions.co.in/php/postorderdrawingin.php",
-      requestOptions
-    )
-      .then((response) => response.text())
-      .then((result) => {
-        console.log(result);
-        toast.success("Response submitted");
-        drawingindetails();
-      })
-      .catch((error) => console.error(error));
-  };
-  const beamgettingsubmit = () => {
-    const formdata = new FormData();
-
-    formdata.append("OrderNoId", orderid);
-    formdata.append("Status", checkbeamgetting);
-
-    const requestOptions = {
-      method: "POST",
-      body: formdata,
-      redirect: "follow",
-    };
-
-    fetch(
-      "https://textileapp.microtechsolutions.co.in/php/postorderbeamgetting.php",
-      requestOptions
-    )
-      .then((response) => response.text())
-      .then((result) => {
-        console.log(result);
-        toast.success("Response submitted");
-        beamgettingdetails();
-
-      })
-      .catch((error) => console.error(error));
-  };
-
-  const fabricdispatchsubmit = () => {
-    const formdata = new FormData();
-    fabricRow.map((fabricRow) => {
-      const date = fabricRow.date;
-      const gatepassno = fabricRow.gatepassno;
-      const meter = fabricRow.meter;
-      const weight = fabricRow.weight;
-      const photo = fabricRow.photo;
-
-      formdata.append("OrderNoId", orderid);
-      formdata.append("Date", date);
-      formdata.append("Meter", meter);
-      formdata.append("Weight", weight);
-      formdata.append("PhotoPath", photo);
-      formdata.append("GatePassNo", gatepassno);
-
-      const requestOptions = {
-        method: "POST",
-        body: formdata,
-        redirect: "follow",
-      };
-
-      fetch(
-        "https://textileapp.microtechsolutions.co.in/php/postorderfabric.php",
-        requestOptions
-      )
-        .then((response) => response.text())
-        .then((result) => {
-          console.log(result);
-          toast.success("Response submitted");
-         setFabricRow([])
-          fabricdispatchdetails();
-        })
-        .catch((error) => console.error(error));
-    });
-  };
-  const goodreturnsubmit = () => {
-    const formdata = new FormData();
-    returnRow.map((returnRow) => {
-      const gnpno = returnRow.gpno;
-      const yarncount = returnRow.yarncount;
-      const weight = returnRow.weigth;
-      const cutpiece = returnRow.cutpiece;
-      const meter = returnRow.meter;
-      const photoo = returnRow.photo;
-      formdata.append("OrderNoId", orderid);
-      formdata.append("GpNo", gnpno);
-      formdata.append("YarnCount", yarncount);
-      formdata.append("Weight", weight);
-      formdata.append("CutPiece", cutpiece);
-      formdata.append("Meter", meter);
-      formdata.append("Photopath", photoo);
-
-      const requestOptions = {
-        method: "POST",
-        body: formdata,
-        redirect: "follow",
-      };
-
-      fetch(
-        "https://textileapp.microtechsolutions.co.in/php/postorderreturn.php",
-        requestOptions
-      )
-        .then((response) => response.text())
-        .then((result) => {
-          console.log(result);
-          toast.success("Response submitted");
-          goodsreturnsdetails();
-          setReturnRow([])
-        })
-        .catch((error) => console.error(error));
-    });
-  };
-
   const beamindetails = () => {
     const requestOptions = {
       method: "GET",
@@ -594,7 +401,7 @@ const[checkdrawingin,setcheckdrawingin]=useState()
       })
       .catch((error) => console.error(error));
   };
-  React.useEffect(() => {
+  useEffect(() => {
     getorderdetailss();
     beamindetails();
     weftyarndetails();
@@ -603,7 +410,6 @@ const[checkdrawingin,setcheckdrawingin]=useState()
     firstpicedetails();
     fabricdispatchdetails();
     goodsreturnsdetails();
-    console.log("this is the main", tableRows.photo);
   }, []);
 
   const convertDateFormat = (dateString) => {
@@ -627,22 +433,6 @@ const[checkdrawingin,setcheckdrawingin]=useState()
     return formattedDate;
   };
 
-  const completeorder=()=>{
-
-const requestOptions = {
-  method: "GET",
-  redirect: "follow"
-};
-
-fetch("https://textileapp.microtechsolutions.co.in/php/finishloomorder.php?LoomOrderId="+orderid, requestOptions)
-  .then((response) => response.text())
-  .then((result) => {console.log(result)
-    toast.success('Order Completed')
-    navigate('../completed-orders')
-  })
-  .catch((error) => console.error(error));
-  }
-  
   return (
     <div style={{ flex: "1" }}>
       <div
@@ -672,15 +462,14 @@ fetch("https://textileapp.microtechsolutions.co.in/php/finishloomorder.php?LoomO
         >
           {data.map((orderinfo) => (
             <>
-              {" "}
               <div style={{ flex: "1", marginLeft: "20px" }}>
-                <p style={{ color: "var(--text-color )", fontWeight: "bold" }}>
+                <p style={{ color: "var(--text-color)", fontWeight: "bold" }}>
                   {" "}
-                  Order Number : {orderinfo.OrderNo}{" "}
+                  OR : {orderinfo.OrderNo}{" "}
                 </p>
               </div>
               <div style={{ flex: "1", marginLeft: "20px" }}>
-                <p style={{ color: "var(--text-color )", fontWeight: "bold" }}>
+                <p style={{ color: "var(--text-color)", fontWeight: "bold" }}>
                   {" "}
                   Booked upto : {orderinfo.BookedDateTo.date.substring(
                     0,
@@ -689,9 +478,9 @@ fetch("https://textileapp.microtechsolutions.co.in/php/finishloomorder.php?LoomO
                 </p>
               </div>
               <div style={{ flex: "1", marginLeft: "20px" }}>
-                <p style={{ color: "var(--text-color )", fontWeight: "bold" }}>
+                <p style={{ color: "var(--text-color)", fontWeight: "bold" }}>
                   {" "}
-                  Party Name : {orderinfo.PartyName}{" "}
+                  Party : {orderinfo.PartyName}{" "}
                 </p>
               </div>
             </>
@@ -750,8 +539,7 @@ fetch("https://textileapp.microtechsolutions.co.in/php/finishloomorder.php?LoomO
                   <tr>
                     <th>Date</th>
                     <th>Sizing Tippan Number</th>
-                    <th>Upload Image</th>
-                    <th>Action</th>
+                    <th>Image</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -777,73 +565,10 @@ fetch("https://textileapp.microtechsolutions.co.in/php/finishloomorder.php?LoomO
                           }}
                         />
                       </td>
-                      <td>Sent</td>
-                    </tr>
-                  ))}
-                  {tableRows.map((row, index) => (
-                    <tr key={index}>
-                      <td>
-                        <input
-                          style={{
-                            width: "80%",
-                            margin: "8px",
-                            border: "1px solid var(--primary-color)",
-                          }}
-                          type="date"
-                          value={row.date}
-                          onChange={(e) => beamdate(index, e.target.value)}
-                        />
-                      </td>
-                      <td>
-                        <input
-                          style={{
-                            width: "70%",
-                            margin: "8px",
-                            border: "1px solid var(--primary-color)",
-                          }}
-                          type="text"
-                          value={row.tippanNumber}
-                          onChange={(e) => beamtippan(index, e.target.value)}
-                        />
-                      </td>
-                      <td>
-                        <input
-                          style={{
-                            width: "70%",
-                            margin: "8px",
-                            border: "1px solid var(--primary-color)",
-                          }}
-                          type="file"
-                          onChange={(e) => beamphoto(index, e.target.files[0])}
-                        />
-                      </td>
-
-                      <td
-                        style={{
-                          color: "red",
-                          fontSize: "25px",
-                          cursor: "pointer",
-                        }}
-                        onClick={() => beamrowdel(index)}
-                      >
-                        <RiDeleteBinLine />
-                      </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
-            </div>
-            <div style={{ margin: "10px", display: "flex", gap: "20px" }}>
-              <button className="btn4" onClick={beamaddrow}>
-                + Add Row
-              </button>
-              <button
-                onClick={beaminsubmit}
-                className="btn1"
-                style={{ height: "40px", padding: "7px 10px" }}
-              >
-                Submit
-              </button>
             </div>
           </TabPanel>
 
@@ -855,7 +580,6 @@ fetch("https://textileapp.microtechsolutions.co.in/php/finishloomorder.php?LoomO
                     <th>Date</th>
                     <th>Gate Pass Number</th>
                     <th>Upload Image</th>
-                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -885,72 +609,10 @@ fetch("https://textileapp.microtechsolutions.co.in/php/finishloomorder.php?LoomO
                             }}
                           />
                         </td>
-                        <td>Sent</td>
                       </tr>
                     ))}
-                  {weftRow.map((row, index) => (
-                    <tr key={index}>
-                      <td>
-                        <input
-                          style={{
-                            width: "80%",
-                            margin: "8px",
-                            border: "1px solid var(--primary-color)",
-                          }}
-                          type="date"
-                          value={row.date}
-                          onChange={(e) => weftdate(index, e.target.value)}
-                        />
-                      </td>
-                      <td>
-                        <input
-                          style={{
-                            width: "70%",
-                            margin: "8px",
-                            border: "1px solid var(--primary-color)",
-                          }}
-                          type="text"
-                          value={row.gatepassno}
-                          onChange={(e) => weftgatepass(index, e.target.value)}
-                        />
-                      </td>
-                      <td>
-                        <input
-                          style={{
-                            width: "70%",
-                            margin: "8px",
-                            border: "1px solid var(--primary-color)",
-                          }}
-                          type="file"
-                          onChange={(e) => weftphoto(index, e.target.files[0])}
-                        />
-                      </td>
-                      <td
-                        style={{
-                          color: "red",
-                          fontSize: "25px",
-                          cursor: "pointer",
-                        }}
-                        onClick={() => weftrowdel(index)}
-                      >
-                        <RiDeleteBinLine />
-                      </td>
-                    </tr>
-                  ))}
                 </tbody>
               </table>
-            </div>
-            <div style={{ margin: "10px", display: "flex", gap: "20px" }}>
-              <button className="btn4" onClick={weftaddrow}>
-                + Add Row
-              </button>
-              <button
-                className="btn1"
-                style={{ height: "40px", padding: "7px 10px" }}
-                onClick={weftyarmsubmit}
-              >
-                Submit
-              </button>
             </div>
           </TabPanel>
 
@@ -970,33 +632,16 @@ fetch("https://textileapp.microtechsolutions.co.in/php/finishloomorder.php?LoomO
             >
               <div>
                 {" "}
-                 <input
+                <input
                   style={{ width: "30px", height: "25px" }}
-                  checked={drawingindata?drawingindata:checkdrawingin}
-                  onChange={drawingindata?()=>{}:()=>setcheckdrawingin(!checkdrawingin)}
+                  checked={drawingindata}
                   type="checkbox"
-                />{" "}  
+                />{" "}
               </div>
               <div>
-                <p style={{ fontSize: 18 }}> Done </p>
+                <p style={{ fontSize: 18 }}> Done</p>
               </div>
               <div style={{ marginLeft: "50px" }}>{drawingindate}</div>
-            </div>
-            <div
-              style={{
-                margin: "10px",
-                display: "flex",
-                gap: "20px",
-                marginTop: "20px",
-              }}
-            >
-             {!drawingindata && <button
-                className="btn1"
-                style={{ height: "40px", padding: "7px 10px" }}
-                onClick={drawinginsubmit}
-              >
-                Submit
-              </button>}
             </div>
           </TabPanel>
 
@@ -1016,33 +661,17 @@ fetch("https://textileapp.microtechsolutions.co.in/php/finishloomorder.php?LoomO
             >
               <div>
                 {" "}
-              <input
+                <input
                   style={{ width: "30px", height: "25px" }}
-                  checked={beamgettingdata?beamgettingdata:checkbeamgetting}
-                  onChange={beamgettingdata?()=>{}:()=>setcheckbeamgetting(!checkbeamgetting)}
+                  checked={beamgettingdata}
+                  unselectable="true"
                   type="checkbox"
                 />{" "}
               </div>
               <div>
-                <p style={{ fontSize: 18 }}> Done </p> 
+                <p style={{ fontSize: 18 }}> Done </p>
               </div>
               <div style={{ marginLeft: "50px" }}>{beamgettingdate}</div>
-            </div>
-            <div
-              style={{
-                margin: "10px",
-                display: "flex",
-                gap: "20px",
-                marginTop: "20px",
-              }}
-            >
-             { !beamgettingdata  && <button
-                className="btn1"
-                style={{ height: "40px", padding: "7px 10px" }}
-                onClick={beamgettingsubmit}
-              >
-                Submit
-              </button>}
             </div>
           </TabPanel>
 
@@ -1079,7 +708,7 @@ fetch("https://textileapp.microtechsolutions.co.in/php/finishloomorder.php?LoomO
                             user.Id === msg.LoomTraderId ? "right" : "left",
                           backgroundColor:
                             user.Id === msg.LoomTraderId
-                              ? "#E4F6FF"
+                              ? "#E7F2F4"
                               : "#F2F2F2",
                         }}
                       >
@@ -1106,30 +735,7 @@ fetch("https://textileapp.microtechsolutions.co.in/php/finishloomorder.php?LoomO
                   )}
               </div>
               <div>
-                <div style={{ display: "flex", alignItems: "center" }}>
-                  <textarea
-                    style={{
-                      width: "89%",
-                      margin: "8px",
-                      border: "1px solid var(--primary-color)",
-                      padding: "5px",
-                      resize: "vertical",
-                    }}
-                    rows={4}
-                    value={inputText}
-                    onChange={(e) => setInputText(e.target.value)}
-                    placeholder="Type your message here..."
-                  />
-                  <div>
-                    <button
-                      style={{ width: "100%" }}
-                      className="btn2"
-                      onClick={handleSendClick}
-                    >
-                      Send
-                    </button>
-                  </div>
-                </div>
+              
               </div>
             </div>
           </TabPanel>
@@ -1144,7 +750,6 @@ fetch("https://textileapp.microtechsolutions.co.in/php/finishloomorder.php?LoomO
                     <th> Meter </th>
                     <th> Weight </th>
                     <th> Upload Image </th>
-                    <th> Action </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1180,101 +785,10 @@ fetch("https://textileapp.microtechsolutions.co.in/php/finishloomorder.php?LoomO
                           }}
                         />
                       </td>
-                      <td>Sent</td>
-                    </tr>
-                  ))}
-                  {fabricRow.map((row, index) => (
-                    <tr key={index}>
-                      <td>
-                        <input
-                          style={{
-                            width: "80%",
-                            margin: "8px",
-                            border: "1px solid var(--primary-color)",
-                          }}
-                          type="date"
-                          value={row.date}
-                          onChange={(e) => fabricdate(index, e.target.value)}
-                        />
-                      </td>
-                      <td>
-                        <input
-                          style={{
-                            width: "70%",
-                            margin: "8px",
-                            border: "1px solid var(--primary-color)",
-                          }}
-                          type="text"
-                          value={row.gatepassno}
-                          onChange={(e) =>
-                            fabricgatepass(index, e.target.value)
-                          }
-                        />
-                      </td>
-                      <td>
-                        <input
-                          style={{
-                            width: "80%",
-                            margin: "8px",
-                            border: "1px solid var(--primary-color)",
-                          }}
-                          type="text"
-                          value={row.meter}
-                          onChange={(e) => fabricmeter(index, e.target.value)}
-                        />
-                      </td>
-                      <td>
-                        <input
-                          style={{
-                            width: "70%",
-                            margin: "8px",
-                            border: "1px solid var(--primary-color)",
-                          }}
-                          type="text"
-                          value={row.weight}
-                          onChange={(e) => fabricweight(index, e.target.value)}
-                        />
-                      </td>
-                      <td>
-                        <input
-                          style={{
-                            width: "90%",
-                            border: "1px solid var(--primary-color)",
-                          }}
-                          type="file"
-                          onChange={(e) =>
-                            fabricphoto(index, e.target.files[0])
-                          }
-                        />
-                      </td>
-                      <td
-                        style={{
-                          color: "red",
-                          fontSize: "25px",
-                          cursor: "pointer",
-                        }}
-                        onClick={() => fabricrowdel(index)}
-                      >
-                        <RiDeleteBinLine />
-                      </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
-            </div>
-
-            <div style={{ margin: "10px", display: "flex", gap: "20px" }}>
-              <button className="btn4" onClick={fabricaddrow}>
-                + Add Row
-              </button>
-
-              <button
-                className="btn1"
-                style={{ height: "40px", padding: "7px 10px" }}
-                onClick={fabricdispatchsubmit}
-              >
-                Submit
-              </button>
             </div>
           </TabPanel>
 
@@ -1289,7 +803,6 @@ fetch("https://textileapp.microtechsolutions.co.in/php/finishloomorder.php?LoomO
                     <th> Cut piece </th>
                     <th> Meter </th>
                     <th> Upload Image </th>
-                    <th> Action </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1328,190 +841,16 @@ fetch("https://textileapp.microtechsolutions.co.in/php/finishloomorder.php?LoomO
                           }}
                         />
                       </td>
-                      <td>Sent</td>
-                    </tr>
-                  ))}
-                  {returnRow.map((row, index) => (
-                    <tr key={index}>
-                      <td>
-                        <input
-                          style={{
-                            width: "70%",
-                            margin: "8px",
-                            border: "1px solid var(--primary-color)",
-                          }}
-                          type="text"
-                          value={row.gpno}
-                          onChange={(e) => returngpno(index, e.target.value)}
-                        />
-                      </td>
-                      <td>
-                        <input
-                          style={{
-                            width: "70%",
-                            margin: "8px",
-                            border: "1px solid var(--primary-color)",
-                          }}
-                          type="text"
-                          value={row.yarncount}
-                          onChange={(e) =>
-                            returnyarncount(index, e.target.value)
-                          }
-                        />
-                      </td>
-                      <td>
-                        <input
-                          style={{
-                            width: "70%",
-                            margin: "8px",
-                            border: "1px solid var(--primary-color)",
-                          }}
-                          type="text"
-                          value={row.weight}
-                          onChange={(e) => returnweight(index, e.target.value)}
-                        />
-                      </td>
-                      <td>
-                        <input
-                          style={{
-                            width: "70%",
-                            margin: "8px",
-                            border: "1px solid var(--primary-color)",
-                          }}
-                          type="text"
-                          value={row.cutpiece}
-                          onChange={(e) =>
-                            returncutpiece(index, e.target.value)
-                          }
-                        />
-                      </td>
-                      <td>
-                        <input
-                          style={{
-                            width: "70%",
-                            margin: "8px",
-                            border: "1px solid var(--primary-color)",
-                          }}
-                          type="text"
-                          value={row.meter}
-                          onChange={(e) => returnmeter(index, e.target.value)}
-                        />
-                      </td>
-
-                      <td>
-                        <input
-                          style={{
-                            width: "90%",
-                            border: "1px solid var(--primary-color)",
-                          }}
-                          type="file"
-                          onChange={(e) =>
-                            returnphoto(index, e.target.files[0])
-                          }
-                        />
-                      </td>
-                      <td
-                        style={{
-                          color: "red",
-                          fontSize: "25px",
-                          cursor: "pointer",
-                        }}
-                        onClick={() => returnrowdel(index)}
-                      >
-                        <RiDeleteBinLine />
-                      </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
-
-            <div style={{ margin: "10px", display: "flex", gap: "20px" }}>
-              <button className="btn4" onClick={returnaddrow}>
-                + Add Row
-              </button>
-
-              <button
-                className="btn1"
-                style={{ height: "40px", padding: "7px 10px" }}
-                onClick={goodreturnsubmit}
-              >
-                Submit
-              </button>
-            </div>
           </TabPanel>
         </Box>
       </div>
-      <div style={{ display: "flex", marginTop: "5%", marginLeft: "5%" }}>
-        <button
-          className="btn1"
-          style={{ height: "60px", width: "21%", fontSize: 18 }}
-           onClick={completeorder}
-        >
-          Order Completed
-        </button>
-      </div>
+   
+      <ToastContainer />
     </div>
   );
 }
-
-// import React, { useState } from 'react';
-
-// const MessageApp = () => {
-//   const [inputText, setInputText] = useState('');
-//   const [messages, setMessages] = useState([]);
-
-//   const handleInputChange = (event) => {
-//     setInputText(event.target.value);
-//   };
-
-//   const handleSendClick = () => {
-//     if (inputText.trim() !== '') {
-//       const role = messages.length % 2 === 0 ? 'Loom' : 'Trader'; // Alternates between 'Loom' and 'Trader'
-//       const newMessage = {
-//         name: role,
-//         role: role.toLowerCase(), // Store role in lowercase for easier filtering/display
-//         date: new Date().toLocaleString(),
-//         message: inputText
-//       };
-//       setMessages([...messages, newMessage]);
-//       setInputText('');
-//     }
-//   };
-
-//   return (
-//     <div>
-//       <div style={{ border: '1px solid red' }}>
-//         <div style={{ display: 'flex', alignItems: 'center' }}>
-//           <textarea
-//             style={{
-//               width: '89%',
-//               margin: '8px',
-//               border: '1px solid var(--primary-color)',
-//               padding: '5px',
-//               resize: 'vertical'
-//             }}
-//             rows={4}
-//             value={inputText}
-//             onChange={handleInputChange}
-//             placeholder="Type your message here..."
-//           />
-//           <div>
-//             <button style={{ width: '100%' }} className='btn1' onClick={handleSendClick}>Send as {messages.length % 2 === 0 ? 'Loom' : 'Trader'}</button>
-//           </div>
-//         </div>
-//       </div>
-
-//       <div style={{ marginTop: '20px' }}>
-//         {messages.map((msg, index) => (
-//           <div key={index} style={{ marginBottom: '10px' ,border:'1px solid red',background:'#fff'}}>
-//             <p><strong>{msg.name}</strong> - {msg.date}</p>
-//             <p>{msg.message}</p>
-//           </div>
-//         ))}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default MessageApp;

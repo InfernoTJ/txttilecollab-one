@@ -1,9 +1,3 @@
-
-
-
-
-
-
 .Home_container {
   display: flex;
   justify-content: center;
@@ -12,7 +6,6 @@
   height: 300px;
   overflow: hidden;
   position: relative;
- 
 }
 
 /* .background-image-container::before {
@@ -38,27 +31,27 @@
   border-radius: 20px;
 }
 
- .profileUser-card {
+.profileUser-card {
   position: relative;
-  border: 2px solid #ccc; 
-  border-radius: 8px;       
+  border: 2px solid #ccc;
+  border-radius: 8px;
   padding: 20px;
   max-width: 600px;
   margin: -100px auto;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  background-color: #ffF;
-} 
+  background-color: #fff;
+}
 
 .profile-image {
   position: absolute;
-  top: -50px; 
-  left: 50%; 
+  top: -50px;
+  left: 50%;
   transform: translateX(-50%);
-  width: 100px; 
-  height: 100px; 
+  width: 100px;
+  height: 100px;
   border: 2px solid #ccc;
   border-radius: 50%;
-  background: #fff; 
+  background: #fff;
 }
 
 .profile-content {
@@ -102,8 +95,8 @@
   gap: 30px;
   margin-top: 20px;
   position: absolute;
-  top:290px;
-right: -215px;
+  top: 290px;
+  right: -215px;
 }
 
 .profile-cards {
@@ -114,33 +107,35 @@ right: -215px;
   box-shadow: 0 10px 10px rgba(0, 0, 0, 0.3);
   position: relative;
 }
+.profilecards {
+  width: 260px;
+  height: 140px;
 
-
-
-.count{
-  /* background: var(--tershary-color);
-  border-radius: 50%; */
-  width: 60px; 
-  height: 60px; 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto;
-  color: rgba(255, 86, 8);
+  border-radius: 5px;
+  box-shadow: 0 10px 10px rgba(3, 4, 5, 0.2);
+  position: relative;
+}
+.numberinhomecount {
+  width: 60px;
+  margin: 25px;
   font-weight: bold;
   font-size: 25px;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+.count {
+  /* background: var(--tershary-color);
+  border-radius: 50%; */
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  font-weight: bold;
+  font-size: 25px;
+  color: rgba(255, 86, 8);
+  /* --hit-pink: #ff9363;
+--caribbean-green: #08c27f;
+--geraldine: #fb606e;
+--robin's-egg blue: #0facb0;  */
+}

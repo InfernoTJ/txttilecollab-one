@@ -6,9 +6,9 @@ import { menuItems } from './menuItems';
 import { FaAngleLeft, FaAngleDown, FaAngleUp, FaBars } from "react-icons/fa";
 import { HiOutlineLogout } from "react-icons/hi";
 import logo2 from  "../../src/common/static/image/logo1.png";
-import img11 from '../../src/common/static/image/img11.jpg';
-
+import img11 from '../../src/common/static/image/bg13.jpg';
 function Sidebar() {
+
 
   const userString = sessionStorage.getItem('user');
   const user = userString ? JSON.parse(userString) : null;
@@ -63,8 +63,8 @@ function Sidebar() {
         <div style={{ display: "flex", flex: "1", gap: '50px' }}>
           <div>Welcome to Kapada Banao !!</div>
           <div style={{ flex: '1', display: "flex", flexDirection: "row", gap: '50px', justifyContent: "flex-end", marginRight: '35px' }}>
-            <div>{user.Name}</div>
-            <div>{user.RegistrationNumber}</div>
+          <div>{user.Name}</div>
+          <div>{user.RegistrationNumber}</div>
           </div>
         </div>
         <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
@@ -118,12 +118,13 @@ function Sidebar() {
                   flex: '1',
                   display: 'flex',
                   justifyContent: 'center',
+                  maxHeight:'15vh',
                   alignItems: 'center',
-                  backgroundColor: 'rgba(0, 0, 0, 0.4)',
+                  backgroundColor: 'rgba(0, 0, 0, 0.2)',
                 }}
               >
                 <img
-                  style={{ height: '15vh', width: '150px' }}
+                  style={{ height: '17.5vh', width: '190px' }}
                   src={logo2}
                   alt="Logo"
                 />
@@ -613,7 +614,3 @@ export default Sidebar;
 // }
 
 // export default Sidebar;
-
-
-
-

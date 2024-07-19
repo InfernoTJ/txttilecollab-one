@@ -1,318 +1,53 @@
-
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import {
   MaterialReactTable,
   useMaterialReactTable,
-} from 'material-react-table';
+} from "material-react-table";
 import { FaInfoCircle } from "react-icons/fa";
 import { BiSolidUserDetail } from "react-icons/bi";
-import '../common/static/css/checkresponse.css';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import "../common/static/css/checkresponse.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { SiTicktick } from "react-icons/si";
-const transformedData = [
-  {
-    srNo: 1,
-    enquiryNo: 'ENQ001',
-    enquiryDate: '2023-01-01',
-    traderName: 'John Doe',
-    TotalFabriclength: 10000.000,
-    DateFrom: '2024-06-20',
-
-    DateTo: '2024-06-30',
-    FabricQuality: '70/5*110/80*80:68',
-    DalalAgentName: 'Hariprasad',
-
-    MachineType: 'Airjet',
-
-    MachineWidth: 190.000,
-
-    SheddingType: 'CAM',
-
-    NoOfframes: 7,
-
-    NoOfFeeders: 2,
-
-    RPM: 1100.00,
-
-    NoOfLoomRequired: 10,
-
-    JobRateOffered: 15.000,
-  },
-  {
-    srNo: 2,
-    enquiryNo: 'ENQ002',
-    enquiryDate: '2023-01-02',
-    traderName: 'Jane Doe',
-    TotalFabriclength: 10000.000,
-
-    DalalAgentName: 'Hariprasad',
-
-    MachineType: 'Airjet',
-
-    MachineWidth: 190.000,
-
-    SheddingType: 'CAM',
-
-    NoOfframes: 7,
-
-    NoOfFeeders: 2,
-
-    RPM: 1100.00,
-
-    NoOfLoomRequired: 10,
-
-    JobRateOffered: 15.000,
-    DateFrom: '2024-01-20',
-
-    DateTo: '2024-04-30',
-    FabricQuality: '70/5*110/80*8:68',
-
-  },
-  {
-    srNo: 3,
-    enquiryNo: 'ENQ003',
-    enquiryDate: '2023-01-03',
-    traderName: 'Joe Doe',
-    TotalFabriclength: 10000.000,
-
-    DalalAgentName: 'Hariprasad',
-
-    MachineType: 'Airjet',
-
-    MachineWidth: 190.000,
-
-    SheddingType: 'CAM',
-
-    NoOfframes: 7,
-
-    NoOfFeeders: 2,
-
-    RPM: 1100.00,
-
-    NoOfLoomRequired: 10,
-
-    JobRateOffered: 15.000,
-    DateFrom: '2024-04-20',
-
-    DateTo: '2024-03-30',
-    FabricQuality: '70/5*110/80*68',
-  },
-  {
-    srNo: 4,
-    enquiryNo: 'ENQ004',
-    enquiryDate: '2023-01-04',
-    traderName: 'Kevin Vandy',
-    TotalFabriclength: 10000.000,
-
-    DalalAgentName: 'Hariprasad',
-
-    MachineType: 'Airjet',
-
-    MachineWidth: 190.000,
-
-    SheddingType: 'CAM',
-
-    NoOfframes: 7,
-
-    NoOfFeeders: 2,
-
-    RPM: 1100.00,
-
-    NoOfLoomRequired: 10,
-
-    JobRateOffered: 15.000,
-    DateFrom: '2024-06-20',
-
-    DateTo: '2024-06-30',
-    FabricQuality: '70/5*110/80*80:8',
-  },
-  {
-    srNo: 5,
-    enquiryNo: 'ENQ005',
-    enquiryDate: '2023-01-05',
-    traderName: 'Joshua Rolluffs',
-    TotalFabriclength: 10000.000,
-
-    DalalAgentName: 'Hariprasad',
-
-    MachineType: 'Airjet',
-
-    MachineWidth: 190.000,
-
-    SheddingType: 'CAM',
-
-    NoOfframes: 7,
-
-    NoOfFeeders: 2,
-
-    RPM: 1100.00,
-
-    NoOfLoomRequired: 10,
-
-    JobRateOffered: 15.000,
-    DateFrom: '2024-06-20',
-
-    DateTo: '2024-06-30',
-    FabricQuality: '70/5*110/80*80:68',
-  },
-  {
-    srNo: 6,
-    enquiryNo: 'ENQ001',
-    enquiryDate: '2023-01-01',
-    traderName: 'John Doe',
-    TotalFabriclength: 10000.000,
-    DateFrom: '2024-06-20',
-
-    DateTo: '2024-06-30',
-    FabricQuality: '70/5*110/80*80:68',
-    DalalAgentName: 'Hariprasad',
-
-    MachineType: 'Airjet',
-
-    MachineWidth: 190.000,
-
-    SheddingType: 'CAM',
-
-    NoOfframes: 7,
-
-    NoOfFeeders: 2,
-
-    RPM: 1100.00,
-
-    NoOfLoomRequired: 10,
-
-    JobRateOffered: 15.000,
-  },
-  {
-    srNo: 7,
-    enquiryNo: 'ENQ002',
-    enquiryDate: '2023-01-02',
-    traderName: 'Jane Doe',
-    TotalFabriclength: 10000.000,
-
-    DalalAgentName: 'Hariprasad',
-
-    MachineType: 'Airjet',
-
-    MachineWidth: 190.000,
-
-    SheddingType: 'CAM',
-
-    NoOfframes: 7,
-
-    NoOfFeeders: 2,
-
-    RPM: 1100.00,
-
-    NoOfLoomRequired: 10,
-
-    JobRateOffered: 15.000,
-    DateFrom: '2024-01-20',
-
-    DateTo: '2024-04-30',
-    FabricQuality: '70/5*110/80*8:68',
-
-  },
-  {
-    srNo: 8,
-    enquiryNo: 'ENQ003',
-    enquiryDate: '2023-01-03',
-    traderName: 'Joe Doe',
-    TotalFabriclength: 10000.000,
-
-    DalalAgentName: 'Hariprasad',
-
-    MachineType: 'Airjet',
-
-    MachineWidth: 190.000,
-
-    SheddingType: 'CAM',
-
-    NoOfframes: 7,
-
-    NoOfFeeders: 2,
-
-    RPM: 1100.00,
-
-    NoOfLoomRequired: 10,
-
-    JobRateOffered: 15.000,
-    DateFrom: '2024-04-20',
-
-    DateTo: '2024-03-30',
-    FabricQuality: '70/5*110/80*68',
-  },
-  {
-    srNo: 9,
-    enquiryNo: 'ENQ004',
-    enquiryDate: '2023-01-04',
-    traderName: 'Kevin Vandy',
-    TotalFabriclength: 10000.000,
-
-    DalalAgentName: 'Hariprasad',
-
-    MachineType: 'Airjet',
-
-    MachineWidth: 190.000,
-
-    SheddingType: 'CAM',
-
-    NoOfframes: 7,
-
-    NoOfFeeders: 2,
-
-    RPM: 1100.00,
-
-    NoOfLoomRequired: 10,
-
-    JobRateOffered: 15.000,
-    DateFrom: '2024-06-20',
-
-    DateTo: '2024-06-30',
-    FabricQuality: '70/5*110/80*80:8',
-  },
-  {
-    srNo: 10,
-    enquiryNo: 'ENQ005',
-    enquiryDate: '2023-01-05',
-    traderName: 'Joshua Rolluffs',
-    TotalFabriclength: 10000.000,
-
-    DalalAgentName: 'Hariprasad',
-
-    MachineType: 'Airjet',
-
-    MachineWidth: 190.000,
-
-    SheddingType: 'CAM',
-
-    NoOfframes: 7,
-
-    NoOfFeeders: 2,
-
-    RPM: 1100.00,
-
-    NoOfLoomRequired: 10,
-
-    JobRateOffered: 15.000,
-    DateFrom: '2024-06-20',
-
-    DateTo: '2024-06-30',
-    FabricQuality: '70/5*110/80*80:68',
-  },
-
-  // ... other data entries
-];
+import { useNavigate } from "react-router-dom";
 
 const CheckResponse = () => {
+  const userString = sessionStorage.getItem("user");
+  const user = userString ? JSON.parse(userString) : null;
+
   const [selectedEnquiry, setSelectedEnquiry] = useState(null);
   const [newTableData, setNewTableData] = useState([]);
-  const [showNewTable, setShowNewTable] = useState(false);
-
+  const [showNewTable, setShowNewTable] = useState();
+  const [data, setdata] = useState([]);
+  const [looominfo, setlooominfo] = useState([]);
   const [showDetail, setshowDetail] = useState(null);
+  const [fabricqual, setfabricqual] = useState("");
+  const [sendingname, setsendingname] = useState("");
+  const today = new Date();
+  const formattedDate = today.toISOString().split("T")[0];
+  const navigate = useNavigate();
   const handleBiSolidUserDetailClick = (showDetail) => {
+    const reqop = {
+      method: "GET",
+      redirect: "follow",
+    };
+
+    fetch(
+      "https://textileapp.microtechsolutions.co.in/php/getbyid.php?Table=LoomTraderDetail&Colname=Id&Colvalue=" +
+        showDetail.LoomTraderId,
+      reqop
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result);
+        const name = result[0];
+
+        setsendingname(name.Name);
+        setlooominfo(result);
+      })
+      .catch((error) => console.error(error));
+
     setshowDetail(showDetail);
   };
 
@@ -323,73 +58,112 @@ const CheckResponse = () => {
   const [confirmDetail, setConfirmDetail] = useState(null);
   const handleComfirmDetailClick = (confirmDetail) => {
     setConfirmDetail(confirmDetail);
-
-
   };
 
   const handleCheckResponseClick = (enquiry) => {
-    // Example data for the new table, replace with real data as needed
 
+    setShowNewTable(enquiry);
+    setfabricqual(enquiry.FabricQuality);
+    const requestOptions = {
+      method: "GET",
+      redirect: "follow",
+    };
 
-
-    const newData = [
-      {
-        "EN NO": enquiry.enquiryNo,
-        "From Date": "2023-01-01",
-        "To Date": "2023-03-02",
-        "Loom Assign": 5,
-        "JobRate": '23.00',
-        // "Status": 'Active',
-
-        'LoomsPossible': 1,
-        'LoomUnitName': 'Airjet1',
-
-
-        'LoomEmail': 'airjet1@gmail.com',
-        'LoomAddress': 'kabnoor',
-        'LoomContactNo': '5588446624'
-      },
-
-      {
-        "EN NO": enquiry.enquiryNo,
-        "From Date": "2024-01-01",
-        "To Date": "2024-03-02",
-        "Loom Assign": 8,
-        "JobRate": '25.00',
-        'LoomsPossible': 3,
-        'LoomUnitName': 'Airjet1',
-        'LoomEmail': 'airjet5@gmail.com',
-        'LoomAddress': 'kabnoor',
-        'LoomContactNo': '5588446624'
-      },
-    ];
-    setNewTableData(newData);
-    setShowNewTable(true);
+    fetch(
+      "https://textileapp.microtechsolutions.co.in/php/getbyid.php?Table=EnquiryConfirm&Colname=EnquiryId&Colvalue=" +
+        enquiry.EnquiryId,
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result);
+        setNewTableData(result);
+      })
+      .catch((error) => console.error(error));
   };
 
   const closeOverlay = () => {
     setSelectedEnquiry(null);
   };
   const OverlayClose = () => {
-    setshowDetail(null);
+    setlooominfo([]);
+  };
+  const OverlayCloseconfirm = () => {
+    setConfirmDetail(null);
   };
 
   const ConfirmDetailOverlayClose = () => {
-    setConfirmDetail(null);
-    setshowDetail(null)
-    toast.success('Live Order has Created successfully')
+    const formdata = new FormData();
+    formdata.append("Id", showDetail.Id);
+    formdata.append("Status", "true");
+
+    const requestOptions = {
+      method: "POST",
+      body: formdata,
+      redirect: "follow",
+    };
+
+    fetch(
+      "https://textileapp.microtechsolutions.co.in/php/updateenquiryconfirm.php",
+      requestOptions
+    )
+      .then((response) => response.text())
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => console.error(error));
+    const restfdata = new FormData();
+    restfdata.append("EnquiryConfirmId", showDetail.Id);
+    restfdata.append("PartyName", user.Name);
+    restfdata.append("JobRate", showDetail.JobRateExp);
+    restfdata.append("Quality", fabricqual);
+    restfdata.append("Orderdate", formattedDate);
+    restfdata.append(
+      "BookedDateFrom",
+      showDetail.DatePossibleFrom.date.substring(0, 10)
+    );
+    restfdata.append(
+      "BookedDateTo",
+      showDetail.DatePossibleTo.date.substring(0, 10)
+    );
+
+    const requestOptio = {
+      method: "POST",
+      body: restfdata,
+      redirect: "follow",
+    };
+
+    fetch(
+      "https://textileapp.microtechsolutions.co.in/php/postloomorder.php",
+      requestOptio
+    )
+      .then((response) => response.text())
+      .then((result) => {
+        console.log(result);
+        toast.success("Live Order has Created successfully");
+        setConfirmDetail(null);
+        setlooominfo([]);
+        setShowNewTable("");
+        navigate("../check-response");
+      })
+      .catch((error) => console.error(error));
   };
   const columns = useMemo(
     () => [
       {
-        accessorKey: 'enquiryNo',
-        header: 'EnquiryNo',
+        accessorKey: "EnquiryNo",
+        header: "EnquiryNo",
         size: 10,
         Cell: ({ cell, row }) => (
-          <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
             <span>{cell.getValue()}</span>
             <FaInfoCircle
-              style={{ marginLeft: '5px', cursor: 'pointer', color: 'var(--complementary-color)', fontSize: '18px' }}
+              style={{
+                marginLeft: "5px",
+                cursor: "pointer",
+                color: "var(--complementary-color)",
+                fontSize: "18px",
+              }}
               onClick={(e) => {
                 e.stopPropagation();
                 handleInfoIconClick(row.original);
@@ -399,11 +173,15 @@ const CheckResponse = () => {
         ),
       },
       {
-        accessorKey: 'CheckResponse',
-        header: 'CheckResponse',
+        accessorKey: "CheckResponse",
+        header: "CheckResponse",
         size: 150,
         Cell: ({ row }) => (
-          <button style={{ width: '70%', margin: '0 auto', display: 'block' }} className='btn2' onClick={() => handleCheckResponseClick(row.original)}>
+          <button
+            style={{ width: "70%", margin: "0 auto", display: "block" }}
+            className="btn2"
+            onClick={() => handleCheckResponseClick(row.original)}
+          >
             Check
           </button>
         ),
@@ -415,68 +193,88 @@ const CheckResponse = () => {
   const newTableColumns = useMemo(
     () => [
       {
-        accessorKey: 'EN NO',
-        header: 'EN NO',
-        size: 10,
-      },
-
-
-      {
-        accessorKey: 'From Date',
-        header: 'From Date',
+        accessorKey: "EnquiryId",
+        header: "EN NO",
         size: 10,
       },
 
       {
-        accessorKey: 'To Date',
-        header: 'To Date',
+        accessorKey: "DatePossibleFrom.date",
+        header: "From Date",
         size: 10,
+        Cell: ({ cell }) => {
+          const date = new Date(cell.getValue());
+          const formattedDate = `${date.getFullYear()}-${String(
+            date.getMonth() + 1
+          ).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+          return formattedDate;
+        },
       },
 
       {
-        accessorKey: 'Loom Assign',
-        header: 'Loom Assign',
+        accessorKey: "DatePossibleTo.date",
+        header: "To Date",
+        size: 10,
+        Cell: ({ cell }) => {
+          const date = new Date(cell.getValue());
+          const formattedDate = `${date.getFullYear()}-${String(
+            date.getMonth() + 1
+          ).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+          return formattedDate;
+        },
+      },
+
+      {
+        accessorKey: "LoomPossible",
+        header: "Loom Assign",
         size: 10,
       },
       {
-        accessorKey: 'JobRate',
-        header: 'Job Rate',
+        accessorKey: "JobRateExp",
+        header: "Job Rate",
         size: 10,
       },
       {
-        accessorKey: 'Status',
-        header: 'Status',
+        accessorKey: "Status",
+        header: "Status",
         size: 10,
         Cell: ({ cell, row }) => (
-          <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-            <span>{cell.getValue()}</span>
+          <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
             <SiTicktick
-              style={{ marginLeft: '5px', cursor: 'pointer', color: 'var(--complementary-color)', fontSize: '25px' }}
-              onClick={(e) => {
+              style={{
+                marginLeft: "5px",
+                cursor: "pointer",
+                color: !cell.getValue() ? "var(--complementary-color" : "green",
+                fontSize: "25px",
+              }}
+              onClick={(e) => {if (cell.getValue()===0) {
                 e.stopPropagation();
                 handleBiSolidUserDetailClick(row.original);
+              } else {
+                toast.info('Already Confirmed')
+              }
+              
               }}
             />
           </div>
         ),
       },
-
     ],
     []
   );
 
   const table = useMaterialReactTable({
     columns,
-    data: transformedData,
+    data: data,
     muiTableBodyRowProps: () => ({
-      style: { cursor: 'pointer' },
+      style: { cursor: "pointer" },
     }),
     muiTableHeadCellProps: {
       style: {
-        backgroundColor: 'var(--color)',
-        color: 'var(--primary-color)',
-        fontSize: '17px',
-        fontWeight: 'bold',
+        backgroundColor: "var(--color)",
+        color: "var(--primary-color)",
+        fontSize: "17px",
+        fontWeight: "bold",
       },
     },
   });
@@ -485,147 +283,305 @@ const CheckResponse = () => {
     columns: newTableColumns,
     data: newTableData,
     muiTableBodyRowProps: () => ({
-      style: { cursor: 'pointer' },
+      style: { cursor: "pointer" },
     }),
     muiTableHeadCellProps: {
       style: {
-        backgroundColor: 'var(--color)',
-        color: 'var(--primary-color)',
-        fontSize: '17px',
-        fontWeight: 'bold',
+        backgroundColor: "var(--color)",
+        color: "var(--primary-color)",
+        fontSize: "17px",
+        fontWeight: "bold",
       },
     },
   });
 
+  const getenquiries = () => {
+    const requestOptions = {
+      method: "GET",
+      redirect: "follow",
+    };
+
+    fetch(
+      "https://textileapp.microtechsolutions.co.in/php/getjoin.php?TraderId="+user.Id,
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result);
+        setdata(result);
+      })
+      .catch((error) => console.error(error));
+  };
+  useEffect(() => {
+    getenquiries();
+  }, []);
   return (
     <>
-
       {/* <div>
         <h1 style={{ color: 'var(--primary-color)', textAlign: 'center' }}>Check Response</h1>
       </div> */}
       <div style={{ flex: 1 }}>
-        <div style={{ display: 'flex', gap: '10px' }}>
-          <div style={{ width: "35%", }}>
-     
+        <div style={{ display: "flex", gap: "10px" }}>
+          <div style={{ width: "35%" }}>
             <MaterialReactTable table={table} />
             {selectedEnquiry && (
               <div className="T-enquieryDetail-overlay">
                 <div className="T-enquieryDetail-overlay-container">
-                  <div style={{ display: "flex", alignItems: 'center', justifyContent: 'space-between' }}>
-                    <h3 style={{ color: 'var(--secondary-color)', fontSize: '22px' }}>Enquiry Details:</h3>
-                    <IoClose style={{ cursor: 'pointer', color: 'var(--secondary-color)', fontSize: '22px' }} onClick={closeOverlay} />
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <h3
+                      style={{
+                        color: "var(--secondary-color)",
+                        fontSize: "22px",
+                      }}
+                    >
+                      Enquiry Details:
+                    </h3>
+                    <IoClose
+                      style={{
+                        cursor: "pointer",
+                        color: "var(--secondary-color)",
+                        fontSize: "22px",
+                      }}
+                      onClick={closeOverlay}
+                    />
                   </div>
-
 
                   {/* Details */}
 
-                  <div style={{ display: 'grid', gridTemplateColumns: ' 1fr 1fr', }}>
+                  <div
+                    style={{ display: "grid", gridTemplateColumns: " 1fr 1fr" }}
+                  >
                     <div>
-
-                      <p><strong>Enquiry No: </strong> {selectedEnquiry.enquiryNo}</p>
-                      <p><strong>From Date : </strong> {selectedEnquiry.DateFrom} </p>
-                      <p><strong>Machine Type: </strong> {selectedEnquiry.MachineType}</p>
-                      <p><strong>No Of Feeders:</strong> {selectedEnquiry.NoOfFeeders}</p>
-                      <p><strong>Enquiry Date: </strong> {selectedEnquiry.enquiryDate}</p>
-                      <p><strong>Dalal/AgentName: </strong> {selectedEnquiry.DalalAgentName}</p>
-                      <p><strong>Shedding Type: </strong> {selectedEnquiry.SheddingType}</p>
-                      <p><strong>  RPM: </strong> {selectedEnquiry.RPM}</p>
+                      <p>
+                        <strong>Enquiry No: </strong>{" "}
+                        {selectedEnquiry.EnquiryId}
+                      </p>
+                      <p>
+                        <strong>From Date : </strong>{" "}
+                        {selectedEnquiry.BookingFrom.date.substring(0, 10)}{" "}
+                      </p>
+                      <p>
+                        <strong>Machine Type: </strong>{" "}
+                        {selectedEnquiry.MachineType}
+                      </p>
+                      <p>
+                        <strong>No Of Feeders:</strong>{" "}
+                        {selectedEnquiry.NoofFeedero}
+                      </p>
+                      <p>
+                        <strong>Enquiry Date: </strong>{" "}
+                        {selectedEnquiry.CreatedOn.date.substring(0, 10)}
+                      </p>
+                      <p>
+                        <strong>Dalal/AgentName: </strong>{" "}
+                        {selectedEnquiry.AgentName}
+                      </p>
+                      <p>
+                        <strong>Shedding Type: </strong>{" "}
+                        {selectedEnquiry.SheddingType}
+                      </p>
+                      <p>
+                        <strong> RPM: </strong> {selectedEnquiry.RPM}
+                      </p>
                     </div>
 
-                    <div >
-                      <p><strong>Fabric Quality: </strong> {selectedEnquiry.FabricQuality} </p>
-                      <p><strong>From To: </strong> {selectedEnquiry.DateTo} </p>
-                      <p><strong>Total Fabric length:</strong> {selectedEnquiry.TotalFabriclength}</p>
-                      <p><strong> Machine Width:</strong> {selectedEnquiry.MachineWidth}</p>
-                      <p><strong> No Of Loom Required:</strong> {selectedEnquiry.NoOfLoomRequired}</p>
-                      <p><strong>Trader Name:</strong> {selectedEnquiry.traderName}</p>
+                    <div>
+                      <p>
+                        <strong>Fabric Quality: </strong>{" "}
+                        {selectedEnquiry.FabricQuality}{" "}
+                      </p>
+                      <p>
+                        <strong>From To: </strong>{" "}
+                        {selectedEnquiry.BookingTo.date.substring(0, 10)}{" "}
+                      </p>
+                      <p>
+                        <strong>Total Fabric length:</strong>{" "}
+                        {selectedEnquiry.FabricLength}
+                      </p>
+                      <p>
+                        <strong> Machine Width:</strong> {selectedEnquiry.Width}
+                      </p>
+                      <p>
+                        <strong> No Of Loom Required:</strong>{" "}
+                        {selectedEnquiry.LoomRequired}
+                      </p>
+                      <p>
+                        <strong>Trader Name:</strong> {selectedEnquiry.Name}
+                      </p>
 
-                      <p><strong> No Of frames:</strong> {selectedEnquiry.NoOfframes}</p>
-                      <p><strong>Job Rate Offered:</strong> {selectedEnquiry.JobRateOffered}</p>
+                      <p>
+                        <strong> No Of frames:</strong>{" "}
+                        {selectedEnquiry.NoofFrame}
+                      </p>
+                      <p>
+                        <strong>Job Rate Offered:</strong>{" "}
+                        {selectedEnquiry.OfferedJobRate}
+                      </p>
                     </div>
-
                   </div>
-
                 </div>
               </div>
             )}
           </div>
-          <div style={{ width: "70%", }}>
-          <div>
-        <h1 style={{ color: 'var(--primary-color)', textAlign: 'center' }}>Check Response</h1>
-      </div>
+          <div style={{ width: "70%" }}>
+            <div>
+              <h1
+                style={{ color: "var(--primary-color)", textAlign: "center" }}
+              >
+                Check Response
+              </h1>
+            </div>
             {showNewTable && (
               <div>
-
-                <div style={{ display: 'flex', gap: '20px',alignItems:'center',justifyContent:'center',background:'var(--background-color)',padding:'5px',margin:'10px' }}>
-
-
-                  <div> <b>Enquiry No:</b>10</div>
-                  <div> <b> Enquiry Date:</b>2024-10-16</div>
-                  <div> <b>  Fabric Quality:</b> 20/85: 255/:100</div>
-
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "20px",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    background: "var(--background-color)",
+                    padding: "5px",
+                    margin: "10px",
+                  }}
+                >
+                  <div>
+                    {" "}
+                    <b>Enquiry No:</b> {showNewTable.EnquiryNo}
+                  </div>
+                  <div>
+                    {" "}
+                    <b> Enquiry Date:</b>
+                    {showNewTable.CreatedOn.date.substring(0, 10)}
+                  </div>
+                  <div>
+                    {" "}
+                    <b> Fabric Quality:</b> {showNewTable.FabricQuality}
+                  </div>
                 </div>
                 <MaterialReactTable table={newTable} />
               </div>
             )}
 
-
-
-            {showDetail && (
+            {looominfo.map((looominfo) => (
               <div className="T-profile-status-overlay">
                 <div className="T-profile-status-overlay-container">
-                  <div style={{ display: "flex", alignItems: 'center', justifyContent: 'space-between', }}>
-                    <h3 style={{ color: 'var(--secondary-color)', fontSize: '22px' }}>Loom Details:</h3>
-                    <IoClose style={{ cursor: 'pointer', color: 'var(--secondary-color)', fontSize: '22px' }} onClick={OverlayClose} />
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <h3
+                      style={{
+                        color: "var(--secondary-color)",
+                        fontSize: "22px",
+                      }}
+                    >
+                      Loom Details :
+                    </h3>
+                    <IoClose
+                      style={{
+                        cursor: "pointer",
+                        color: "var(--secondary-color)",
+                        fontSize: "22px",
+                      }}
+                      onClick={OverlayClose}
+                    />
                   </div>
 
+                  <p>
+                    <strong>Company Name : </strong>
+                    {looominfo.Name}
+                  </p>
+                  <p>
+                    <strong> Email : </strong> {looominfo.AppUserId}
+                  </p>
+                  <p>
+                    <strong> Address : </strong> {looominfo.Address}
+                  </p>
+                  <p>
+                    <strong> Contact No : </strong> {looominfo.PrimaryContact}
+                  </p>
 
-
-                  <p><strong>Looms Possible:</strong> {showDetail.LoomsPossible}</p>
-                  <p><strong>Company Name:</strong> {showDetail.LoomUnitName}</p>
-                  <p><strong>Loom Email:</strong> {showDetail.LoomEmail}</p>
-                  <p><strong>Loom Address:</strong> {showDetail.LoomAddress}</p>
-                  <p><strong>Loom Contact No:</strong> {showDetail.LoomContactNo}</p>
-
-                  <div>
-                    <button onClick={handleComfirmDetailClick} className='btn2'>Confirm</button>
-
-
+                  <div style={{ textAlign: "center" }}>
+                    <button
+                      onClick={handleComfirmDetailClick}
+                      className="btn2"
+                      style={{ width: "200px", margin: "10px 0" }}
+                    >
+                      Proceed
+                    </button>
                   </div>
-
                 </div>
-
               </div>
-
-            )}
-
-
+            ))}
           </div>
-          <ToastContainer />
-          {confirmDetail && (
-            <div className="T-profile-confirm-overlay">
-              <div className="T-profile-confirm-overlay-container">
 
-                <p>
-                  Your Enquiry Number <b>EN427</b> of <b>5</b> Looms is Confirmed with <b>Job rate of 900.00 paisa  </b> 
-                <b>From 2024-06-06 To 2024-06-08 </b>
-                </p>
-                <div>Please Proceed for contract Formation:</div>
-                <p> Contact details are:</p>
-               
-           
-                <p><strong>Company Name:</strong> {showDetail.LoomUnitName}</p>
-                <p><strong>Loom Email:</strong> {showDetail.LoomEmail}</p>
-                <p><strong>Loom Address:</strong> {showDetail.LoomAddress}</p>
-                <p><strong>Loom Contact No:</strong> {showDetail.LoomContactNo}</p>
-                <div >
-                <button onClick={ConfirmDetailOverlayClose} className='btn1'>Okay </button>
+          {confirmDetail &&
+            looominfo.map((confirmloom) => (
+              <div className="T-profile-confirm-overlay">
+                
+                <div className="T-profile-confirm-overlay-container">
+                <IoClose
+                      style={{
+                        cursor: "pointer",
+                        color: "var(--secondary-color)",
+                        fontSize: "22px",
+                        float:'right'
+                      }}
+                      onClick={OverlayCloseconfirm}
+                    />
+                  <p>
+                    Your Enquiry No. <b> EN{showDetail.EnquiryId} </b> is
+                    confirmed <br />
+                    <br /> Booked <b>{showDetail.LoomPossible}</b> Looms <br />
+                    <br />
+                    Job rate of <b>{showDetail.JobRateExp} paisa </b>
+                    <br />
+                    <br />
+                    Booked from{" "}
+                    <b>
+                      {" "}
+                      {showDetail.DatePossibleFrom.date.substring(0, 10)}{" "}
+                    </b>{" "}
+                    To <b>{showDetail.DatePossibleTo.date.substring(0, 10)} </b>
+                  </p>
+                  <div>Please Proceed for contract Formation:</div>
+                  <p> Contact details are:</p>
+
+                  <p>
+                    <strong>Company Name:</strong> {confirmloom.Name}
+                  </p>
+                  <p>
+                    <strong>Loom Email:</strong> {confirmloom.AppUserId}
+                  </p>
+                  <p>
+                    <strong>Loom Address:</strong> {confirmloom.Address}
+                  </p>
+                  <p>
+                    <strong>Loom Contact No:</strong>{" "}
+                    {confirmloom.PrimaryContact}
+                  </p>
+                  <br />
+                  <div style={{ textAlign: "center" }}>
+                    <button
+                      onClick={ConfirmDetailOverlayClose}
+                      className="btn1"
+                      style={{ width: "200px" }}
+                    >
+                      Confirm{" "}
+                    </button>
+                  </div>
                 </div>
               </div>
-             
-            </div>
-          )}
-
+            ))}
         </div>
       </div>
     </>
@@ -633,14 +589,6 @@ const CheckResponse = () => {
 };
 
 export default CheckResponse;
-
-
-
-
-
-
-
-
 
 // import React, { useMemo, useState } from 'react';
 
@@ -853,21 +801,6 @@ export default CheckResponse;
 
 // export default CheckResponse;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // import React, { useMemo } from 'react';
 // import { useNavigate } from 'react-router-dom';
 // import { MaterialReactTable, useMaterialReactTable } from 'material-react-table';
@@ -978,4 +911,3 @@ export default CheckResponse;
 // };
 
 // export default Jobwork;
-

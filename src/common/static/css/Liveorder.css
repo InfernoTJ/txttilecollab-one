@@ -112,8 +112,8 @@ color:var(--primary-color)
  /* padding: 20px;
   margin: 10px;  */
   display: grid;
-  grid-template-columns: repeat(9, 1fr)!important; 
-   grid-template-rows: repeat(9,1fr)!important; 
+  grid-template-columns: repeat(6, 1fr)!important; 
+   grid-template-rows: repeat(6,1fr)!important; 
    gap: 20px
 
 }
