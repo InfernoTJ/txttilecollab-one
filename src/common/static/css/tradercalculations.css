@@ -1,0 +1,136 @@
+ .calallcontent input{
+    border:1px solid black;
+  
+    
+border-radius: 5px;
+}
+.calallcontent h2,.calallcontent p{
+    margin: 0;
+
+}
+
+.calallcontent h2{color: var(--primary-color);
+    font-size: 25px;}
+.calallcontent p{
+    font-size: 16px;
+} 
+.main2contentalign{
+    width: 48%;
+    margin: 1%;
+}
+.aligncontent{
+    width: 100%; 
+ 
+}
+.aligncontent input{
+    margin-bottom: 5%;
+}
+.alignnextto{
+    display: flex;
+    flex:1;
+    /* background-color: bisque; */
+
+}
+.output{
+    display: flex;
+    flex:1;
+    
+    justify-content: space-between;
+    font-weight: 600;
+    padding: 0 10%; 
+    color: var(--complementary-color);
+    margin:0 10%;
+    margin-top: 3%;
+    /* background-color: crimson; */
+}
+.output p{
+    font-size: 17px;
+}
+.warpweight{
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    padding: 3% 6%;
+    margin-bottom: 4%;
+    display: flex;
+    border-radius: 10px;
+    flex-direction: column;
+}
+.warpweight input{
+    width: 90%;
+}
+.warpweight button{
+    width: 40%;
+    background-color: var(--secondary-color);
+    margin: 3% auto;
+    margin-bottom: 1%;
+ 
+}
+.warpweight h2{
+    margin-bottom: 3%;
+    
+}
+
+
+.sizingcost{
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    padding: 3% 6%;
+    display: flex;
+    border-radius: 10px;
+    flex-direction: column;
+}
+.sizingcost button{
+    background-color: var(--secondary-color);
+    width: 30%;
+
+}
+.sizingcost h2{
+    margin-bottom: 3%;
+}
+.sizingcost input{
+    width: 40%;
+    margin: 0;
+}
+.operationsfield{
+    display: flex;
+    justify-content: space-between;
+    /* background-color: blue; */
+
+}
+.oneoutput{
+    font-weight: 600;
+    font-size: 17px;
+    padding: 0 10%; 
+    margin:0 10%;
+    margin-top: 3%;
+    color: var(--complementary-color);
+    /* background-color: aquamarine; */
+}
+.totalfabric{
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    margin: 1%;
+    padding: 2% 6%;
+    
+    border-radius: 10px;
+    display: flex;
+    flex:1;
+    /* background-color: #A2FFA4; */
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+   
+}
+
+
+.totalfabric p{
+    font-weight: 600;
+    font-size: 17px;
+    padding-right: 20%;
+    color: var(--complementary-color);
+   
+}
+.totalfabric button{
+    width: 15%;
+    background-color: var(--secondary-color);
+    margin: 0 auto;
+}
+
+

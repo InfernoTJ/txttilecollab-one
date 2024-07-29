@@ -6,7 +6,8 @@ import { IoClose } from "react-icons/io5";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import searchnotfound from "../common/static/image/searchnotfound.jpeg";
-import { flexRender } from "material-react-table";
+
+
 function LoomBooking() {
   const [bookingid, setbookingid] = useState();
 
@@ -23,7 +24,7 @@ function LoomBooking() {
   const [partyname, setpartyname] = useState(null);
   const [fromdate, setfromdate] = useState(null);
   const [todate, settodate] = useState(null);
-  const [confirmloombook, setconfirmloombook] = useState();
+
 
   // const toggleBookingStatus = () => {
   //     setIsBooked(!isBooked);
@@ -69,27 +70,16 @@ function LoomBooking() {
     )
       .then((response) => response.text())
       .then((result) => {
-        console.log(result);
-
-        fetch(
-          `https://textileapp.microtechsolutions.co.in/php/updateloomorder.php?LoomOrderId=${oid}&Confirmed=true`,
-          requestOption
-        )
-          .then((response) => response.text())
-          .then((result) => {
-            console.log(result);
-            toast.success("Confirmed OR" + oid);
-            setconfirmloombook(selectedLoom);
-            setSelectedLoom(null);
-          })
-          .catch((error) => console.error(error));
+        //console.log(result);
+        toast.success("Loom booked");
+        getloombookedhistory()
+        getloom();
+        setSelectedLoom(null);
+    
       })
       .catch((error) => console.error(error));
 
-    const requestOption = {
-      method: "GET",
-      redirect: "follow",
-    };
+   
   };
 
   const bookloom = (selectedLoom) => {
@@ -116,27 +106,15 @@ function LoomBooking() {
     )
       .then((response) => response.text())
       .then((result) => {
-        console.log(result);
-
-        fetch(
-          `https://textileapp.microtechsolutions.co.in/php/updateloomorder.php?LoomOrderId=${oid}&Confirmed=true`,
-          requestOptionn
-        )
-          .then((response) => response.text())
-          .then((result) => {
-            console.log(result);
-            toast.success("Confirmed OR" + oid);
-            setconfirmloombook(selectedLoom);
-            setSelectedLoom(null);
-          })
-          .catch((error) => console.error(error));
+        //console.log(result);
+        toast.success("Loom booked");
+        getloombookedhistory()
+        getloom();
+        setSelectedLoom(null);
       })
       .catch((error) => console.error(error));
 
-    const requestOptionn = {
-      method: "GET",
-      redirect: "follow",
-    };
+ 
   };
   const getloom = () => {
     fetch(
@@ -144,7 +122,7 @@ function LoomBooking() {
     )
       .then((response) => response.json())
       .then((jsonData) => {
-        console.log(jsonData);
+        //console.log(jsonData);
         setData(jsonData); // Update state with fetched data
       })
       .catch((error) => {
@@ -164,7 +142,7 @@ function LoomBooking() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         if (result.length > 0) {
           const orderss = result[0];
           setodernumberr(orderss.OrderNo);
@@ -178,8 +156,24 @@ function LoomBooking() {
       })
       .catch((error) => console.error(error));
   };
+  const[loomhistory,setloomhistory]=useState([])
+  const getloombookedhistory=()=>{
+
+    const getloombookedhistory = {
+      method: "GET",
+      redirect: "follow"
+    };
+    
+    fetch("https://textileapp.microtechsolutions.co.in/php/getbyid.php?Table=LoomBooking&Colname=OrderNoId&Colvalue="+oid, getloombookedhistory)
+      .then((response) => response.json())
+      .then((result) => {//console.log(result)
+        setloomhistory(result)
+      })
+      .catch((error) => console.error(error));
+  }
   useEffect(() => {
     getorderdetails();
+    getloombookedhistory()
     getloom();
   }, []);
 
@@ -210,7 +204,7 @@ function LoomBooking() {
             <h1 style={{ textAlign: "center", color: "var( --primary-color)" }}>
               Loom Booking panel{" "}
             </h1>
-          </div>
+          </div>  {Array.isArray(data) && data.length > 0 && (
           <div
             style={{
               //  border: '3px solid blue',
@@ -218,14 +212,13 @@ function LoomBooking() {
               margin: "10px",
               display: "grid",
               height: "88vh",
-              gridTemplateColumns:Array.isArray(data) && data.length > 0? "repeat(5, 0.3fr)":'',
-              gridTemplateRows:Array.isArray(data) && data.length > 0? "repeat(4,0.3fr)":'',
-              gap: Array.isArray(data) && data.length > 0?  "30px":'',
+              gridTemplateColumns:"repeat(5, 0.3fr)",
+              gridTemplateRows:"repeat(4,0.3fr)",
+              gap: "30px",
             }}
-            className="loom_numbers"
-          >
-            {Array.isArray(data) && data.length > 0 ? (
-              data.map((data) => (
+            className="loom_numbers">
+        
+              {data.map((data) => (
                 <div
                   key={data.LoomNo}
                   onClick={() => handleLoomSelection(data)}
@@ -255,7 +248,7 @@ function LoomBooking() {
                       className="loomnumber"
                       style={{
                         background:
-                          selectedLoom === data || confirmloombook === data
+                          selectedLoom === data 
                             ? "var(--complementary-color)"
                             : "var(--secondary-color)",
                         color: "white",
@@ -271,7 +264,53 @@ function LoomBooking() {
                       </p>
                     </div>
                     <hr />
-                    {confirmloombook === data ? (
+                
+                      <h3>Available</h3>
+                 
+                  </div>
+                </div>
+              ))}
+
+             {loomhistory.map((data) => ( 
+                <div
+                  key={data.LoomNo}
+              
+                  style={{
+                    border: "2px solid var(--secondary-color)",
+                    borderRadius: "8px",
+                    position: "relative",
+                  }}
+                  className="box2"
+                >
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "0px",
+                      right: "0px",
+                      cursor: "pointer",
+                      fontSize: "30px",
+                    }}
+                  >
+
+                  </div>
+                  <div style={{ textAlign: "center" }}>
+                    <div
+                      className="loomnumber"
+                      style={{
+                        background:"var(--complementary-color)",
+                        color: "white",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "10px",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <p style={{ cursor: "pointer", fontSize: "20px" }}>
+                        {" "}
+                        {data.LoomNo}
+                      </p>
+                    </div>
+                    <hr />
                       <>
                         <p>
                           OR Number: <span>{odernumberr}</span>
@@ -280,25 +319,27 @@ function LoomBooking() {
                           To Date: <span>{todate}</span>
                         </p>
                       </>
-                    ) : (
-                      <h3>Available</h3>
-                    )}
                   </div>
                 </div>
-              ))
-            ) : (
-              <div
+              ))}
+          </div>)}
+          {Array.isArray(data) && !data.length>0 &&  <div
                 style={{
                   display: "flex",
                   flex: 1,
+          
+                  flexDirection:'column',
                   justifyContent: "center",
-                  alignContent: "center",
+                  alignItems: "center",
+                  height:'100%'
+                  
                 }}
               >
-                <img src={searchnotfound} style={{width:'40%',height:'45%',  marginTop:'10%'}} alt="searchnotfound" />
-              </div>
-            )}
-          </div>
+               
+                <img src={searchnotfound} style={{width:'20%',}} alt="searchnotfound" />
+                <h2 style={{color:'#fdad8a'}}>No Available Looms</h2>
+              </div>}
+        
         </div>
 
         <div
@@ -471,9 +512,7 @@ function LoomBooking() {
                       : () => bookloom(selectedLoom)
                   }
                 >
-                  {selectedLoom.BookedFromDate === null
-                    ? "Updating"
-                    : "Posting"}
+                 Book
                 </button>
               )}
             </div>

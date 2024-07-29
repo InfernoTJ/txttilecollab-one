@@ -619,9 +619,10 @@ import Select from "react-select";
 import { useState } from "react";
 import { BiEditAlt } from "react-icons/bi";
 import { toast } from "react-toastify";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const MyLoomDetails = () => {
+  const navigate = useNavigate()
   const [MachineTypeoptions, setMachineTypeoptions] = useState();
   const [SheddingTypeoptions, setSheddingTypeoptions] = useState();
   const [Feedersoptions, seFeedersoptions] = useState();
@@ -676,12 +677,31 @@ const[isavailable,setisavailable]=useState()
     )
       .then((response) => response.text())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         toast.success("Loom details updated");
       })
       .catch((error) => console.error(error));
   };
 
+  const handledelete =()=>{
+    const loomdelteform = new FormData();
+loomdelteform.append("Id", loomid);
+
+const loomdeleteconnection = {
+  method: "POST",
+  body: loomdelteform,
+  redirect: "follow"
+};
+
+fetch("https://textileapp.microtechsolutions.co.in/php/delloom.php", loomdeleteconnection)
+  .then((response) => response.text())
+  .then((result) => {//console.log(result)
+    toast.success(`Loom ${loomnumber} deleted.`);
+    navigate('../my-loom')
+    
+  })
+  .catch((error) => console.error(error));
+  }
   const getloomdetails = () => {
     const requestOptions = {
       method: "GET",
@@ -695,7 +715,7 @@ const[isavailable,setisavailable]=useState()
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         getdata(result);
       })
       .catch((error) => console.error(error));
@@ -801,7 +821,7 @@ const[isavailable,setisavailable]=useState()
     
     fetch("https://textileapp.microtechsolutions.co.in/php/getbyid.php?Table=LoomBooking&Colname=LoomDetailId&Colvalue="+loomid, requestOptions)
       .then((response) => response.json())
-      .then((result) => {console.log(result)
+      .then((result) => {//console.log(result)
         setbookingdata(result)
       })
       .catch((error) => console.error(error));
@@ -1164,13 +1184,21 @@ const[isavailable,setisavailable]=useState()
           >
             Submit
           </button>}
+          <button
+            onClick={handledelete}
+            style={{ width: "10%", fontSize: 18, backgroundColor:'var(--complementary-color)',marginLeft:'10%' }}
+            className="btn2"
+           
+          >
+            Delete
+          </button>
         </div>
 
         <div className="myloom-table-container" style={{ marginTop: "20px" }}>
           <table>
             <thead>
               <tr>
-                <th>OR</th>
+                <th>Order No.</th>
                 <th>From Date</th>
                 <th> To Date</th>
               </tr>

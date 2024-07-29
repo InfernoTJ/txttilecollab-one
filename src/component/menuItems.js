@@ -186,6 +186,18 @@ export const menuItems = [
     icon: <AiOutlineAudit />,
     path: "trader-knotting-offers",
     roles: ["T"],
+    submenus: [
+      {
+        title: "Knotting Offers",
+        path: "trader-knotting-offers",
+        icon: <MdOutlineAddToPhotos />,
+      },
+      {
+        title: "Knotting Live Order",
+        path: "trader-live-order",
+        icon: <BsFillStickiesFill />,
+      }
+    ]
   },
 
   {

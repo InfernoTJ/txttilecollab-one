@@ -1,157 +1,408 @@
+import React, { useEffect, useState } from "react";
+import "../common/static/css/Liveorder.css";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
-import React, { useEffect,useState } from 'react';
-import '../common/static/css/Liveorder.css';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-
+import add from "../common/static/image/emptybox1.jpg";
 function Liveorder() {
   const navigate = useNavigate();
 
-  const userString = sessionStorage.getItem('user');
+  const userString = sessionStorage.getItem("user");
   const user = userString ? JSON.parse(userString) : null;
-  const [view, setView] = useState('liveOrders');
+  const [view, setView] = useState("liveOrders");
   const [liveOrders, setLiveOrders] = useState([]);
-  const [confirmOrders, setConfirmOrders] = useState([]);
-  const [isOrderStarted, setIsOrderStarted] = useState(false);
 
-  const [orderid, setorderid] = useState();
+  const [confirmOrders, setConfirmOrders] = useState([]);
 
   const handleLiveOrdersClick = () => {
-
-    setView('liveOrders');
+    setView("liveOrders");
   };
 
   const handleConfirmOrdersClick = () => {
-    setView('confirmOrders');
+    setView("confirmOrders");
   };
 
-  const handleCardClick = (orderId) => {
-    setIsOrderStarted(true);
-    const selectedOrder = liveOrders.find((order) => order.id === orderId);
-    setLiveOrders(liveOrders.filter((order) => order.id !== orderId));
-    setConfirmOrders([...confirmOrders, selectedOrder]);
-  };
-
-  const handleStartOrderClick=(oid) =>{
-
-        navigate(`../loom/LoomBooking/${oid}`);
-      
-  
-  };
-
-  const handleCancelOrderClick = (orderId) => {
-    const requestOptions = {
+  const handleStartOrderClick = (order) => {
+    const confirmform = {
       method: "GET",
-      redirect: "follow"
-    };
-    
-    fetch(`https://textileapp.microtechsolutions.co.in/php/updateloomorder.php?LoomOrderId=${orderId}&Confirmed=false`, requestOptions)
-      .then((response) => response.text())
-      .then((result) => {console.log(result)
-        toast.success('Cancelled OR'+ orderId)
-        loadliveorders()
-      })
-      .catch((error) => console.error(error));
-    setLiveOrders(liveOrders.filter((order) => order.id !== orderId));
-  };
-
-  const handlecardclick = (orderid) => {
- 
-    navigate('../live-orders/orderdetails/'+orderid);
-  };
-  const loadliveorders = () => {
-
-    const requestOptions = {
-      method: "GET",
-      redirect: "follow"
+      redirect: "follow",
     };
 
-    fetch("https://textileapp.microtechsolutions.co.in/php/loomliveorder.php?LoomTraderId="+user.Id, requestOptions)
+    const emailform = new FormData();
+
+    emailform.append(
+      "Body",
+      `Your order ${order.OrderNo} has been started by ${user.Name}`
+    );
+
+    const emailconnection = {
+      method: "POST",
+      body: emailform,
+      redirect: "follow",
+    };
+
+    const getmailconnection = {
+      method: "GET",
+      redirect: "follow",
+    };
+
+    fetch(
+      "https://textileapp.microtechsolutions.co.in/php/getbyid.php?Table=LoomTraderDetail &Colname=Id&Colvalue=" +
+        order.TraderId,
+      getmailconnection
+    )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result)
-        setLiveOrders(Array.isArray(result) ? result : [])
+        //console.log(result);
+        const emaildata = result[0];
+        emailform.append("AppUserId", emaildata.AppUserId);
+        fetch(
+          `https://textileapp.microtechsolutions.co.in/php/updateloomorder.php?LoomOrderId=${order.LoomOrderId}&Confirmed=true`,
+          confirmform
+        )
+          .then((response) => response.text())
+          .then((result) => {
+            //console.log(result);
+            toast.success("Order is confirming please wait");
+            fetch(
+              "https://textileapp.microtechsolutions.co.in/php/sendemail.php",
+              emailconnection
+            )
+              .then((response) => response.text())
+              .then((result) => {
+                //console.log(result);
+                toast.success(`Order ${order.OrderNo} confirmed`);
+                navigate(`../loom/LoomBooking/${order.LoomOrderId}`);
+              })
+              .catch((error) => console.error(error));
+          })
+          .catch((error) => console.error(error));
       })
       .catch((error) => console.error(error));
-  }
-  useEffect(() => {
+  };
+
+  const handleCancelOrderClick = (order) => {
 
    
 
-    loadliveorders()
-  }, [])
+    const confirmform = {
+      method: "GET",
+      redirect: "follow",
+    };
 
+    const emailform = new FormData();
 
-  
+    emailform.append(
+      "Body",
+      `Your order ${order.OrderNo} has been cancelled by ${user.Name}`
+    );
+
+    const emailconnection = {
+      method: "POST",
+      body: emailform,
+      redirect: "follow",
+    };
+
+    const getmailconnection = {
+      method: "GET",
+      redirect: "follow",
+    };
+
+    fetch(
+      "https://textileapp.microtechsolutions.co.in/php/getbyid.php?Table=LoomTraderDetail &Colname=Id&Colvalue=" +
+        order.TraderId,
+      getmailconnection
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        //console.log(result);
+        const emaildata = result[0];
+        emailform.append("AppUserId", emaildata.AppUserId);
+        fetch(
+          `https://textileapp.microtechsolutions.co.in/php/updateloomorder.php?LoomOrderId=${order.LoomOrderId}&Confirmed=true`,
+          confirmform
+        )
+          .then((response) => response.text())
+          .then((result) => {
+            //console.log(result);
+            toast.success("Order is cancelling please wait");
+            fetch(
+              "https://textileapp.microtechsolutions.co.in/php/sendemail.php",
+              emailconnection
+            )
+              .then((response) => response.text())
+              .then((result) => {
+                //console.log(result);
+                toast.success(`Cancelled ${order.OrderNo}`);
+                loadliveorders();
+              })
+              .catch((error) => console.error(error));
+          })
+          .catch((error) => console.error(error));
+      })
+      .catch((error) => console.error(error));
+
+  };
+
+  const handlecardclick = (orderid) => {
+    navigate("../live-orders/orderdetails/" + orderid);
+  };
+  const loadliveorders = () => {
+    const requestOptions = {
+      method: "GET",
+      redirect: "follow",
+    };
+
+    fetch(
+      "https://textileapp.microtechsolutions.co.in/php/loomliveorder.php?LoomTraderId=" +
+        user.Id,
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        //console.log(
+        //   result.filter(
+        //     (order) => order.Confirmed === null && order.Completed === null
+        //   )
+        // );
+        setLiveOrders(
+          result.filter(
+            (order) => order.Confirmed === null && order.Completed === null
+          )
+        );
+        setConfirmOrders(
+          result.filter(
+            (order) => order.Confirmed === 1 && order.Completed === null
+          )
+        );
+      })
+      .catch((error) => console.error(error));
+  };
+  useEffect(() => {
+    loadliveorders();
+  }, []);
+
   return (
     <>
-      <div className='live-order-container'  style={{height:'85vh'}}>
-       
-<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '30px' }}>
-  <div style={{ height: '5vh', width: '50%', display: 'flex', gap: '5px', justifyContent: 'center', background: '#e4f5f7',  borderRadius: '15px', padding: '5px' }}>
-    <div onClick={handleLiveOrdersClick} style={{ flex: 1 }}>
-      <button className={`livebtn ${view === 'liveOrders' ? 'active' : ''}`}>Live Order</button>
-    </div>
-    <div className='vl'></div>
-    <div onClick={handleConfirmOrdersClick} style={{ flex: 1 }}>
-      <button className={`livebtn ${view === 'confirmOrders' ? 'active' : ''}`}>Confirm Order</button>
-    </div>
-  </div>
-</div>
-        
+      <div className="live-order-container" style={{ height: "85vh" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            margin: "30px",
+          }}
+        >
+          <div
+            style={{
+              height: "5vh",
+              width: "50%",
+              display: "flex",
+              gap: "5px",
+              justifyContent: "center",
+              background: "#e4f5f7",
+              borderRadius: "15px",
+              padding: "5px",
+            }}
+          >
+            <div onClick={handleLiveOrdersClick} style={{ flex: 1 }}>
+              <button
+                className={`livebtn ${view === "liveOrders" ? "active" : ""}`}
+              >
+                Live Order
+              </button>
+            </div>
+            <div className="vl"></div>
+            <div onClick={handleConfirmOrdersClick} style={{ flex: 1 }}>
+              <button
+                className={`livebtn ${
+                  view === "confirmOrders" ? "active" : ""
+                }`}
+              >
+                Confirm Order
+              </button>
+            </div>
+          </div>
+        </div>
+
         {view && (
           <div>
-            {view === 'liveOrders' && (
-              <div className='live-ordersCards-container'>
-                {liveOrders
-                .filter((order) => order.Confirmed === null && order.Completed===null)
-                .map((order) => (
-                  <div className='live-ordersCards-all' key={order.id} style={{ border: '3px solid var(--tershary-color)', borderRadius: '10px' }}>
-                    <div >
-                      <div style={{ color: 'var(--secondary-color)', fontWeight: 'bold',margin:'10px' }}><p>OR: {order.OrderNo}</p></div>
-                      <div style={{ color: 'var(--secondary-color)', fontWeight: 'bold',margin:'10px' }}><p>Party: {order.PartyName}</p></div>
-                      <div style={{ color: 'var(--secondary-color)', fontWeight: 'bold',margin:'10px',fontSize:'13px'}}><p>Qlt: {order.Quality}</p></div>
-                    </div>
-                    <hr />
-                    <div className='live-orderCards-btns'>
-                      <button
-                        onClick={()=>handleStartOrderClick(order.LoomOrderId)}
-                        className='start-order-btn' 
-                        style={{ backgroundColor: 'var(--tershary-color)', borderRadius: '10px', color: 'var(--main)', border: 'none', cursor: 'pointer', padding: '10px 15px', margin: '5px', width: '50%',  }}
-                      >
-                        Start
-                      </button>
-                      <button className='btn2'
-                        onClick={() => handleCancelOrderClick(order.LoomOrderId)}
-                        style={{ backgroundColor: 'var(--complementary-color)', borderRadius: '10px', color: 'var(--main)', border: 'none', cursor: 'pointer', padding: '10px 15px', margin: '5px', width: '50%' }}
-                      >
-                        Cancel
-                      </button>
+            {view === "liveOrders" && (
+              <>
+                {liveOrders.length === 0 && (
+                  <div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        flexDirection: "column",
+                        height: "80vh",
+                      }}
+                    >
+                      {" "}
+                      <img src={add} style={{ width: "25%" }} alt="add" />
+                      <h2 style={{ color: "#dda960", fontSize: "35px" }}>
+                        No order yet
+                      </h2>
                     </div>
                   </div>
-                ))}
-              </div>
+                )}
+                <div className="live-ordersCards-container">
+                  {liveOrders.map((order) => (
+                    <div
+                      className="live-ordersCards-all"
+                      key={order.id}
+                      style={{
+                        border: "3px solid var(--tershary-color)",
+                        borderRadius: "10px",
+                      }}
+                    >
+                      <div>
+                        <div
+                          style={{
+                            color: "var(--secondary-color)",
+                            fontWeight: "bold",
+                            margin: "10px",
+                          }}
+                        >
+                          <p>OR: {order.OrderNo}</p>
+                        </div>
+                        <div
+                          style={{
+                            color: "var(--secondary-color)",
+                            fontWeight: "bold",
+                            margin: "10px",
+                          }}
+                        >
+                          <p>Party: {order.PartyName}</p>
+                        </div>
+                        <div
+                          style={{
+                            color: "var(--secondary-color)",
+                            fontWeight: "bold",
+                            margin: "10px",
+                            fontSize: "13px",
+                          }}
+                        >
+                          <p>Qlt: {order.Quality}</p>
+                        </div>
+                      </div>
+                      <hr />
+                      <div className="live-orderCards-btns">
+                        <button
+                          onClick={() => handleStartOrderClick(order)}
+                          className="start-order-btn"
+                          style={{
+                            backgroundColor: "var(--tershary-color)",
+                            borderRadius: "10px",
+                            color: "var(--main)",
+                            border: "none",
+                            cursor: "pointer",
+                            padding: "10px 15px",
+                            margin: "5px",
+                            width: "50%",
+                          }}
+                        >
+                          Start
+                        </button>
+                        <button
+                          className="btn2"
+                          onClick={() =>
+                            handleCancelOrderClick(order)
+                          }
+                          style={{
+                            backgroundColor: "var(--complementary-color)",
+                            borderRadius: "10px",
+                            color: "var(--main)",
+                            border: "none",
+                            cursor: "pointer",
+                            padding: "10px 15px",
+                            margin: "5px",
+                            width: "50%",
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>
             )}
-            {view === 'confirmOrders' && (
-              <div className='confirmOrdersCards-container'>
-                {liveOrders
-                 .filter((order) => order.Confirmed === 1 && order.Completed===null)
-                 .map((order) => (
-                  <div key={order.id} className='confirmOrdersCards-all'
-                  //  style={{ border: '3px solid var(--tershary-color)', borderRadius: '10px' }} 
-                   >
-                    <div onClick={ ()=>handlecardclick(order.LoomOrderId)} style={{ marginLeft: '10px', cursor: 'pointer' }}>
-                      <div style={{ color: 'var(--secondary-color)', fontWeight: 'bold' }}><p>OR: {order.OrderNo}</p></div>
-                      <div style={{ color: 'var(--secondary-color)', fontWeight: 'bold' }}><p>Party: {order.PartyName}</p></div>
-                      <div style={{ color: 'var(--secondary-color)', fontWeight: 'bold' }}><p>Qlt: {order.Quality}</p></div>
-                    </div>
-                    <hr />
-                    <div className='cnfm-order-btn'>
-                      <button className='btn1' style={{margin:'0 auto'}}  onClick={() => handleCancelOrderClick(order.LoomOrderId)} >Cancel Order</button>
+            {view === "confirmOrders" && (
+              <>
+                {confirmOrders.length === 0 && (
+                  <div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        flexDirection: "column",
+                        height: "80vh",
+                      }}
+                    >
+                      {" "}
+                      <img src={add} style={{ width: "25%" }} alt="add" />
+                      <h2 style={{ color: "#dda960", fontSize: "35px" }}>
+                        No order yet
+                      </h2>
                     </div>
                   </div>
-                ))}
-              </div>
+                )}
+                <div className="confirmOrdersCards-container">
+                  {confirmOrders.map((order) => (
+                    <div
+                      key={order.id}
+                      className="confirmOrdersCards-all"
+                      //  style={{ border: '3px solid var(--tershary-color)', borderRadius: '10px' }}
+                    >
+                      <div
+                        onClick={() => handlecardclick(order.LoomOrderId)}
+                        style={{ marginLeft: "10px", cursor: "pointer" }}
+                      >
+                        <div
+                          style={{
+                            color: "var(--secondary-color)",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          <p>OR: {order.OrderNo}</p>
+                        </div>
+                        <div
+                          style={{
+                            color: "var(--secondary-color)",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          <p>Party: {order.PartyName}</p>
+                        </div>
+                        <div
+                          style={{
+                            color: "var(--secondary-color)",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          <p>Qlt: {order.Quality}</p>
+                        </div>
+                      </div>
+                      <hr />
+                      <div className="cnfm-order-btn">
+                        <button
+                          className="btn1"
+                          style={{ margin: "0 auto" }}
+                          onClick={() =>
+                            handleCancelOrderClick(order.LoomOrderId)
+                          }
+                        >
+                          Cancel Order
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>
             )}
           </div>
         )}
@@ -161,19 +412,6 @@ function Liveorder() {
 }
 
 export default Liveorder;
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import React, { useState } from 'react';
 // import '../common/static/css/Liveorder.css';
@@ -250,7 +488,7 @@ export default Liveorder;
 //           </button>
 //         </div>
 //         {view && (
-//           <div className='live-ordersCards-container' 
+//           <div className='live-ordersCards-container'
 //           // style={{ padding: '20px', margin: '10px', display: 'grid', height: '88vh', gridTemplateColumns: 'repeat(5, 1fr)', gridTemplateRows: 'repeat(4,1fr)', gap: '20px' }}
 //           >
 //             {view === 'liveOrders' ? (
@@ -264,7 +502,7 @@ export default Liveorder;
 //                     <div style={{ color: 'var(--secondary-color)', fontWeight: 'bold' }}><p>Quality: {order.quality}</p></div>
 //                   </div>
 //                   <hr />
-//                   <div className='live-orderCards-btns' 
+//                   <div className='live-orderCards-btns'
 //                   //  style={{ display: 'flex', flexDirection: 'row', gap: '40px' }}
 //                    >
 //                     <button
@@ -278,17 +516,17 @@ export default Liveorder;
 //                       onClick={() => handleCancelOrderClick(order.id)}
 //                       style={{ backgroundColor: 'var(--complementary-color)', borderRadius: '10px', color: 'var(--main)', border: 'none', cursor: 'pointer', padding: '10px 15px', margin: '5px', width: '50%' }}
 //                     >
-//                       Cancel 
+//                       Cancel
 //                     </button>
 //                   </div>
 //                 </div>
 //               ))
 //             ) : (
-              
+
 //               confirmOrders.map((order) => (
 //                 // <div className='confirmOrdersCards-container'>
 //                 <div key={order.id}
-//                 //  style={{ border: '3px solid var(--tershary-color)', borderRadius: '10px' }} 
+//                 //  style={{ border: '3px solid var(--tershary-color)', borderRadius: '10px' }}
 //                  className="confirmOrdersCards-all">
 //                   <div onClick={handlecardclick} style={{ marginLeft: '10px', cursor: 'pointer' }}>
 //                     <div style={{ color: 'var(--secondary-color)', fontWeight: 'bold' }}><p>OR: {order.or}</p></div>
@@ -313,7 +551,6 @@ export default Liveorder;
 // }
 
 // export default Liveorder;
-
 
 //MUI  code
 // import * as React from 'react';
@@ -371,7 +608,6 @@ export default Liveorder;
 //     { id: 11, or: 20, party: 'asxsaxsd', quality: 'yutuy' },
 //     { id: 12, or: 21, party: 'fgttyrty', quality: 'tuhty' },
 
-
 //   ]);
 //   const [confirmOrders, setConfirmOrders] = useState([]);
 //   const [isOrderStarted, setIsOrderStarted] = useState(false);
@@ -416,12 +652,11 @@ export default Liveorder;
 //         </Box>
 //         <CustomTabPanel value={value} index={0}>
 //           {view && (
-//             <div className='live-ordersCards-container' > 
-           
-           
+//             <div className='live-ordersCards-container' >
+
 //               {view === 'liveOrders' && liveOrders.map((order) => (
 //                 <div className='live-ordersCards-all' key={order.id} >
-//                   <div  onClick={() => handleCardClick(order.id)} 
+//                   <div  onClick={() => handleCardClick(order.id)}
 //                   style={{ marginLeft: '10px', cursor: 'pointer' }}
 //                   >
 //                     <div style={{ color: 'var(--secondary-color)', fontWeight: 'bold' }}><p>OR: {order.or}</p></div>
@@ -435,7 +670,7 @@ export default Liveorder;
 //                       className='start-order-btn'
 //                       style={{ backgroundColor: 'var(--complementary-color)', borderRadius: '10px', color: 'var(--main)', border: 'none', cursor: 'pointer', padding: '10px 15px', margin: '5px', width: '50%', opacity: isOrderStarted ? 0.4 : 1 }}
 //                     >
-//                       Start 
+//                       Start
 //                     </button>
 //                     <button
 //                       onClick={() => handleCancelOrderClick(order.id)}
@@ -470,15 +705,6 @@ export default Liveorder;
 //     </>
 //   );
 // }
-
-
-
-
-
-
-
-
-
 
 // import React, { useState } from 'react';
 // import '../common/static/css/Liveorder.css';
@@ -535,7 +761,7 @@ export default Liveorder;
 //         {view && (
 //           <div style={{ padding: '20px', margin: '10px', display: 'grid', height: '88vh', gridTemplateColumns: 'repeat(5, 1fr)', gridTemplateRows: 'repeat(4,1fr)', gap: '30px' }}>
 //             {view === 'liveOrders' ? (
-//               <> 
+//               <>
 //               <div style={{ border: '3px solid var(--tershary-color)', borderRadius: '10px' }} className="box">
 //                 <div  style={{ marginLeft: '10px', cursor: 'pointer' }} >
 //                   <div style={{ color: 'var(--secondary-color)', fontWeight: 'bold' }}><p>OR :{or}</p></div>
@@ -553,8 +779,6 @@ export default Liveorder;
 //                 </div>
 //               </div>
 
-
-          
 //                 <div style={{ border: '3px solid var(--tershary-color)', borderRadius: '10px' }} className="box">
 //                 <div onClick={handleCardClick} style={{ marginLeft: '10px', cursor: 'pointer' }} >
 //                   <div style={{ color: 'var(--secondary-color)', fontWeight: 'bold' }}><p>OR :</p></div>
@@ -676,7 +900,6 @@ export default Liveorder;
 //               </div>
 //             </div>
 
-
 //             <div key={order.id} style={{ border: '3px solid var(--tershary-color)', borderRadius: '10px' }} className="box">
 //               <div style={{ marginLeft: '10px', cursor: 'pointer' }}>
 //                 <div style={{ color: 'var(--secondary-color)', fontWeight: 'bold' }}>
@@ -689,7 +912,6 @@ export default Liveorder;
 //                   <p>Quality: {order.quality}</p>
 //                 </div>
 //               </div>
-
 
 //               <hr />
 //               <div style={{ display: 'flex', flexDirection: 'row', gap: '40px' }}>
@@ -739,8 +961,7 @@ export default Liveorder;
 
 // export default Liveorder;
 
-
-// 
+//
 // import React, { useState } from 'react';
 // import '../common/static/css/Liveorder.css'
 // import { useNavigate } from 'react-router-dom';
@@ -765,7 +986,7 @@ export default Liveorder;
 //           <h1 style={{ color: 'var( --primary-color)' }}>Live orders </h1>
 //         </div>
 //         <div style={{ padding: '20px', margin: '10px', display: 'grid', height: '88vh', gridTemplateColumns: 'repeat(5, 1fr)', gridTemplateRows: 'repeat(4,1fr)', gap: '30px' }}>
-       
+
 //           <div style={{ border: '3px solid var(--tershary-color)', borderRadius: '10px' }} classname="box">
 //             <div onClick={handleCardClick} style={{ marginLeft: '10px', cursor: 'pointer' }}  >
 //               <div style={{ color: 'var(--secondary-color )', fontWeight: 'bold' }}><p>OR :</p></div>
@@ -780,7 +1001,6 @@ export default Liveorder;
 //               <p style={{ color: 'var(--complementary-color)' }}>Cancel Order</p>
 //             </div>
 //           </div>
-
 
 //           <div style={{ border: '3px solid var(--tershary-color)', borderRadius: '10px' }} classname="box">
 //             <div onClick={handlecardclick} style={{ marginLeft: '10px', cursor: 'pointer' }}  >
@@ -813,7 +1033,6 @@ export default Liveorder;
 //                         <div style={{ border: '1px solid red' }} classname="box"></div>
 //                         <div style={{ border: '1px solid red' }} classname="box"></div>
 //                         <div style={{ border: '1px solid red' }} classname="box"></div> */}
-
 
 //         </div>
 

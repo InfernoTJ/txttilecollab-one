@@ -22,7 +22,7 @@ function CompletedOrder() {
         fetch("https://textileapp.microtechsolutions.co.in/php/traderliveorder.php?LoomTraderId="+user.Id, requestOptions)
           .then((response) => response.json())
           .then((result) => {
-            console.log(result)
+           //console.log(result)
             setcompletedorder(Array.isArray(result) ? result : [])
           })
           .catch((error) => console.error(error)); 

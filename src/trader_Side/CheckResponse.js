@@ -23,7 +23,7 @@ const CheckResponse = () => {
   const [looominfo, setlooominfo] = useState([]);
   const [showDetail, setshowDetail] = useState(null);
   const [fabricqual, setfabricqual] = useState("");
-  const [sendingname, setsendingname] = useState("");
+  const [emailsending, setemailsending] = useState("");
   const today = new Date();
   const formattedDate = today.toISOString().split("T")[0];
   const navigate = useNavigate();
@@ -40,10 +40,11 @@ const CheckResponse = () => {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         const name = result[0];
 
-        setsendingname(name.Name);
+        setemailsending(name.AppUserId);
+        
         setlooominfo(result);
       })
       .catch((error) => console.error(error));
@@ -76,7 +77,7 @@ const CheckResponse = () => {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         setNewTableData(result);
       })
       .catch((error) => console.error(error));
@@ -109,7 +110,7 @@ const CheckResponse = () => {
     )
       .then((response) => response.text())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
       })
       .catch((error) => console.error(error));
     const restfdata = new FormData();
@@ -133,18 +134,49 @@ const CheckResponse = () => {
       redirect: "follow",
     };
 
+    const sendmail = new FormData();
+    sendmail.append("AppUserId", emailsending);
+    sendmail.append("Body", `Your response was confirmed by ${user.Name} for enquiry ${showNewTable.EnquiryNo}`);
+    
+    const senemailconnection = {
+      method: "POST",
+      body: sendmail,
+      redirect: "follow"
+    };
+    const sendmailtrader = new FormData();
+sendmailtrader.append("AppUserId", user.AppUserId );
+sendmailtrader.append("Body",  `You  confirmed response for enquiry ${showNewTable.EnquiryNo}`);
+
+const senemailtraderconnection = {
+  method: "POST",
+  body: sendmailtrader,
+  redirect: "follow"
+};
+
+fetch("https://textileapp.microtechsolutions.co.in/php/sendemail.php", senemailtraderconnection)
+  .then((response) => response.text())
+  // .then((result) => console.log(result))
+  .catch((error) => console.error(error));
+   
+    toast.info("Sending your response please wait")
     fetch(
       "https://textileapp.microtechsolutions.co.in/php/postloomorder.php",
       requestOptio
     )
       .then((response) => response.text())
       .then((result) => {
-        console.log(result);
-        toast.success("Live Order has Created successfully");
-        setConfirmDetail(null);
-        setlooominfo([]);
-        setShowNewTable("");
-        navigate("../check-response");
+        //console.log(result);
+        fetch("https://textileapp.microtechsolutions.co.in/php/sendemail.php", senemailconnection)
+        .then((response) => response.text())
+        .then((result) => {//console.log(result)
+          toast.success("Live Order has Created successfully");
+          setConfirmDetail(null);
+          setlooominfo([]);
+          setShowNewTable("");
+          navigate("../check-response");
+        })
+        .catch((error) => console.error(error));
+       
       })
       .catch((error) => console.error(error));
   };
@@ -307,7 +339,7 @@ const CheckResponse = () => {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         setdata(result);
       })
       .catch((error) => console.error(error));

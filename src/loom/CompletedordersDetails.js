@@ -235,7 +235,7 @@ export default function VerticalTabs() {
     )
       .then((response) => response.text())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         toast.success("Message Sent");
         setInputText("");
         firstpicedetails();
@@ -265,7 +265,7 @@ export default function VerticalTabs() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         setdata(result);
       })
       .catch((error) => console.error(error));
@@ -283,7 +283,7 @@ export default function VerticalTabs() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         setbeamindata(result);
       })
       .catch((error) => console.error(error));
@@ -302,7 +302,7 @@ export default function VerticalTabs() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         setweftyarnindata(result);
       })
       .catch((error) => console.error(error));
@@ -320,7 +320,7 @@ export default function VerticalTabs() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         const enq = result[0];
         setdrawingindata(enq.Status);
         setdrawingindate(enq.CreatedOn.date.substring(0, 10));
@@ -340,7 +340,7 @@ export default function VerticalTabs() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         const enq = result[0];
         setbeamgettingdata(enq.Status);
         setbeamgettingdate(enq.CreatedOn.date.substring(0, 10));
@@ -360,7 +360,7 @@ export default function VerticalTabs() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         setfirstpiecechatdata(result);
       })
       .catch((error) => console.error(error));
@@ -378,7 +378,7 @@ export default function VerticalTabs() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         setfabricdispatchdata(result);
       })
       .catch((error) => console.error(error));
@@ -396,7 +396,7 @@ export default function VerticalTabs() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         setgoodsreturnsdata(result);
       })
       .catch((error) => console.error(error));

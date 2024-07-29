@@ -408,6 +408,7 @@
 import React, { useEffect, useState } from "react";
 import "../common/static/css/updateMyEnquries.css";
 import { useNavigate } from "react-router-dom";
+import add from '../common/static/image/emptybox1.jpg'
 
 const Update_myenquiries = () => {
   const userString = sessionStorage.getItem("user");
@@ -434,7 +435,7 @@ const Update_myenquiries = () => {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         setenquiries(Array.isArray(result) ? result : []);
       })
       .catch((error) => console.error(error));
@@ -447,9 +448,12 @@ const Update_myenquiries = () => {
           List of My Enquiries
         </h2>
       </div>
-     
+          {enquiries.length===0 && <div>   
+              <div style={{display:'flex',justifyContent:'center',alignItems:'center',flexDirection:'column',height:'80vh'}}> <img src={add} style={{width:'25%',}} alt="add" /> 
+              <h2 style={{color:'#dda960',fontSize:'35px'}}>No enquiries found.</h2></div> 
+              </div>}
       <div
-        
+
         className="update-myenquiries"
         style={{
             height: "80vh",
@@ -458,15 +462,12 @@ const Update_myenquiries = () => {
             gridTemplateRows: "repeat(5,1fr)",
             gap: "20px",
         }}>
-        {enquiries.length > 0 ? (
+        {enquiries && 
           enquiries.map((enquiry) => (
             <div key={enquiry.EnquiryNo} onClick={()=>handleCardClick(enquiry.EnquiryId)} style={{textAlign:'center',display:'flex',flex:'1',justifyContent:'center'}} className="update-myenquiries-card">
               <p >Enquiry: <br/> {enquiry.EnquiryNo}</p>
             </div>
-          ))
-        ) : (
-          <p>No enquiries found.</p>
-        )}
+          ))}
       </div>
     </div>
   );

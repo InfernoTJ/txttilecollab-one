@@ -1,11 +1,22 @@
 import React, { useState, useEffect } from "react";
 import "../common/static/css/loomBooking.css";
-
+import add from "../common/static/image/loomadd.png";
 import { IoClose } from "react-icons/io5";
 import { HiMiniInformationCircle } from "react-icons/hi2";
 import "../common/static/css/loom_booking.css";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 function Loom_booking() {
+  const navigate=useNavigate()
+  const [chckstate, setchckstate] = useState(false);
+
+  const [fromdate, setfromdate] = useState();
+  const [todate, settodate] = useState();
+  const [knottingorder, setknottingorder] = useState();
+
+  const [bookingdata, setbookingdata] = useState([]);
+
   const today = new Date();
   const formatDate = (date) => {
     const year = date.getFullYear();
@@ -27,12 +38,12 @@ function Loom_booking() {
     };
 
     fetch(
-      "https://textileapp.microtechsolutions.co.in/php/todayloom.php?LoomTraderId=529&Todaydate=2024-07-15",
+      `https://textileapp.microtechsolutions.co.in/php/todayloom.php?LoomTraderId=${user.Id}&Todaydate=${formattedToday}`,
       requestOptions
     )
       .then((response) => response.json())
       .then((jsonData) => {
-        console.log(jsonData);
+        //console.log(jsonData);
         setData(jsonData); // Update state with fetched data
       })
       .catch((error) => {
@@ -40,6 +51,235 @@ function Loom_booking() {
       });
   };
 
+  const getknottingid = async () => {
+    const rqoption = {
+      method: "GET",
+      redirect: "follow",
+    };
+
+    fetch(
+      "https://textileapp.microtechsolutions.co.in/php/getbyid.php?Table=KnottingOffer&Colname=OfferNo&Colvalue=" +
+        knottingorder,
+      rqoption
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        //console.log(result);
+        const enquiry = result[0];
+        if(enquiry){
+          toast.success('Got knotting order '+enquiry.OfferNo)
+          setknottingorder(enquiry.OfferNo)
+        }else{
+          toast.info('Didnt find an order')
+        }
+
+        
+      })
+      .catch((error) => console.error(error));
+  };
+
+  const updateloom = (selectedLoom) => {
+    const today = new Date(todate);
+
+    const futureDate = new Date(today);
+    futureDate.setMonth(today.getMonth() + 4);
+
+    // Handle year change if necessary
+    if (futureDate.getMonth() !== (today.getMonth() + 4) % 12) {
+      futureDate.setDate(0); // Set date to the last day of the previous month
+    }
+
+    // Format date to yyyy-mm-dd
+    const formatDate = (date) => {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    };
+
+    // Format future date
+    const availableto4monthsahead = formatDate(futureDate);
+
+    const formdata = new FormData();
+    formdata.append("BookingId", selectedLoom.BookingId);
+    formdata.append("BookedFromDate", fromdate);
+    formdata.append("BookedToDate", todate);
+    formdata.append("LoomAvailableTo", availableto4monthsahead);
+
+    const formdataa = new FormData();
+
+    formdataa.append("ConfirmLoom", "true");
+
+    const requestOptions = {
+      method: "POST",
+      body: formdata,
+      redirect: "follow",
+    };
+    const requestOption = {
+      method: "POST",
+      body: formdataa,
+      redirect: "follow",
+    };
+
+    const rqoption = {
+      method: "GET",
+      redirect: "follow",
+    };
+
+    fetch(
+      "https://textileapp.microtechsolutions.co.in/php/getbyid.php?Table=KnottingOffer&Colname=OfferNo&Colvalue=" +
+        knottingorder,
+      rqoption
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        //console.log(result);
+        const enquiry = result[0];
+
+        formdata.append(
+          "KnottingOrderId",
+          result.length > 0 ? enquiry.KnottingId : ""
+        );
+        formdataa.append("Id", result.length > 0 ? enquiry.KnottingId : "");
+
+        //codeee hereeeee
+
+        fetch(
+          "https://textileapp.microtechsolutions.co.in/php/updateloomavailabilitynew.php",
+          requestOptions
+        )
+          .then((response) => response.text())
+          .then((result) => {
+            //console.log(result);
+
+            fetch(
+              `https://textileapp.microtechsolutions.co.in/php/confirmknottingoffer.php`,
+              requestOption
+            )
+              .then((response) => response.text())
+              .then((result) => {
+                //console.log(result);
+                toast.success("Confirmed " + selectedLoom.LoomNo);
+                getloom();
+                setSelectedLoom(null);
+              })
+              .catch((error) => console.error(error));
+          })
+          .catch((error) => console.error(error));
+      })
+      .catch((error) => console.error(error));
+  };
+
+  const bookloom = (selectedLoom) => {
+    const formdataa = new FormData();
+
+    formdataa.append("LoomDetailId", selectedLoom.LoomDetailId);
+    formdataa.append("LoomNo", selectedLoom.LoomNo);
+    formdataa.append("Available", "false");
+    formdataa.append("LoomAvailableFrom", "");
+    formdataa.append("LoomAvailableTo", fromdate);
+    formdataa.append("BookedFromDate", fromdate);
+    formdataa.append("BookedToDate", todate);
+
+    const postloomcon = {
+      method: "POST",
+      body: formdataa,
+      redirect: "follow",
+    };
+    const rqoption = {
+      method: "GET",
+      redirect: "follow",
+    };
+
+    const knotconfirmform = new FormData();
+
+    knotconfirmform.append("ConfirmLoom", "true");
+
+    const requestOptionn = {
+      method: "POST",
+      body: knotconfirmform,
+      redirect: "follow",
+    };
+    fetch(
+      "https://textileapp.microtechsolutions.co.in/php/getbyid.php?Table=KnottingOffer&Colname=OfferNo&Colvalue=" +
+        knottingorder,
+      rqoption
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        //console.log(result);
+        const enquiry = result[0];
+
+        formdataa.append(
+          "KnottingOrderId",
+          result.length > 0 ? enquiry.KnottingId : ""
+        );
+        knotconfirmform.append(
+          "Id",
+          result.length > 0 ? enquiry.KnottingId : ""
+        );
+
+        fetch(
+          "https://textileapp.microtechsolutions.co.in/php/postloombooking.php",
+          postloomcon
+        )
+          .then((response) => response.text())
+          .then((result) => {
+            //console.log(result);
+
+            fetch(
+              `https://textileapp.microtechsolutions.co.in/php/confirmknottingoffer.php`,
+              requestOptionn
+            )
+              .then((response) => response.text())
+              .then((result) => {
+                //console.log(result);
+                toast.success("Confirmed " + selectedLoom.LoomNo);
+                getloom();
+                setSelectedLoom(null);
+              })
+              .catch((error) => console.error(error));
+          })
+          .catch((error) => console.error(error));
+      })
+      .catch((error) => console.error(error));
+  };
+  const checkbooking = async () => {
+    if (!fromdate || !todate) {
+      toast.error("Enter from date and to date.");
+      return;
+    } 
+    if (fromdate>todate) {
+      toast.error("Invalid checking dates");
+      return;
+    }
+    const checkform = new FormData();
+    checkform.append("Fromdate", fromdate);
+    checkform.append("Todate", todate);
+    checkform.append("LoomDetailId", selectedLoom.LoomDetailId);
+
+    const checkpost = {
+      method: "POST",
+      body: checkform,
+      redirect: "follow",
+    };
+
+    fetch(
+      "https://textileapp.microtechsolutions.co.in/php/checkbookdate.php",
+      checkpost
+    )
+      .then((response) => response.text())
+      .then((result) => {
+        //console.log(result);
+        toast.info(result);
+        if (result === "Booked") {
+          setchckstate(false);
+        } else {
+          setchckstate(true);
+        }
+      })
+      .catch((error) => console.error(error));
+  };
   useEffect(() => {
     getloom();
   }, []);
@@ -47,7 +287,32 @@ function Loom_booking() {
   const [selectedLoom, setSelectedLoom] = useState(null);
 
   const handleLoomSelection = (loomNumber) => {
-    setSelectedLoom(loomNumber); // Update selected loom number when a loom is clicked
+    setknottingorder("");
+    setchckstate(false);
+    setfromdate("");
+    settodate("");
+    setSelectedLoom(loomNumber);
+    const getloombookings = {
+      method: "GET",
+      redirect: "follow",
+    };
+
+    fetch(
+      "https://textileapp.microtechsolutions.co.in/php/getbyid.php?Table=LoomBooking&Colname=LoomDetailId&Colvalue=" +
+        loomNumber.LoomDetailId,
+      getloombookings
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        //console.log(result);
+        setbookingdata(
+          result
+            .reverse()
+            .slice(0, 3)
+            .filter((booking) => booking.Available === 0)
+        );
+      })
+      .catch((error) => console.error(error)); // Update selected loom number when a loom is clicked
   };
 
   //   const for right side form
@@ -69,6 +334,31 @@ function Loom_booking() {
               Loom Booking panel
             </h1>
           </div>
+          {data && !data.length && (
+            <div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexDirection: "column",
+                  height: "60vh",
+                }}
+              >
+                {" "}
+                <img src={add} style={{ width: "50%" }} alt="add" />
+                <h2
+                  style={{
+                    color: "#4f5551",
+                    marginTop: "50px",
+                    fontSize: "30px",
+                  }}
+                >
+                  To start booking add loom
+                </h2>
+              </div>
+            </div>
+          )}
           <div className="loom_booking_allcards">
             {data &&
               data.map((data) => (
@@ -113,21 +403,43 @@ function Loom_booking() {
                     <hr />
 
                     <>
-                      {data.BookedToDate != null && (
-                        <> {(data.KnottingOrderId === null && data.OrderNoId === null)? (  <>
-                         
-                         
-                         <p
+                      {data.LoomAvailableFrom.date.substring(0, 10) <=
+                        formattedToday &&
+                      data.LoomAvailableTo.date.substring(0, 10) >=
+                        formattedToday && 
+                      (data.BookedFromDate ?!data.BookedFromDate.date.substring(0, 10) <=
+                        formattedToday:true && data.BookedToDate ?!data.BookedToDate.date.substring(0, 10) >=
+                        formattedToday:true ) ?(
+                        <>
+                          {" "}
+                          <p
                             style={{
                               fontSize: "13px",
                               fontWeight: "bold",
-                              marginLeft: "10px",
+
+                              textAlign: "center",
                               color: "var(--primary-color)",
                             }}
                           >
-                           Booked
+                            Available
                           </p>
-                              {" "}
+                        </>
+                      ) : (
+                        <>
+                          {" "}
+                          {data.KnottingOrderId === null &&
+                          data.OrderNoId === null ? (
+                            <>
+                              <p
+                                style={{
+                                  fontSize: "13px",
+                                  fontWeight: "bold",
+                                  marginLeft: "10px",
+                                  color: "var(--primary-color)",
+                                }}
+                              >
+                                Booked
+                              </p>{" "}
                               <p
                                 style={{ fontSize: "13px", marginLeft: "10px" }}
                               >
@@ -140,25 +452,54 @@ function Loom_booking() {
                               <p
                                 style={{ fontSize: "13px", marginLeft: "10px" }}
                               >
-                                To:  {data.BookedToDate &&
-                                    data.BookedToDate.date.substring(0, 10)}{" "}
+                                To:{" "}
+                                {data.BookedToDate &&
+                                  data.BookedToDate.date.substring(0, 10)}{" "}
                               </p>{" "}
+                            </>
+                          ) : data.KnottingOrderId != null ? (
+                            <>
+                              <p
+                                style={{
+                                  fontSize: "13px",
+                                  fontWeight: "bold",
+                                  marginLeft: "10px",
+                                  color: "var(--primary-color)",
+                                }}
+                              >
+                                OR: <span>OR{data.KnottingOrderId}</span>
+                              </p>{" "}
+                              <p
+                                style={{ fontSize: "13px", marginLeft: "10px" }}
+                              >
+                                From:{" "}
+                                <span>
+                                  {data.BookedFromDate &&
+                                    data.BookedFromDate.date.substring(0, 10)}
+                                </span>
+                              </p>
+                              <p
+                                style={{ fontSize: "13px", marginLeft: "10px" }}
+                              >
+                                To:{" "}
+                                <span>
+                                  {data.BookedToDate &&
+                                    data.BookedToDate.date.substring(0, 10)}
+                                </span>
+                              </p>
                             </>
                           ) : (
                             <>
-                             <p
-                            style={{
-                              fontSize: "13px",
-                              fontWeight: "bold",
-                              marginLeft: "10px",
-                              color: "var(--primary-color)",
-                            }}
-                          >
-                            OR: <span>{data.OrderNo}</span>
-                          </p>
-                         
-                          
-                              {" "}
+                              <p
+                                style={{
+                                  fontSize: "13px",
+                                  fontWeight: "bold",
+                                  marginLeft: "10px",
+                                  color: "var(--primary-color)",
+                                }}
+                              >
+                                OR: <span>{data.OrderNo}</span>
+                              </p>{" "}
                               <p
                                 style={{ fontSize: "13px", marginLeft: "10px" }}
                               >
@@ -177,22 +518,6 @@ function Loom_booking() {
                           )}
                         </>
                       )}
-                      {data.BookedToDate === null && (
-                        <>
-                          {" "}
-                           <p
-                            style={{
-                              fontSize: "13px",
-                              fontWeight: "bold",
-                           
-                              textAlign:'center',
-                              color: "var(--primary-color)",
-                            }}
-                          >
-                           Available
-                          </p>
-                        </>
-                      )}
                     </>
                   </div>
                 </div>
@@ -201,147 +526,189 @@ function Loom_booking() {
         </div>
         {selectedLoom && (
           <div className="loom_booking-right" style={{ margin: "10px" }}>
-           <div style={{position:'fixed',marginRight:'50px'}}> 
-
-           <h2 style={{ textAlign: "center", color: "var(--primary-color)" }}>
-              {selectedLoom
-                ? `Selected Loom: ${selectedLoom.LoomNo}`
-                : "Select Loom No"}
-            </h2>
-            <div
-              // style={{ border: "1px solid var(--secondary-color)", background: 'var(--background-color)', borderRadius: '10px', padding: '10px' }}
-              className="loom_booking-form-container"
-            >
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  marginTop: "20px",
-                  justifyContent: "center",
-                }}
+            <div style={{ position: "fixed", marginRight: "50px" }}>
+              <h2
+                style={{ textAlign: "center", color: "var(--primary-color)" }}
               >
-                <label
-                  style={{ fontWeight: "bold", padding: "10px", fontSize: 18 }}
-                >
-                  Order No
-                </label>
-                <input
+                {selectedLoom
+                  ? `Selected Loom: ${selectedLoom.LoomNo}`
+                  : "Select Loom No"}
+              </h2>
+              <div
+                // style={{ border: "1px solid var(--secondary-color)", background: 'var(--background-color)', borderRadius: '10px', padding: '10px' }}
+                className="loom_booking-form-container"
+              >
+                <div
                   style={{
-                    width: "40%",
-                    margin: "10px",
-                    border: "1px solid var(--primary-color)",
+                    display: "flex",
+                    alignItems: "center",
+                    marginTop: "20px",
+                    justifyContent: "center",
                   }}
-                  type="text"
-                  placeholder="Order No"
-                />
-              </div>
-              <div
-                style={{ height: "40vh", marginTop: "20px" }}
-                className="loom_booking_form"
-              >
-                <div>
-                  <div>
-                    <label style={{ fontWeight: "bold", padding: "10px" }}>
-                      Quality
-                    </label>
-                    <input
-                      style={{
-                        width: "85%",
-                        margin: "10px",
-                        border: "1px solid var(--primary-color)",
-                      }}
-                      type="text"
-                      placeholder="Quality"
-                    />
-                  </div>
-                  <div style={{ marginTop: "10px" }}>
-                    <label style={{ fontWeight: "bold", padding: "10px" }}>
-                      Job Rate Exp
-                    </label>
-                    <input
-                      style={{
-                        width: "85%",
-                        margin: "10px",
-                        border: "1px solid var(--primary-color)",
-                      }}
-                      type="text"
-                      placeholder="Enter Job Rate"
-                    />
-                  </div>
-                  <div style={{ marginTop: "10px" }}>
-                    <label style={{ fontWeight: "bold", padding: "10px" }}>
-                      Party Name
-                    </label>
-                    <input
-                      style={{
-                        width: "85%",
-                        margin: "10px",
-                        border: "1px solid var(--primary-color)",
-                      }}
-                      type="text"
-                      placeholder="Enter Party Name"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <div>
-                    <label style={{ fontWeight: "bold", padding: "10px" }}>
-                      Order Date
-                    </label>
-                    <input
-                      style={{
-                        width: "85%",
-                        margin: "10px",
-                        border: "1px solid var(--primary-color)",
-                        marginTop: "8px",
-                      }}
-                      type="date"
-                    />
-                  </div>
-                  <div style={{ marginTop: "10px" }}>
-                    <label style={{ fontWeight: "bold", padding: "10px" }}>
-                      From Date
-                    </label>
-                    <input
-                      style={{
-                        width: "85%",
-                        margin: "10px",
-                        border: "1px solid var(--primary-color)",
-                        marginTop: "7px",
-                      }}
-                      type="date"
-                    />
-                  </div>
-                  <div style={{ marginTop: "10px" }}>
-                    <label style={{ fontWeight: "bold", padding: "10px" }}>
-                      To Date
-                    </label>
-                    <input
-                      style={{
-                        width: "85%",
-                        margin: "10px",
-                        border: "1px solid var(--primary-color)",
-                        marginTop: "7px",
-                      }}
-                      type="date"
-                      readOnly
-                    />
-                  </div>
-                </div>
-              </div>
-              <div
-                className="loom_booking_btn-container"
-                //  style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-              >
-                <button
-                  style={{ width: "30%", marginTop: "20px", margin: "10px" }}
-                  className="btn1"
                 >
-                  Submit
-                </button>
+                  <label
+                    style={{
+                      fontWeight: "bold",
+                      padding: "10px",
+                      fontSize: 18,
+                    }}
+                  >
+                    Book Loom
+                  </label>
+                </div>
+                <div
+                  style={{ height: "48vh", width: "25vw", marginTop: "20px" }}
+                >
+                  <div style={{ width: "100%" }}>
+                    <div>
+                      <label style={{ fontWeight: "bold", padding: "10px" }}>
+                        Knotting Order No. (Optional)
+                      </label>
+                      <input
+                        style={{
+                          width: "85%",
+                          margin: "10px",
+                          border: "1px solid var(--primary-color)",
+                          marginTop: "8px",
+                        }}
+                        value={knottingorder}
+                        onChange={(e) => setknottingorder(e.target.value)}
+                        type="text"
+                      />
+                       <button
+                      style={{
+                        width: "50%",
+                        marginTop: "25px",
+                        margin: "10px",
+                        backgroundColor: "white",
+                        border: "2px solid var(  --primary-color)",
+                        color: "var( --primary-color)",
+                        fontWeight: "800",
+                        padding: "9px 0",
+                      }}
+                      className="btn1"
+                      onClick={getknottingid}
+                    >
+                      Verify knotting order
+                    </button>
+                    </div>
+                    <div style={{ marginTop: "10px" }}>
+                      <label style={{ fontWeight: "bold", padding: "10px" }}>
+                        From Date <span style={{ color: "red" }}>*</span>
+                      </label>
+                      <input
+                        style={{
+                          width: "85%",
+                          margin: "10px",
+                          border: "1px solid var(--primary-color)",
+                          marginTop: "7px",
+                        }}
+                        value={fromdate}
+                        onChange={(e) => {
+                          setfromdate(e.target.value);
+                          setchckstate(false);
+                        }}
+                        type="date"
+                      />
+                    </div>
+                    <div style={{ marginTop: "10px" }}>
+                      <label style={{ fontWeight: "bold", padding: "10px" }}>
+                        To Date <span style={{ color: "red" }}>*</span>
+                      </label>
+                      <input
+                        style={{
+                          width: "85%",
+                          margin: "10px",
+                          border: "1px solid var(--primary-color)",
+                          marginTop: "7px",
+                        }}
+                        value={todate}
+                        onChange={(e) => {
+                          settodate(e.target.value);
+                          setchckstate(false);
+                        }}
+                        type="date"
+                      />
+                    </div>
+                    <button
+                      style={{
+                        width: "30%",
+                        marginTop: "25px",
+                        margin: "10px",
+                        backgroundColor: "white",
+                        border: "2px solid var(  --complementary-color)",
+                        color: "var( --complementary-color)",
+                        fontWeight: "800",
+                        padding: "9px 0",
+                      }}
+                      className="btn1"
+                      onClick={checkbooking}
+                    >
+                      Check Date
+                    </button>
+                   
+                  </div>
+                </div>
+                <div
+                  className="loom_booking_btn-container"
+                  //  style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+                >
+                  {chckstate && (
+                    <button
+                      style={{
+                        width: "30%",
+                        marginTop: "20px",
+                        margin: "10px",
+                      }}
+                      className="btn1"
+                      // onClick={testbook}
+                      onClick={
+                        selectedLoom.BookedFromDate === null
+                          ? () => updateloom(selectedLoom)
+                          : () => bookloom(selectedLoom)
+                      }
+                    >
+                      Submit
+                    </button>
+                  )}
+                </div>
+                <table style={{backgroundColor:'white',}}> 
+                  <thead>
+                    <tr>
+                      <th>Order No.</th>
+                      <th>From Date</th>
+                      <th> To Date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {bookingdata.length ? (
+                      bookingdata
+                        .filter((order) => order.BookedFromDate)
+                        .map((order) => (
+                          <tr>
+                            <td>
+                              {order.OrderNoId
+                                ? "OR" + order.OrderNoId
+                                : order.KnottingOrderId
+                                ? "OR" + order.KnottingOrderId
+                                : "Other"}
+                            </td>
+                            <td>
+                              {order.BookedFromDate.date.substring(0, 10)}
+                            </td>
+                            <td>{order.BookedToDate.date.substring(0, 10)}</td>
+                          </tr>
+                        ))
+                    ) : (
+                      <tr>
+                        <td colSpan="3" style={{ textAlign: "center" }}>
+                          No booking found
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
               </div>
-
-           </div>
 
               <div
                 className={`loom_booking_infoform-container ${
@@ -407,6 +774,7 @@ function Loom_booking() {
                       <h3>Leno Design Equipment: Available </h3>
                     </div>
                   )}
+                  <button className="btn2" style={{marginTop:'5%'}} onClick={()=>navigate('../L-Profile')}>Go to profile</button>
                 </div>
               </div>
             </div>
@@ -444,7 +812,7 @@ export default Loom_booking;
 //         fetch('https://textileapp.microtechsolutions.co.in/php/bookingjoin.php?LoomTraderId=493')
 //             .then(response => response.json())
 //             .then(jsonData => {
-//                 console.log(jsonData);
+//                 //console.log(jsonData);
 //                 setData(jsonData); // Update state with fetched data
 
 //             })

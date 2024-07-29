@@ -141,6 +141,7 @@ import {
   useMaterialReactTable,
 } from 'material-react-table';
 import { MdClose } from "react-icons/md";
+import { toast } from 'react-toastify';
 
 
 const TknottingOffer = () => {
@@ -151,7 +152,25 @@ const TknottingOffer = () => {
 
 
   const closeknottingOverlay = () => {
-    setSelectedRow(null);
+    const knottingconfirmform = new FormData();
+    knottingconfirmform.append("Id", selectedrow.KnottingId);
+    knottingconfirmform.append("TraderId", user.Id);
+    
+    const knottingconnection = {
+      method: "POST",
+      body: knottingconfirmform,
+      redirect: "follow"
+    };
+    
+    fetch("https://textileapp.microtechsolutions.co.in/php/updateknottingoffer.php", knottingconnection)
+      .then((response) => response.text())
+      .then((result) => {//console.log(result)
+        toast.success('Offer request sent')
+        setSelectedRow(null);
+      })
+      .catch((error) => console.error(error));
+    
+
   };
 
 
@@ -206,7 +225,7 @@ const TknottingOffer = () => {
   const table = useMaterialReactTable({
     columns,
     data: transformedData,
-    muiTableHeadCellProps: {
+    muiTableHeadCellProps: { 
       style: {
         backgroundColor: 'var(--color)',
         color: 'var(--primary-color)',
@@ -227,14 +246,15 @@ const TknottingOffer = () => {
       redirect: "follow"
     };
     
-    fetch("https://textileapp.microtechsolutions.co.in/php/getbyid.php?Table=KnottingOffer&Colname=TraderId&Colvalue="+user.Id, requestOptions)
+    fetch("https://textileapp.microtechsolutions.co.in/php/gettable.php?table=KnottingOffer", requestOptions)
       .then((response) => response.json())
-      .then((result) => {console.log(result)
-        settransformedData(result)
+      .then((result) => {//console.log(result.filter((order)=>(order.ConfirmTrader===null && order.ConfirmLoom===null && order.Orderfinish===null)))
+        settransformedData(result.filter((order)=>(order.ConfirmTrader===null && order.ConfirmLoom===null && order.Orderfinish===null)))
       })
       .catch((error) => console.error(error));
   }
   useEffect(()=>{
+
     getknottingoffer()
   },[])
   return (

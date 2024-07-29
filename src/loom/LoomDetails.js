@@ -53,6 +53,16 @@ const LoomDetails = () => {
 
     const handleSubmit = async() => {
         
+       if(!loomNumber || !machineType || !width ||
+        !rpm||
+        !sheddingType||
+        !numFrames||
+        !numFeeders||
+        !numLooms )
+       {
+        toast.error('Fill * Fields') 
+        return;
+       }
         const formdata = new FormData();
         formdata.append("LoomTraderId", user.Id);
         formdata.append("LoomNo", loomNumber);
@@ -72,7 +82,7 @@ const LoomDetails = () => {
         formdata.append("NoOfLooms", numLooms);
 
         try {
-            console.log("Data = ", user.Id, loomNumber, machineType.value, width, rpm, sheddingType.value, numFrames.value, numFeeders.value, attachments.selvadgeJacquard, attachments.topBeam, attachments.cramming, attachments.lenoDesignEquipment, formattedToday, formattedFutureDate, numLooms)
+            // console.log("Data = ", user.Id, loomNumber, machineType.value, width, rpm, sheddingType.value, numFrames.value, numFeeders.value, attachments.selvadgeJacquard, attachments.topBeam, attachments.cramming, attachments.lenoDesignEquipment, formattedToday, formattedFutureDate, numLooms)
             const response = await fetch("https://textileapp.microtechsolutions.co.in/php/postloomdetail.php", {
                 method: "POST",
                 body: formdata,
@@ -89,7 +99,7 @@ const LoomDetails = () => {
 
 
 
-                toast.success('Data Sent')
+                toast.success('Loom Created')
 
 
             }
@@ -113,79 +123,79 @@ const LoomDetails = () => {
             cramming: false,
         });
     };
+    const fetchMachineTypes = async () => {
+        try {
+            const response = await fetch('https://textileapp.microtechsolutions.co.in/php/gettable.php?table=MachineType');
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            const options = data.map((item) => ({
+                value: item.Name, // Use a unique identifier if available, otherwise use Name as value
+                label: item.Name // Use the "Name" field for the label
+            }));
+            setMachineType(options.value)
+            setMachineTypeoption(options);
+
+        } catch (error) {
+            toast.error(error)
+        }
+    };
+    const fetchshreddingTypes = async () => {
+        try {
+            const response = await fetch('https://textileapp.microtechsolutions.co.in/php/gettable.php?table=SheddingType');
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            const options = data.map((item) => ({
+                value: item.Name, // Use a unique identifier if available, otherwise use Name as value
+                label: item.Name // Use the "Name" field for the label
+            }));
+            setSheddingType(options.value)
+            setshreddingtypeoptions(options);
+
+        } catch (error) {
+            toast.error(error)
+        }
+    };
+    const fetchnooffeederTypes = async () => {
+        try {
+            const response = await fetch('https://textileapp.microtechsolutions.co.in/php/gettable.php?table=NoOfFeeders');
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            const options = data.map((item) => ({
+                value: item.Range, // Use a unique identifier if available, otherwise use Name as value
+                label: item.Range // Use the "Name" field for the label
+            }));
+            setNumFeeders(options.value)
+            setnooffeedersoptions(options);
+
+        } catch (error) {
+            toast.error(error)
+        }
+    };
+    const fetchnoofframesTypes = async () => {
+        try {
+            const response = await fetch('https://textileapp.microtechsolutions.co.in/php/gettable.php?table=NoOfFrame');
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            const options = data.map((item) => ({
+                value: item.Range, // Use a unique identifier if available, otherwise use Name as value
+                label: item.Range // Use the "Name" field for the label
+            }));
+            setNumFrames(options.value)
+            setnoofframesoptions(options);
+
+        } catch (error) {
+            toast.error(error)
+        }
+    };
     useEffect(() => {
-        const fetchMachineTypes = async () => {
-            try {
-                const response = await fetch('https://textileapp.microtechsolutions.co.in/php/gettable.php?table=MachineType');
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const data = await response.json();
-                const options = data.map((item) => ({
-                    value: item.Name, // Use a unique identifier if available, otherwise use Name as value
-                    label: item.Name // Use the "Name" field for the label
-                }));
-                setMachineType(options.value)
-                setMachineTypeoption(options);
-
-            } catch (error) {
-                toast.error(error)
-            }
-        };
-        const fetchshreddingTypes = async () => {
-            try {
-                const response = await fetch('https://textileapp.microtechsolutions.co.in/php/gettable.php?table=SheddingType');
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const data = await response.json();
-                const options = data.map((item) => ({
-                    value: item.Name, // Use a unique identifier if available, otherwise use Name as value
-                    label: item.Name // Use the "Name" field for the label
-                }));
-                setSheddingType(options.value)
-                setshreddingtypeoptions(options);
-
-            } catch (error) {
-                toast.error(error)
-            }
-        };
-        const fetchnooffeederTypes = async () => {
-            try {
-                const response = await fetch('https://textileapp.microtechsolutions.co.in/php/gettable.php?table=NoOfFeeders');
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const data = await response.json();
-                const options = data.map((item) => ({
-                    value: item.Range, // Use a unique identifier if available, otherwise use Name as value
-                    label: item.Range // Use the "Name" field for the label
-                }));
-                setNumFeeders(options.value)
-                setnooffeedersoptions(options);
-
-            } catch (error) {
-                toast.error(error)
-            }
-        };
-        const fetchnoofframesTypes = async () => {
-            try {
-                const response = await fetch('https://textileapp.microtechsolutions.co.in/php/gettable.php?table=NoOfFrame');
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const data = await response.json();
-                const options = data.map((item) => ({
-                    value: item.Range, // Use a unique identifier if available, otherwise use Name as value
-                    label: item.Range // Use the "Name" field for the label
-                }));
-                setNumFrames(options.value)
-                setnoofframesoptions(options);
-
-            } catch (error) {
-                toast.error(error)
-            }
-        };
 
         fetchMachineTypes();
         fetchshreddingTypes();
@@ -202,7 +212,7 @@ const LoomDetails = () => {
                 <div style={{ padding: '10px', }} className='loom-detail-form' >
                     <div className='loomform-container'>
                         <div style={{ padding: '10px', }}>
-                            <label style={{ fontWeight: 'bold' }} >Loom Number</label>
+                            <label style={{ fontWeight: 'bold' }} >Loom Number <span style={{ color: "red" }}>*</span></label>
                             <input
                                 style={{ width: '90%', margin: "10px", border: '1px solid var(--primary-color)', marginTop: '20px' }}
                                 placeholder='Enter Loom Number'
@@ -212,11 +222,11 @@ const LoomDetails = () => {
                             />
 
                             <div style={{ marginTop: '13px' }}>
-                                <label style={{ fontWeight: 'bold' }}>RPM</label>
+                                <label style={{ fontWeight: 'bold' }}>RPM <span style={{ color: "red" }}>*</span></label>
                                 <input
                                     style={{ width: '90%', margin: "10px", border: '1px solid var(--primary-color)' }}
                                     placeholder='Enter RPM'
-                                    type='text'
+                                    type='number'
                                     value={rpm}
                                     onChange={(e) => setRpm(e.target.value)}
                                 />
@@ -226,7 +236,7 @@ const LoomDetails = () => {
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '25px' }}>
                             <div style={{ marginTop: '14px' }}>
                                 <div className='label-container'>
-                                    <label style={{ fontWeight: 'bold' }}>Machine Type</label>
+                                    <label style={{ fontWeight: 'bold' }}>Machine Type <span style={{ color: "red" }}>*</span></label>
                                 </div>
                                 <Select
                                     className='MachineType-select-dropdown'
@@ -240,7 +250,7 @@ const LoomDetails = () => {
 
                             <div>
                                 <div className='label-container'>
-                                    <label style={{ fontWeight: 'bold' }}>No of Feeders</label>
+                                    <label style={{ fontWeight: 'bold' }}>No of Feeders <span style={{ color: "red" }}>*</span></label>
                                 </div>
                                 <Select
                                     className='select-dropdown'
@@ -255,7 +265,7 @@ const LoomDetails = () => {
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '25px' }}>
                             <div style={{ marginTop: '14px' }}>
                                 <div className='label-container'>
-                                    <label style={{ fontWeight: 'bold' }}>Shedding Type</label>
+                                    <label style={{ fontWeight: 'bold' }}>Shedding Type <span style={{ color: "red" }}>*</span></label>
                                 </div>
                                 <Select
                                     className='MachineType-select-dropdown'
@@ -269,7 +279,7 @@ const LoomDetails = () => {
 
                             <div>
                                 <div className='label-container'>
-                                    <label style={{ fontWeight: 'bold' }}>No of Frames </label>
+                                    <label style={{ fontWeight: 'bold' }}>No of Frames <span style={{ color: "red" }}>*</span> </label>
                                 </div>
                                 <Select
                                     className='select-dropdown'
@@ -282,21 +292,21 @@ const LoomDetails = () => {
                             </div>
                         </div>
                         <div style={{ padding: '10px' }}>
-                            <label style={{ fontWeight: 'bold' }}>Width</label>
+                            <label style={{ fontWeight: 'bold' }}>Width <span style={{ color: "red" }}>*</span></label>
                             <input
                                 style={{ width: '90%', margin: "10px", border: '1px solid var(--primary-color)', marginTop: '13px' }}
                                 placeholder='Enter Width'
-                                type='text'
+                                type='number'
                                 value={width}
                                 onChange={(e) => setWidth(e.target.value)}
                             />
 
                             <div style={{ marginTop: '20px' }}>
-                                <label style={{ fontWeight: 'bold' }}>No of Looms</label>
+                                <label style={{ fontWeight: 'bold' }}>No of Looms <span style={{ color: "red" }}>*</span></label>
                                 <input
                                     style={{ width: '90%', margin: "10px", border: '1px solid var(--primary-color)' }}
                                     placeholder='Enter No of Looms'
-                                    type='text'
+                                    type='number'
                                     value={numLooms}
                                     onChange={(e) => setNumLooms(e.target.value)}
                                 />

@@ -9,23 +9,22 @@ import {
 } from 'material-react-table';
 import { FaInfoCircle } from "react-icons/fa";
 
+ const Jobwork = () => {
+ const userString = sessionStorage.getItem('user');
+ const user = userString ? JSON.parse(userString) : null;
+ const [data, setData] = useState([]);
+ const navigate = useNavigate();
+ const [selectedEnquiry, setSelectedEnquiry] = useState(null);
 
-const Jobwork = () => {
-  const userString = sessionStorage.getItem('user');
-  const user = userString ? JSON.parse(userString) : null;
-  const [data, setData] = useState([]);
-  const navigate = useNavigate();
-  const [selectedEnquiry, setSelectedEnquiry] = useState(null);
-
-  const handleEnquiryNoClick = (enquiryNo) => {
+ const handleEnquiryNoClick = (enquiryNo) => {
     navigate(`../updateenquiry/${enquiryNo}`);
   };
 
-  const getEnquiry = () => {
+ const getEnquiry = () => {
     fetch('https://textileapp.microtechsolutions.co.in/php/getenquirybymachine.php?LoomTraderId='+user.Id)
         .then(response => response.json())
         .then(jsonData => {
-            console.log(jsonData);
+            //console.log(jsonData);
             setData(jsonData); // Update state with fetched data
         })
         .catch(error => {
@@ -37,15 +36,15 @@ useEffect(() => {
 
 }, []);
 
-  const handleInfoIconClick = (enquiry) => {
+ const handleInfoIconClick = (enquiry) => {
     setSelectedEnquiry(enquiry);
   };
 
-  const closeOverlay = () => {
+ const closeOverlay = () => {
     setSelectedEnquiry(null);
   };
 
-  const columns = useMemo(
+ const columns = useMemo(
     () => [
       {
         accessorKey: 'srNo',
@@ -66,8 +65,8 @@ useEffect(() => {
         header: 'Enquiry Date',
         size: 150,
         Cell: ({ cell }) => {
-          const date = new Date(cell.getValue());
-          const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+         const date = new Date(cell.getValue());
+         const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
           return formattedDate;
         },
       },
@@ -92,7 +91,7 @@ useEffect(() => {
     [],
   );
 
-  const table = useMaterialReactTable({
+ const table = useMaterialReactTable({
     columns,
     data: data, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
     muiTableBodyRowProps: ({ row }) => ({
@@ -159,7 +158,7 @@ export default Jobwork;
 // import { useNavigate } from 'react-router-dom';
 // import { MaterialReactTable, useMaterialReactTable } from 'material-react-table';
 
-// const transformedData = [
+//  const transformedData = [
 //   {
 //     srNo: 1,
 //     enquiryNo: 'ENQ001',
@@ -207,14 +206,14 @@ export default Jobwork;
 //   },
 // ];
 
-// const Jobwork = () => {
-//   const navigate = useNavigate();
+//  const Jobwork = () => {
+//    const navigate = useNavigate();
 
-//   const handleEnquiryNoClick = (enquiryNo) => {
+//    const handleEnquiryNoClick = (enquiryNo) => {
 //     navigate(`/updateenquiry/${enquiryNo}`); // Assuming you want to pass enquiryNo in the path
 //   };
 
-//   const columns = useMemo(
+//    const columns = useMemo(
 //     () => [
 //       {
 //         accessorKey: 'srNo', // Sr.No column
@@ -248,7 +247,7 @@ export default Jobwork;
 //     [],
 //   );
 
-//   const table = useMaterialReactTable({
+//    const table = useMaterialReactTable({
 //     columns,
 //     data: transformedData, // data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
 //     muiTableHeadCellProps: {

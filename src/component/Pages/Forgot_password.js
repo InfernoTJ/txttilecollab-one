@@ -1,21 +1,56 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import {  useNavigate } from 'react-router-dom';
 import logo from '../../common/static/image/logo.png'
-
+import { toast } from 'react-toastify';
+import password from '../../common/static/image/password.webp'
 const Forgot_password = () => {
+    const userString = sessionStorage.getItem('email');
+    const email = userString ? JSON.parse(userString) : null;
 
     const [resetPass, setResetPass] = useState('');
+    const [confmPass, setconfmPass] = useState('');
 
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     // navigate('/loom-register/otp/resgistrationform')
-    // };
-    // const navigate = useNavigate('')
+
+
     const navigate = useNavigate('')
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        navigate('/');
+    const handleSubmit = () => {
+        if (confmPass===resetPass) {
+           
+           if (resetPass.length > 5) {
+             const passwordresetform = new FormData();
+             passwordresetform.append("AppUserId", email);
+             passwordresetform.append("Password",resetPass );
+             
+             const passwordresetconn = {
+               method: "POST",
+               body: passwordresetform,
+               redirect: "follow"
+             };
+             
+             fetch("https://textileapp.microtechsolutions.co.in/php/updatepassword.php", passwordresetconn)
+               .then((response) => response.text())
+               .then((result) => {//console.log(result)
+                 toast.success('Password sucessfully reset.')
+                 navigate('/');
+                 sessionStorage.removeItem('email')
+               })
+               .catch((error) => console.error(error));
+ 
+             return
+           } else {
+            toast.error('Minimun 6 characters password')
+            return
+           }
+        } else {
+            toast.error('Both passwords should be same.')
+
+            return
+        }
+         
     };
+    useEffect(()=>{
+      
+    })
 
   return (
     <div  className='loomregister-container'>
@@ -24,12 +59,13 @@ const Forgot_password = () => {
             <img src={logo} alt="Logo" />
         </div>
         <div className='registration-login-form' >
+                <img src={password} style={{ position:'absolute',top:20}} alt='' />
         
-     
         <div className='loomForgotPass-otp-container'>
-            <div className='form-group'>
-                <label>Reset Password</label>
+            <div style={{ marginTop: '50px'}} className='form-group'>
+                <label style={{fontSize:'20px',marginBottom:'10px'}}>Reset Password</label>
                 <input
+                style={{width:'20vw'}}
                     type='text'
                     placeholder='Enter New Password'
                     // id='otp'
@@ -39,8 +75,22 @@ const Forgot_password = () => {
                 />
             </div>
            
-            <div style={{ marginTop: '10px'}}>
-                <button onClick={handleSubmit}  className='btn2' >Submit</button>
+
+            <div style={{ marginTop: '50px'}} className='form-group'>
+                <label style={{fontSize:'20px',marginBottom:'10px'}}>Confirm Password</label>
+                <input
+                style={{width:'20vw'}}
+                    type='text'
+                    placeholder='Confirm Password'
+                    // id='otp'
+                    // name='otp'
+                    value={confmPass}
+                    onChange={(e) => setconfmPass(e.target.value)}
+                />
+            </div>
+
+            <div style={{ marginTop: '50px',textAlign:'center' }}>
+                <button style={{width:'10vw'}} onClick={handleSubmit}  className='btn2' >Submit</button>
             </div>
         </div>
     </div>
@@ -49,4 +99,4 @@ const Forgot_password = () => {
   )
 }
 
-export default Forgot_password
+export default Forgot_password

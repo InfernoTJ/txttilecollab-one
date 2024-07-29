@@ -47,6 +47,7 @@ import MyEnquiries from './trader_Side/MyEnquiries.js';
 import Notification from '../src/YarnSide/Notification';
 import Y_loom from './YarnSide/Y_loom.js';
 import Y_trader from './YarnSide/Y_trader.js';
+import TKnottingliveorder from './trader_Side/knottingliveorders.js'
 
 import GenerateknottingOffer from '../src/loom/GenerateknottingOffer.js';
 import KnottingResponse from './loom/KnottingResponse.js';
@@ -76,6 +77,7 @@ function App() {
             <Route path='knottingResponse' element={<KnottingResponse/>}/>
 
             <Route path='trader-knotting-offers' element={<TknottingOffer/>}/>
+            <Route path='trader-live-order' element={<TKnottingliveorder/>}/>
             <Route path='get-yarn' element={<GetYarn />} />
             <Route path='trader-get-yarn' element={<YarnRateT />} />
             <Route path='calculation' element={<Calculation />} />

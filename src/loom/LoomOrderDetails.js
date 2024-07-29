@@ -10,7 +10,7 @@ import "../common/static/css/Liveorder.css";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
-   
+import { IoMdRefresh  } from "react-icons/io";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -248,7 +248,7 @@ const[checkdrawingin,setcheckdrawingin]=useState()
     )
       .then((response) => response.text())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         toast.success("Message Sent");
         setInputText("");
         firstpicedetails();
@@ -268,7 +268,7 @@ const[checkdrawingin,setcheckdrawingin]=useState()
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         setdata(result);
       })
       .catch((error) => console.error(error));
@@ -298,7 +298,7 @@ const[checkdrawingin,setcheckdrawingin]=useState()
       )
         .then((response) => response.text())
         .then((result) => {
-          console.log(result);
+          //console.log(result);
           beamindetails();
           setTableRows([]);
           toast.success("Response submitted");
@@ -330,7 +330,7 @@ const[checkdrawingin,setcheckdrawingin]=useState()
       )
         .then((response) => response.text())
         .then((result) => {
-          console.log(result);
+          //console.log(result);
           toast.success("Response submitted");
           setWeftRow([])
           weftyarndetails();
@@ -357,7 +357,7 @@ const[checkdrawingin,setcheckdrawingin]=useState()
     )
       .then((response) => response.text())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         toast.success("Response submitted");
         drawingindetails();
       })
@@ -381,7 +381,7 @@ const[checkdrawingin,setcheckdrawingin]=useState()
     )
       .then((response) => response.text())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         toast.success("Response submitted");
         beamgettingdetails();
 
@@ -417,7 +417,7 @@ const[checkdrawingin,setcheckdrawingin]=useState()
       )
         .then((response) => response.text())
         .then((result) => {
-          console.log(result);
+          //console.log(result);
           toast.success("Response submitted");
          setFabricRow([])
           fabricdispatchdetails();
@@ -454,7 +454,7 @@ const[checkdrawingin,setcheckdrawingin]=useState()
       )
         .then((response) => response.text())
         .then((result) => {
-          console.log(result);
+          //console.log(result);
           toast.success("Response submitted");
           goodsreturnsdetails();
           setReturnRow([])
@@ -476,7 +476,7 @@ const[checkdrawingin,setcheckdrawingin]=useState()
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         setbeamindata(result);
       })
       .catch((error) => console.error(error));
@@ -495,7 +495,7 @@ const[checkdrawingin,setcheckdrawingin]=useState()
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         setweftyarnindata(result);
       })
       .catch((error) => console.error(error));
@@ -513,7 +513,7 @@ const[checkdrawingin,setcheckdrawingin]=useState()
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         const enq = result[0];
         setdrawingindata(enq.Status);
         setdrawingindate(enq.CreatedOn.date.substring(0, 10));
@@ -533,7 +533,7 @@ const[checkdrawingin,setcheckdrawingin]=useState()
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         const enq = result[0];
         setbeamgettingdata(enq.Status);
         setbeamgettingdate(enq.CreatedOn.date.substring(0, 10));
@@ -553,7 +553,7 @@ const[checkdrawingin,setcheckdrawingin]=useState()
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         setfirstpiecechatdata(result);
       })
       .catch((error) => console.error(error));
@@ -571,7 +571,7 @@ const[checkdrawingin,setcheckdrawingin]=useState()
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         setfabricdispatchdata(result);
       })
       .catch((error) => console.error(error));
@@ -589,7 +589,7 @@ const[checkdrawingin,setcheckdrawingin]=useState()
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         setgoodsreturnsdata(result);
       })
       .catch((error) => console.error(error));
@@ -603,7 +603,7 @@ const[checkdrawingin,setcheckdrawingin]=useState()
     firstpicedetails();
     fabricdispatchdetails();
     goodsreturnsdetails();
-    console.log("this is the main", tableRows.photo);
+    //console.log("this is the main", tableRows.photo);
   }, []);
 
   const convertDateFormat = (dateString) => {
@@ -636,7 +636,7 @@ const requestOptions = {
 
 fetch("https://textileapp.microtechsolutions.co.in/php/finishloomorder.php?LoomOrderId="+orderid, requestOptions)
   .then((response) => response.text())
-  .then((result) => {console.log(result)
+  .then((result) => {//console.log(result)
     toast.success('Order Completed')
     navigate('../completed-orders')
   })
@@ -650,6 +650,8 @@ fetch("https://textileapp.microtechsolutions.co.in/php/finishloomorder.php?LoomO
           borderRadius: "20px",
           backgroundColor: "var(  --background-color)",
           margin: "10px",
+      position:'relative'
+
         }}
       >
         <h3
@@ -662,9 +664,10 @@ fetch("https://textileapp.microtechsolutions.co.in/php/finishloomorder.php?LoomO
           {" "}
           Order Details{" "}
         </h3>
+        <button className="btn2" style={{position:'absolute' , top:'15%',right:'19%'}} onClick={()=> navigate(`../loom/LoomBooking/${orderid}`)}>Book more Looms</button> 
         <div
           style={{
-            display: "flex",
+            display: "flex", 
             flexDirection: "row",
             marginTop: "-17px",
             margin: "10px",
@@ -1053,7 +1056,12 @@ fetch("https://textileapp.microtechsolutions.co.in/php/finishloomorder.php?LoomO
                 borderRadius: "10px",
                 padding: "20px",
               }}
-            >
+            > <button className="btn2" onClick={()=>{firstpicedetails(); 
+              toast.success('Refreshed chat');}}><span style={{display: 'flex',
+              alignItems: 'center',
+              gap: '10px' ,fontSize:'18px' }}>
+              Refresh chat  <IoMdRefresh  style={{ color:'white',fontSize:'25px'}} />
+              </span></button>
               <div
                 className="msgs-container"
                 style={{
@@ -1063,6 +1071,7 @@ fetch("https://textileapp.microtechsolutions.co.in/php/finishloomorder.php?LoomO
                   flexDirection: "column-reverse",
                 }}
               >
+               
                 {firstpiecechatdata
                   .slice()
                   .reverse()

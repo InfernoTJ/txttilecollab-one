@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import add from "../common/static/image/emptybox1.jpg";
 const Trliveorder = () => {
   const userString = sessionStorage.getItem("user");
   const user = userString ? JSON.parse(userString) : null;
   const navigate = useNavigate();
 
   const handlecardclick = (order) => {
-    navigate(`../trader-live-orders/trorderdetails/${order.LoomOrderId}`,{ state:{ Name: order.Name, Completed: order.Completed },});
+    navigate(`../trader-live-orders/trorderdetails/${order.LoomOrderId}`, {
+      state: { Name: order.Name, Completed: order.Completed },
+    });
   };
-  const [orderno, setOrderno] = useState("12345");
-  const [dateto, setDateto] = useState("2024-12-31");
-  const [party, setParty] = useState("John Doe");
+
   const [liveOrders, setLiveOrders] = useState([]);
 
   useEffect(() => {
@@ -28,8 +28,16 @@ const Trliveorder = () => {
       )
         .then((response) => response.json())
         .then((result) => {
-          console.log(result);
-          setLiveOrders(Array.isArray(result) ? result : []);
+          // console.log(
+          //   result.filter(
+          //     (order) => order.Confirmed === 1 && order.Completed === null
+          //   )
+          // );
+          setLiveOrders(
+            result.filter(
+              (order) => order.Confirmed === 1 && order.Completed === null
+            )
+          );
         })
         .catch((error) => console.error(error));
     };
@@ -45,6 +53,24 @@ const Trliveorder = () => {
         </h1>
       </div>
 
+      {liveOrders.length === 0 && (
+        <div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "column",
+              height: "80vh",
+            }}
+          >
+            {" "}
+            <img src={add} style={{ width: "25%" }} alt="add" />
+            <h2 style={{ color: "#dda960", fontSize: "35px" }}>No order yet</h2>
+          </div>
+        </div>
+      )}
+
       <div
         style={{
           padding: "20px",
@@ -57,45 +83,42 @@ const Trliveorder = () => {
         }}
         className="trlive-Order-cards"
       >
-        {/* mapfrom here  */}
-        {liveOrders
-                .filter((order) => order.Confirmed === 1 && order.Completed===null)
-                .map((order) => (
-        <div
-          style={{
-            border: "3px solid var(--tershary-color)",
-            borderRadius: "10px",
-          }}
-          className="trlive-order-box"
-        >
+        {liveOrders.map((order) => (
           <div
-            onClick={ ()=>handlecardclick(order)}
-            style={{ marginLeft: "10px", cursor: "pointer" }}
+            style={{
+              border: "3px solid var(--tershary-color)",
+              borderRadius: "10px",
+            }}
+            className="trlive-order-box"
           >
             <div
-              style={{ color: "var(--secondary-color)", fontWeight: "bold" }}
+              onClick={() => handlecardclick(order)}
+              style={{ marginLeft: "10px", cursor: "pointer" }}
             >
-              <p>
-                OR :<b>{order.OrderNo}</b>{" "}
-
-
-              </p>
-            </div>
-            <div
-              style={{ color: "var(--secondary-color)", fontWeight: "bold" }}
-            >
-              <p>
-                Party :<b>{order.Name} </b>{" "}
-              </p>
-            </div>
-            <div
-              style={{ color: "var(--secondary-color)", fontWeight: "bold" }}
-            >
-              <p>Quality :   <b>{order.Quality} </b></p>
+              <div
+                style={{ color: "var(--secondary-color)", fontWeight: "bold" }}
+              >
+                <p>
+                  OR :<b>{order.OrderNo}</b>{" "}
+                </p>
+              </div>
+              <div
+                style={{ color: "var(--secondary-color)", fontWeight: "bold" }}
+              >
+                <p>
+                  Party :<b>{order.Name} </b>{" "}
+                </p>
+              </div>
+              <div
+                style={{ color: "var(--secondary-color)", fontWeight: "bold" }}
+              >
+                <p>
+                  Quality : <b>{order.Quality} </b>
+                </p>
+              </div>
             </div>
           </div>
-        
-        </div>))}
+        ))}
       </div>
     </div>
   );

@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom';
 
 const Myloom = () => {
     const navigate = useNavigate();
-
+    const userString = sessionStorage.getItem("user");
+    const user = userString ? JSON.parse(userString) : null;
     const handleMyloomcardClick = (data) => {
       navigate(`../myloomdetails/`+data.Id);
     };
@@ -13,13 +14,13 @@ const Myloom = () => {
     const getlooms= ()=>{
         const requestOptions = {
             method: "GET",
-            redirect: "follow"
+            redirect: "follow" 
           };
           
-          fetch("https://textileapp.microtechsolutions.co.in/php/getbyid.php?Table=LoomsDetails&Colname=LoomTraderId&Colvalue=529", requestOptions)
+          fetch("https://textileapp.microtechsolutions.co.in/php/getbyid.php?Table=LoomsDetails&Colname=LoomTraderId&Colvalue="+user.Id, requestOptions)
             .then((response) => response.json())
-            .then((result) => {console.log(result)
-                setdata(result)
+            .then((result) => {//console.log(result.filter((loom)=>loom.Active===1))
+                setdata(result.filter((loom)=>loom.Active===1))
             })
             .catch((error) => console.error(error));
     }

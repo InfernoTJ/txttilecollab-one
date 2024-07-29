@@ -66,7 +66,34 @@ const GenerateEnquiry = () => {
 
   const handleSubmit = () => {
     // Reset all fields
-
+    if (
+      !dateFrom ||
+      !dateTo ||
+      !reed ||
+      !PPI ||
+      !wrapCount ||
+      !weftCount ||
+      !reedSpace ||
+      !fabricLength ||
+      !numOfLooms ||
+      !jobRate ||
+      !fabricWidth ||
+      !machineType ||
+      !machineWidth ||
+      !Rpm ||
+      !sheddingType ||
+      !numOFFrames ||
+      !numoFFeeders
+    ) {
+      toast.error("Enter * fields");
+      return;
+    }
+    if(dateFrom>dateTo)
+      {
+        toast.error('Invalid from date and to date format')
+        return;
+      }
+      
     const formdata = new FormData();
     formdata.append("EnquiryDate", todaysdate);
     formdata.append("TraderId", user.Id);
@@ -84,7 +111,7 @@ const GenerateEnquiry = () => {
     formdata.append("DeliveryDate", deliveryDate);
     formdata.append("Description", description);
     formdata.append("Photopath", selectedFile);
-console.log('thefileeeisssssss',selectedFile);
+
     const requestOptions = {
       method: "POST",
       body: formdata,
@@ -105,9 +132,9 @@ console.log('thefileeeisssssss',selectedFile);
     )
       .then((response) => response.text())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         setenqid(result);
-    
+
         newform.append("EnquiryId", result);
         newform.append("LoomNo", "");
         newform.append("MachineType", machineType.value);
@@ -120,13 +147,14 @@ console.log('thefileeeisssssss',selectedFile);
         newform.append("TopBeam", TopBeam);
         newform.append("Cramming", Cramming);
         newform.append("LenoDesignEquipment", LenoDesignEquipment);
+
         fetch(
           "https://textileapp.microtechsolutions.co.in/php/postenquirydetail.php",
           requestOption
         )
           .then((response) => response.text())
           .then((result) => {
-            console.log(result);
+            //console.log(result);
             setDateFrom("");
             setDateTo("");
             setReed("");
@@ -141,14 +169,13 @@ console.log('thefileeeisssssss',selectedFile);
             setAgentName("");
             setMachineWidth("");
             setRpm("");
-            setSelectedFile(null); 
+            setSelectedFile(null);
             if (fileInputRef.current) {
               fileInputRef.current.value = null;
-            
-          } else { 
-            console.error('File upload failed');
-          }
-                    setPreview(null); 
+            } else {
+              console.error("File upload failed");
+            }
+            setPreview(null);
             setNumOfFrames("");
             setNumOfLooms("");
             setjobRate("");
@@ -185,7 +212,6 @@ console.log('thefileeeisssssss',selectedFile);
   };
 
   useEffect(() => {
-   
     const fetchMachineTypes = async () => {
       try {
         const response = await fetch(
@@ -268,7 +294,7 @@ console.log('thefileeeisssssss',selectedFile);
     fetchnooffeederTypes();
     fetchnoofframesTypes();
 
-    console.log(selectedFile);
+    //console.log(selectedFile);
   }, []);
   return (
     <div
@@ -291,7 +317,7 @@ console.log('thefileeeisssssss',selectedFile);
             <div style={{ margin: "5px" }}>
               <div style={{ marginTop: "13px" }}>
                 <label style={{ fontWeight: "bold", margin: "10px" }}>
-                  Date From
+                  Date From <span style={{ color: "red" }}>*</span>
                 </label>
                 <input
                   value={dateFrom}
@@ -307,7 +333,7 @@ console.log('thefileeeisssssss',selectedFile);
 
               <div style={{ marginTop: "13px" }}>
                 <label style={{ fontWeight: "bold", margin: "10px" }}>
-                  Total Fabric Length
+                  Total Fabric Length <span style={{ color: "red" }}>*</span>
                 </label>
                 <div
                   style={{
@@ -325,7 +351,7 @@ console.log('thefileeeisssssss',selectedFile);
                       marginTop: "0px",
                       border: "1px solid var(--primary-color)",
                     }}
-                    type="text"
+                    type="number"
                     placeholder="Enter Fabric Length"
                   />
                   <button className="btn3">meter</button>
@@ -341,7 +367,7 @@ console.log('thefileeeisssssss',selectedFile);
                       fontSize: "16px",
                     }}
                   >
-                    Machine Type
+                    Machine Type <span style={{ color: "red" }}>*</span>
                   </label>
                 </div>
                 <Select
@@ -355,7 +381,7 @@ console.log('thefileeeisssssss',selectedFile);
               </div>
               <div style={{ marginTop: "16px" }}>
                 <label style={{ fontWeight: "bold", margin: "10px" }}>
-                  RPM
+                  RPM <span style={{ color: "red" }}>*</span>
                 </label>
                 <input
                   value={Rpm}
@@ -365,7 +391,7 @@ console.log('thefileeeisssssss',selectedFile);
                     margin: "10px",
                     border: "1px solid var(--primary-color)",
                   }}
-                  type="text"
+                  type="number"
                   placeholder="RPM"
                 />
               </div>
@@ -374,7 +400,7 @@ console.log('thefileeeisssssss',selectedFile);
             <div style={{ margin: "5px" }}>
               <div style={{ marginTop: "13px" }}>
                 <label style={{ fontWeight: "bold", margin: "10px" }}>
-                  Date To
+                  Date To <span style={{ color: "red" }}>*</span>
                 </label>
                 <input
                   value={dateTo}
@@ -390,7 +416,7 @@ console.log('thefileeeisssssss',selectedFile);
 
               <div style={{ marginTop: "13px" }}>
                 <label style={{ fontWeight: "bold", margin: "10px" }}>
-                  Delivery Date
+                  Delivery Date 
                 </label>
                 <input
                   value={deliveryDate}
@@ -407,7 +433,7 @@ console.log('thefileeeisssssss',selectedFile);
               <div style={{ marginTop: "8px" }}>
                 <div className="label-container">
                   <label style={{ fontWeight: "bold", fontSize: "16px" }}>
-                    Shedding Type
+                    Shedding Type <span style={{ color: "red" }}>*</span>
                   </label>
                 </div>
                 <Select
@@ -422,7 +448,7 @@ console.log('thefileeeisssssss',selectedFile);
 
               <div style={{ marginTop: "13px" }}>
                 <label style={{ fontWeight: "bold", margin: "10px" }}>
-                  Machine Width
+                  Machine Width <span style={{ color: "red" }}>*</span>
                 </label>
                 <input
                   value={machineWidth}
@@ -432,7 +458,7 @@ console.log('thefileeeisssssss',selectedFile);
                     margin: "10px",
                     border: "1px solid var(--primary-color)",
                   }}
-                  type="text"
+                  type="number"
                   placeholder="Machine Width in CM"
                 />
               </div>
@@ -488,7 +514,6 @@ console.log('thefileeeisssssss',selectedFile);
                     style={{ width: "20px" }}
                     checked={SelvadgeJacquard}
                     type="checkbox"
-                   
                     onChange={(e) => setSelvedgeJacquard(!SelvadgeJacquard)}
                   />
                 </div>
@@ -506,8 +531,9 @@ console.log('thefileeeisssssss',selectedFile);
                   <input
                     style={{ width: "20px" }}
                     checked={LenoDesignEquipment}
-              
-                    onChange={(e) => setLenoDesignEquipment(!LenoDesignEquipment)}
+                    onChange={(e) =>
+                      setLenoDesignEquipment(!LenoDesignEquipment)
+                    }
                     type="checkbox"
                   />
                 </div>
@@ -544,7 +570,6 @@ console.log('thefileeeisssssss',selectedFile);
                 <div>
                   <input
                     checked={TopBeam}
-                  
                     onChange={(e) => setTopBeam(!TopBeam)}
                     style={{ width: "20px" }}
                     type="checkbox"
@@ -563,7 +588,6 @@ console.log('thefileeeisssssss',selectedFile);
                 <div>
                   <input
                     checked={Cramming}
-  
                     onChange={(e) => setCramming(!Cramming)}
                     style={{ width: "20px" }}
                     type="checkbox"
@@ -587,7 +611,7 @@ console.log('thefileeeisssssss',selectedFile);
               }}
             >
               <label style={{ fontWeight: "bold", marginLeft: "10px" }}>
-                Fabric Quality
+                Fabric Quality <span style={{ color: "red" }}>*</span>
               </label>
               <div
                 style={{
@@ -604,7 +628,7 @@ console.log('thefileeeisssssss',selectedFile);
                     margin: "8px",
                     border: "1px solid var(--primary-color)",
                   }}
-                  type="text"
+                  type="number"
                   placeholder="Reed"
                 />
                 <div
@@ -624,7 +648,7 @@ console.log('thefileeeisssssss',selectedFile);
                     margin: "8px",
                     border: "1px solid var(--primary-color)",
                   }}
-                  type="text"
+                  type="number"
                   placeholder="PPI"
                 />
                 <div
@@ -644,7 +668,7 @@ console.log('thefileeeisssssss',selectedFile);
                     margin: "8px",
                     border: "1px solid var(--primary-color)",
                   }}
-                  type="text"
+                  type="number"
                   placeholder="warp count"
                 />
                 <div
@@ -664,7 +688,7 @@ console.log('thefileeeisssssss',selectedFile);
                     margin: "8px",
                     border: "1px solid var(--primary-color)",
                   }}
-                  type="text"
+                  type="number"
                   placeholder="weft count"
                 />
                 <div
@@ -684,7 +708,7 @@ console.log('thefileeeisssssss',selectedFile);
                     margin: "8px",
                     border: "1px solid var(--primary-color)",
                   }}
-                  type="text"
+                  type="number"
                   placeholder="reed space"
                 />
               </div>
@@ -700,7 +724,7 @@ console.log('thefileeeisssssss',selectedFile);
               <div>
                 <div style={{ marginTop: "18px" }}>
                   <label style={{ fontWeight: "bold", margin: "10px" }}>
-                    Fabric Width
+                    Fabric Width <span style={{ color: "red" }}>*</span>
                   </label>
                   <input
                     value={fabricWidth}
@@ -710,7 +734,7 @@ console.log('thefileeeisssssss',selectedFile);
                       margin: "10px",
                       border: "1px solid var(--primary-color)",
                     }}
-                    type="text"
+                    type="number"
                     placeholder="Fabric Width"
                   />
                 </div>
@@ -718,7 +742,7 @@ console.log('thefileeeisssssss',selectedFile);
                 <div style={{ marginTop: "15px" }}>
                   <div className="Frames-label-container">
                     <label style={{ fontWeight: "bold", fontSize: "16px" }}>
-                      No of Frames
+                      No of Frames <span style={{ color: "red" }}>*</span>
                     </label>
                   </div>
                   <Select
@@ -732,7 +756,7 @@ console.log('thefileeeisssssss',selectedFile);
                 </div>
                 <div style={{ marginTop: "13px" }}>
                   <label style={{ fontWeight: "bold", margin: "10px" }}>
-                    No of Looms Required
+                    No of Looms Required <span style={{ color: "red" }}>*</span>
                   </label>
                   <input
                     value={numOfLooms}
@@ -742,7 +766,7 @@ console.log('thefileeeisssssss',selectedFile);
                       margin: "10px",
                       border: "1px solid var(--primary-color)",
                     }}
-                    type="text"
+                    type="number"
                     placeholder="No of Looms Required"
                   />
                 </div>
@@ -768,7 +792,7 @@ console.log('thefileeeisssssss',selectedFile);
               <div>
                 <div style={{ marginTop: "18px" }}>
                   <label style={{ fontWeight: "bold", margin: "10px" }}>
-                    Dalal/Agent Name
+                    Dalal/Agent Name 
                   </label>
                   <input
                     value={agentName}
@@ -792,7 +816,7 @@ console.log('thefileeeisssssss',selectedFile);
                         fontSize: "16px",
                       }}
                     >
-                      No. of Feeders
+                      No. of Feeders <span style={{ color: "red" }}>*</span>
                     </label>
                   </div>
                   <Select
@@ -807,7 +831,7 @@ console.log('thefileeeisssssss',selectedFile);
 
                 <div style={{ marginTop: "13px" }}>
                   <label style={{ fontWeight: "bold", margin: "10px" }}>
-                    Job Rate Offered
+                    Job Rate Offered <span style={{ color: "red" }}>*</span>
                   </label>
                   <div
                     style={{
@@ -825,7 +849,7 @@ console.log('thefileeeisssssss',selectedFile);
                         marginTop: "0px",
                         border: "2px solid var(--primary-color)",
                       }}
-                      type="text"
+                      type="number"
                       placeholder="Job Rate Offered"
                     />
                     <button className="btn3">Paisa</button>

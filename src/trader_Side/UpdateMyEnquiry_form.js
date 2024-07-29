@@ -1,13 +1,14 @@
 import "../../src/common/static/css/generateenquiry.css";
 import Select from "react-select";
 import React, { useEffect, useRef, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import {  toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 const UpdateEnquiry_form = () => {
   const { enquiryid } = useParams();
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const [editable, setEditable] = useState(false);
   const [machineTypeOptions, setmachineTypeOptions] = useState();
@@ -67,7 +68,35 @@ const UpdateEnquiry_form = () => {
   };
 
   const handleSubmit = () => {
-
+    if (
+      !dateFrom ||
+      !dateTo ||
+      !reed ||
+      !PPI ||
+      !wrapCount ||
+      !weftCount ||
+      !reedSpace ||
+      !fabricLength ||
+      !numOfLooms ||
+      !agentName ||
+      !jobRate ||
+      !fabricWidth ||
+      !deliveryDate ||
+      !machineType ||
+      !machineWidth ||
+      !Rpm ||
+      !sheddingType ||
+      !numOFFrames ||
+      !numoFFeeders
+    ) {
+      toast.error("Enter * fields");
+      return;
+    }
+    if(dateFrom>dateTo)
+      {
+        toast.error('Invalid from date and to date format')
+        return;
+      }
 
     const formdata = new FormData();
     formdata.append("EnquiryId", enquiryid);
@@ -107,7 +136,7 @@ const UpdateEnquiry_form = () => {
     )
       .then((response) => response.text())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         setEditable(false);
         toast.success( enquiryno+" has updated successfully");
         navigate('../updatemyenquiries')
@@ -136,24 +165,30 @@ const UpdateEnquiry_form = () => {
   };
 
   const handledelete = () => {
-    const formdata = new FormData();
-    formdata.append("EnquiryId", enquiryid);
-    
-    const requestOptions = {
-      method: "POST",
-      body: formdata,
-      redirect: "follow"
-    };
-    
-    fetch("https://textileapp.microtechsolutions.co.in/php/delenquiry.php", requestOptions)
-      .then((response) => response.text())
-      .then((result) => {console.log(result)
-        toast.success( enquiryno+" has deleted successfully");
-        navigate('../updatemyenquiries');
-      })
-      .catch((error) => console.error(error));
+  //   const confirmed = window.confirm("Are you sure you want to delete this enquiry?");
+  //  if (confirmed) {
+     const formdata = new FormData();
+     formdata.append("EnquiryId", enquiryid);
+     
+     const requestOptions = {
+       method: "POST",
+       body: formdata,
+       redirect: "follow"
+     };
+     
+     fetch("https://textileapp.microtechsolutions.co.in/php/delenquiry.php", requestOptions)
+       .then((response) => response.text())
+       .then((result) => {//console.log(result)
+         toast.success( enquiryno+" has deleted successfully");
+         navigate('../updatemyenquiries');
+       })
+       .catch((error) => console.error(error));
+  //  }
   };
-
+const confirmDelete = () => {
+    handledelete();
+    setShowConfirm(false);
+  };
   const parseFabricQuality = (fabricQuality) => {
     const [reedPPI, warpWeft] = fabricQuality.split("/");
     const [reed, PPI] = reedPPI.split("*");
@@ -213,7 +248,7 @@ const UpdateEnquiry_form = () => {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         getdata(result);
       })
       .catch((error) => console.error(error));
@@ -325,7 +360,7 @@ const UpdateEnquiry_form = () => {
             <div style={{ margin: "5px" }}>
               <div style={{ marginTop: "13px" }}>
                 <label style={{ fontWeight: "bold", margin: "10px" }}>
-                  Date From
+                  Date From <span style={{ color: "red" }}>*</span>
                 </label>
                 <input
                   value={dateFrom}
@@ -342,7 +377,7 @@ const UpdateEnquiry_form = () => {
 
               <div style={{ marginTop: "13px" }}>
                 <label style={{ fontWeight: "bold", margin: "10px" }}>
-                  Total Fabric Length
+                  Total Fabric Length <span style={{ color: "red" }}>*</span> 
                 </label>
                 <div
                   style={{
@@ -360,7 +395,7 @@ const UpdateEnquiry_form = () => {
                       marginTop: "0px",
                       border: "1px solid var(--primary-color)",
                     }}
-                    type="text"
+                    type="number"
                     placeholder="Enter Fabric Length"
                     disabled={!editable}
                   />
@@ -377,7 +412,7 @@ const UpdateEnquiry_form = () => {
                       fontSize: "16px",
                     }}
                   >
-                    Machine Type
+                    Machine Type <span style={{ color: "red" }}>*</span>
                   </label>
                 </div>
                 <Select
@@ -408,7 +443,7 @@ const UpdateEnquiry_form = () => {
               </div>
               <div style={{ marginTop: "16px" }}>
                 <label style={{ fontWeight: "bold", margin: "10px" }}>
-                  RPM
+                  RPM <span style={{ color: "red" }}>*</span>
                 </label>
                 <input
                   value={Rpm}
@@ -418,7 +453,7 @@ const UpdateEnquiry_form = () => {
                     margin: "10px",
                     border: "1px solid var(--primary-color)",
                   }}
-                  type="text"
+                  type="number"
                   placeholder="RPM"
                   disabled={!editable}
                 />
@@ -428,7 +463,7 @@ const UpdateEnquiry_form = () => {
             <div style={{ margin: "5px" }}>
               <div style={{ marginTop: "13px" }}>
                 <label style={{ fontWeight: "bold", margin: "10px" }}>
-                  Date To
+                  Date To <span style={{ color: "red" }}>*</span>
                 </label>
                 <input
                   value={dateTo}
@@ -445,7 +480,7 @@ const UpdateEnquiry_form = () => {
 
               <div style={{ marginTop: "13px" }}>
                 <label style={{ fontWeight: "bold", margin: "10px" }}>
-                  Delivery Date
+                  Delivery Date <span style={{ color: "red" }}>*</span>
                 </label>
                 <input
                   value={deliveryDate}
@@ -463,7 +498,7 @@ const UpdateEnquiry_form = () => {
               <div style={{ marginTop: "8px" }}>
                 <div className="label-container">
                   <label style={{ fontWeight: "bold", fontSize: "16px" }}>
-                    Shedding Type
+                    Shedding Type <span style={{ color: "red" }}>*</span>
                   </label>
                 </div>
                 <Select
@@ -495,7 +530,7 @@ const UpdateEnquiry_form = () => {
 
               <div style={{ marginTop: "13px" }}>
                 <label style={{ fontWeight: "bold", margin: "10px" }}>
-                  Machine Width
+                  Machine Width <span style={{ color: "red" }}>*</span>
                 </label>
                 <input
                   value={machineWidth}
@@ -505,7 +540,7 @@ const UpdateEnquiry_form = () => {
                     margin: "10px",
                     border: "1px solid var(--primary-color)",
                   }}
-                  type="text"
+                  type="number"
                   placeholder="Machine Width in CM"
                   disabled={!editable}
                 />
@@ -667,7 +702,7 @@ const UpdateEnquiry_form = () => {
               }}
             >
               <label style={{ fontWeight: "bold", marginLeft: "10px" }}>
-                Fabric Quality
+                Fabric Quality <span style={{ color: "red" }}>*</span>
               </label>
               <div
                 style={{
@@ -684,7 +719,7 @@ const UpdateEnquiry_form = () => {
                     margin: "8px",
                     border: "1px solid var(--primary-color)",
                   }}
-                  type="text"
+                  type="number"
                   placeholder="Reed"
                   disabled={!editable}
                 />
@@ -705,7 +740,7 @@ const UpdateEnquiry_form = () => {
                     margin: "8px",
                     border: "1px solid var(--primary-color)",
                   }}
-                  type="text"
+                  type="number"
                   placeholder="PPI"
                   disabled={!editable}
                 />
@@ -726,7 +761,7 @@ const UpdateEnquiry_form = () => {
                     margin: "8px",
                     border: "1px solid var(--primary-color)",
                   }}
-                  type="text"
+                  type="number"
                   placeholder="warp count"
                   disabled={!editable}
                 />
@@ -747,7 +782,7 @@ const UpdateEnquiry_form = () => {
                     margin: "8px",
                     border: "1px solid var(--primary-color)",
                   }}
-                  type="text"
+                  type="number"
                   placeholder="weft count"
                   disabled={!editable}
                 />
@@ -768,7 +803,7 @@ const UpdateEnquiry_form = () => {
                     margin: "8px",
                     border: "1px solid var(--primary-color)",
                   }}
-                  type="text"
+                  type="number"
                   placeholder="reed space"
                   disabled={!editable}
                 />
@@ -785,7 +820,7 @@ const UpdateEnquiry_form = () => {
               <div>
                 <div style={{ marginTop: "18px" }}>
                   <label style={{ fontWeight: "bold", margin: "10px" }}>
-                    Fabric Width
+                    Fabric Width <span style={{ color: "red" }}>*</span>
                   </label>
                   <input
                     value={fabricWidth}
@@ -795,7 +830,7 @@ const UpdateEnquiry_form = () => {
                       margin: "10px",
                       border: "1px solid var(--primary-color)",
                     }}
-                    type="text"
+                    type="number"
                     placeholder="Fabric Width"
                     disabled={!editable}
                   />
@@ -804,7 +839,7 @@ const UpdateEnquiry_form = () => {
                 <div style={{ marginTop: "15px" }}>
                   <div className="Frames-label-container">
                     <label style={{ fontWeight: "bold", fontSize: "16px" }}>
-                      No of Frames
+                      No of Frames <span style={{ color: "red" }}>*</span>
                     </label>
                   </div>
                   <Select
@@ -835,7 +870,7 @@ const UpdateEnquiry_form = () => {
                 </div>
                 <div style={{ marginTop: "13px" }}>
                   <label style={{ fontWeight: "bold", margin: "10px" }}>
-                    No of Looms Required
+                    No of Looms Required <span style={{ color: "red" }}>*</span>
                   </label>
                   <input
                     value={numOfLooms}
@@ -873,7 +908,7 @@ const UpdateEnquiry_form = () => {
               <div>
                 <div style={{ marginTop: "18px" }}>
                   <label style={{ fontWeight: "bold", margin: "10px" }}>
-                    Dalal/Agent Name
+                    Dalal/Agent Name <span style={{ color: "red" }}>*</span>
                   </label>
                   <input
                     value={agentName}
@@ -898,7 +933,7 @@ const UpdateEnquiry_form = () => {
                         fontSize: "16px",
                       }}
                     >
-                      No. of Feeders
+                      No. of Feeders <span style={{ color: "red" }}>*</span>
                     </label>
                   </div>
                   <Select
@@ -930,7 +965,7 @@ const UpdateEnquiry_form = () => {
 
                 <div style={{ marginTop: "13px" }}>
                   <label style={{ fontWeight: "bold", margin: "10px" }}>
-                    Job Rate Offered
+                    Job Rate Offered <span style={{ color: "red" }}>*</span>
                   </label>
                   <div
                     style={{
@@ -948,7 +983,7 @@ const UpdateEnquiry_form = () => {
                         marginTop: "0px",
                         border: "2px solid var(--primary-color)",
                       }}
-                      type="text"
+                      type="number"
                       placeholder="Job Rate Offered"
                       disabled={!editable}
                     />
@@ -1014,7 +1049,7 @@ const UpdateEnquiry_form = () => {
         </div>
         {!editable &&  <div>
         <button
-            onClick={handledelete}
+            onClick={() => setShowConfirm(true)}
             style={{ width: "180%" ,backgroundColor:'var(--complementary-color)' }}
             className="btn2"
           >
@@ -1022,7 +1057,19 @@ const UpdateEnquiry_form = () => {
           </button>{" "}
         </div>}
       </div>
+      {showConfirm && (
+        <div className="custom-confirmation-dialog">
+          <div className="dialog-content">
+            <p>Are you sure you want to delete this enquiry?</p>
+            <button style={{ width: "30%" ,backgroundColor:'var(--complementary-color)' }}
+            className="btn2" onClick={confirmDelete}>Yes</button>
+            <button   style={{ width: "30%" }}
+            className="btn2" onClick={() => setShowConfirm(false)}>No</button>
+          </div>
+        </div>
+      )}
 
+     
     </div>
   );
 };

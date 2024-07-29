@@ -30,7 +30,7 @@ function Home() {
       )
         .then((response) => response.json())
         .then((result) => {
-          console.log("got user");
+          //console.log("got user");
 
           setnouser(result.length);
           // setnouser(result.AppUserId.length)
@@ -49,7 +49,7 @@ function Home() {
       )
         .then((response) => response.json())
         .then((result) => {
-          console.log("got looms");
+          //console.log("got looms");
           setloomownerc(result.length);
         })
         .catch((error) => console.error(error));
@@ -66,7 +66,7 @@ function Home() {
       )
         .then((response) => response.json())
         .then((result) => {
-          console.log("got traders");
+          //console.log("got traders");
           settradercount(result.length);
         })
         .catch((error) => console.error(error));
@@ -81,9 +81,9 @@ function Home() {
         "https://textileapp.microtechsolutions.co.in/php/gettable.php?table=Enquiry",
         requestOptions
       )
-        .then((response) => response.text())
+        .then((response) => response.json())
         .then((result) => {
-          console.log("got quires");
+          //console.log("got quires");
           settotalenquires(result.length);
         })
         .catch((error) => console.error(error));
@@ -103,7 +103,7 @@ function Home() {
       </div>
 
       <div className="profileUser-card">
-        <img src={userr} alt="User" className="profile-image" />
+        <img src={user.Profilepic} alt="User" className="profile-image" />
         <div className="profile-content">
           <div className="profile-details">
             <h2>{user.Name}</h2>
@@ -190,7 +190,7 @@ function Home() {
                 }}
               >
                 <p style={{ fontSize: "15px", fontWeight: "bold" }}>
-                  Job Work Enquiries
+                   Enquiries Generated
                 </p>
               </div>
              

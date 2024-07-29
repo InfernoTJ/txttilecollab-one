@@ -4,17 +4,19 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import { RiDeleteBinLine } from "react-icons/ri";
+
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../common/static/css/Liveorder.css";
-import { useLocation } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { IoMdRefresh } from "react-icons/io";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
+
   return (
     <div
       role="tabpanel"
@@ -31,6 +33,7 @@ function TabPanel(props) {
     </div>
   );
 }
+
 TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.number.isRequired,
@@ -43,11 +46,10 @@ function a11yProps(index) {
   };
 }
 export default function VerticalTabs() {
-
   const location = useLocation();
   const userString = sessionStorage.getItem("user");
   const user = userString ? JSON.parse(userString) : null;
-  const { Name, Completed } = location.state || {}; 
+  const { Name, Completed } = location.state || {};
   const [beamindata, setbeamindata] = useState([]);
   const [weftyarnindata, setweftyarnindata] = useState([]);
   const [drawingindata, setdrawingindata] = useState();
@@ -59,37 +61,17 @@ export default function VerticalTabs() {
   const [goodsreturnsdata, setgoodsreturnsdata] = useState([]);
   const [value, setValue] = React.useState(0);
   const { orderid } = useParams();
-  const [tableRows, setTableRows] = React.useState([]);
+
   const [data, setdata] = useState([]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  const beamaddrow = () => {
-    setTableRows([...tableRows, { date: "", tippanNumber: "" }]);
-  };
-  // const beamaddrow = () => {
-  //     const lastRow = tableRows[tableRows.length - 1];
-  //     if (!lastRow || (lastRow.date !== '' && lastRow.tippanNumber !== '')) {
-  //         setTableRows([...tableRows, { date: '', tippanNumber: '' }]);
-  //     }
-  // };
-
- 
   //for First Piece Approval
   const [inputText, setInputText] = useState("");
 
   const handleSendClick = () => {
-    // if (inputText.trim() !== "") {
-    //   const newMessage = {
-    //     name: username,
-    //     date: new Date().toLocaleString(),
-    //     message: inputText,
-    //   };
-    //   setMessages([...messages, newMessage]);
-    //   setInputText("");
-    // }
     const formdata = new FormData();
     formdata.append("OrderNoId", orderid);
     formdata.append("LoomTraderId", user.Id);
@@ -107,21 +89,12 @@ export default function VerticalTabs() {
     )
       .then((response) => response.text())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         toast.success("Message Sent");
         setInputText("");
         firstpicedetails();
       })
       .catch((error) => console.error(error));
-  };
-
-  const navigatee = useNavigate();
-  const handleOrderConfirm = (e) => {
-    toast.success("OrderDetails Submitted Successfully");
-    setTimeout(() => {
-      navigatee("../trader-live-orders");
-    }, 1000);
-    e.preventDefault();
   };
 
   const getorderdetailss = () => {
@@ -137,7 +110,7 @@ export default function VerticalTabs() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         setdata(result);
       })
       .catch((error) => console.error(error));
@@ -155,7 +128,7 @@ export default function VerticalTabs() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         setbeamindata(result);
       })
       .catch((error) => console.error(error));
@@ -174,7 +147,7 @@ export default function VerticalTabs() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         setweftyarnindata(result);
       })
       .catch((error) => console.error(error));
@@ -192,7 +165,7 @@ export default function VerticalTabs() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         const enq = result[0];
         setdrawingindata(enq.Status);
         setdrawingindate(enq.CreatedOn.date.substring(0, 10));
@@ -212,13 +185,14 @@ export default function VerticalTabs() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         const enq = result[0];
         setbeamgettingdata(enq.Status);
         setbeamgettingdate(enq.CreatedOn.date.substring(0, 10));
       })
       .catch((error) => console.error(error));
   };
+
   const firstpicedetails = () => {
     const requestOptions = {
       method: "GET",
@@ -232,11 +206,12 @@ export default function VerticalTabs() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         setfirstpiecechatdata(result);
       })
       .catch((error) => console.error(error));
   };
+
   const fabricdispatchdetails = () => {
     const requestOptions = {
       method: "GET",
@@ -250,7 +225,7 @@ export default function VerticalTabs() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         setfabricdispatchdata(result);
       })
       .catch((error) => console.error(error));
@@ -268,9 +243,8 @@ export default function VerticalTabs() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         setgoodsreturnsdata(result);
-     
       })
       .catch((error) => console.error(error));
   };
@@ -349,15 +323,15 @@ export default function VerticalTabs() {
                     10
                   )}{" "}
                 </p>
-              </div>    </>))}
-              <div style={{ flex: "1", marginLeft: "20px" }}>
-                <p style={{ color: "var(--text-color)", fontWeight: "bold" }}>
-                  {" "}
-                  Party : {Name}{" "} 
-                </p> 
-              </div>
-          
-        
+              </div>{" "}
+            </>
+          ))}
+          <div style={{ flex: "1", marginLeft: "20px" }}>
+            <p style={{ color: "var(--text-color)", fontWeight: "bold" }}>
+              {" "}
+              Party : {Name}{" "}
+            </p>
+          </div>
         </div>
       </div>
       <div style={{ marginTop: "2.5%" }}>
@@ -556,6 +530,24 @@ export default function VerticalTabs() {
                 padding: "20px",
               }}
             >
+              <button
+                className="btn2"
+                onClick={() => {
+                  firstpicedetails();
+                }}
+              >
+                <span
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                    fontSize: "18px",
+                  }}
+                >
+                  Refresh chat{" "}
+                  <IoMdRefresh style={{ color: "white", fontSize: "25px" }} />
+                </span>
+              </button>
               <div
                 className="msgs-container"
                 style={{
@@ -565,73 +557,76 @@ export default function VerticalTabs() {
                   flexDirection: "column-reverse",
                 }}
               >
-                {firstpiecechatdata
-                  .slice()
-                  .reverse()
-                  .map(
-                    (
-                      msg,
-                      index // Reverse the array before mapping
-                    ) => (
-                      <div
-                        key={index}
-                        className="message"
-                        style={{
-                          float:
-                            user.Id === msg.LoomTraderId ? "right" : "left",
-                          backgroundColor:
-                            user.Id === msg.LoomTraderId
-                              ? "#E7F2F4"
-                              : "#F2F2F2",
-                        }}
-                      >
-                        <p
+                {firstpiecechatdata &&
+                  firstpiecechatdata
+                    .slice()
+                    .reverse()
+                    .map(
+                      (
+                        msg,
+                        index // Reverse the array before mapping
+                      ) => (
+                        <div
+                          key={index}
+                          className="message"
                           style={{
                             float:
                               user.Id === msg.LoomTraderId ? "right" : "left",
+                            backgroundColor:
+                              user.Id === msg.LoomTraderId
+                                ? "#E7F2F4"
+                                : "#F2F2F2",
                           }}
                         >
-                          <strong>{msg.Name}</strong> -{" "}
-                          <span>{convertDateFormat(msg.CreatedOn.date)}</span>
-                        </p>
-                        <br />
-                        <p
-                          style={{
-                            float:
-                              user.Id === msg.LoomTraderId ? "right" : "left",
-                          }}
-                        >
-                          {msg.Comment}
-                        </p>
-                      </div>
-                    )
-                  )}
+                          <p
+                            style={{
+                              float:
+                                user.Id === msg.LoomTraderId ? "right" : "left",
+                            }}
+                          >
+                            <strong>{msg.Name}</strong> -{" "}
+                            <span>{convertDateFormat(msg.CreatedOn.date)}</span>
+                          </p>
+                          <br />
+                          <p
+                            style={{
+                              float:
+                                user.Id === msg.LoomTraderId ? "right" : "left",
+                            }}
+                          >
+                            {msg.Comment}
+                          </p>
+                        </div>
+                      )
+                    )}
               </div>
               <div>
-          {Completed===null &&  <div style={{ display: "flex", alignItems: "center" }}>
-                  <textarea
-                    style={{
-                      width: "89%",
-                      margin: "8px",
-                      border: "1px solid var(--primary-color)",
-                      padding: "5px",
-                      resize: "vertical",
-                    }}
-                    rows={4}
-                    value={inputText}
-                    onChange={(e) => setInputText(e.target.value)}
-                    placeholder="Type your message here..."
-                  />
-                  <div>
-                    <button
-                      style={{ width: "100%" }}
-                      className="btn2"
-                      onClick={handleSendClick}
-                    >
-                      Send
-                    </button>
+                {Completed === null && (
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <textarea
+                      style={{
+                        width: "89%",
+                        margin: "8px",
+                        border: "1px solid var(--primary-color)",
+                        padding: "5px",
+                        resize: "vertical",
+                      }}
+                      rows={4}
+                      value={inputText}
+                      onChange={(e) => setInputText(e.target.value)}
+                      placeholder="Type your message here..."
+                    />
+                    <div>
+                      <button
+                        style={{ width: "100%" }}
+                        className="btn2"
+                        onClick={handleSendClick}
+                      >
+                        Send
+                      </button>
+                    </div>
                   </div>
-                </div>}
+                )}
               </div>
             </div>
           </TabPanel>
@@ -745,7 +740,7 @@ export default function VerticalTabs() {
           </TabPanel>
         </Box>
       </div>
-   
+
       <ToastContainer />
     </div>
   );

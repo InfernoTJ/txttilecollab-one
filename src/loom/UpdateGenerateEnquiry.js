@@ -37,7 +37,7 @@ const UpdateGenerateEnquiry = () => {
     )
       .then((response) => response.json())
       .then((jsonData) => {
-        console.log(jsonData);
+        //console.log(jsonData);
         setData(jsonData);
         if (jsonData.length > 0) {
           const enquiry = jsonData[0];
@@ -61,27 +61,14 @@ const UpdateGenerateEnquiry = () => {
   };
 
   const checkavaliability = () => {
-    console.log(
-      machineType +
-        "  " +
-        machineWidth +
-        "  " +
-        Rpm +
-        "  " +
-        sheddingType +
-        "  " +
-        frames +
-        "  " +
-        numOfFeeders +
-        "  " +
-        SelvadgeJacquard +
-        "  " +
-        TopBeam +
-        "  " +
-        Cramming +
-        "  " +
-        LenoDesignEquipment
-    );
+    if (!fromdate || !todate) {
+      toast.error("Enter from date and to date.");
+      return;
+    } 
+    if (fromdate>todate) {
+      toast.error("Invalid checking dates");
+      return;
+    } 
     const formdata = new FormData();
     formdata.append("LoomDetailId", user.Id);
     formdata.append("MachineType", machineType);
@@ -109,7 +96,7 @@ const UpdateGenerateEnquiry = () => {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         setcheckdata(result);
         setcheckavaliabilityee(true);
         if (result.length === 0) {
@@ -155,7 +142,7 @@ const UpdateGenerateEnquiry = () => {
     )
       .then((response) => response.text())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         toast.success("Response Sent");
       })
       .catch((error) => console.error(error));
@@ -657,7 +644,7 @@ const UpdateGenerateEnquiry = () => {
         <div style={{ marginTop: "13px", marginLeft: "25px" }}>
           <label style={{ fontWeight: "bold", margin: "10px" }}>
             {" "}
-            From Date
+            From Date <span style={{ color: "red" }}>*</span>
           </label>
           <input
             value={fromdate}
@@ -674,7 +661,7 @@ const UpdateGenerateEnquiry = () => {
         <div style={{ marginTop: "13px", marginLeft: "25px" }}>
           <label style={{ fontWeight: "bold", margin: "10px" }}>
             {" "}
-            To Date{" "}
+            To Date{" "} <span style={{ color: "red" }}>*</span>
           </label>
           <input
             value={todate}
@@ -750,7 +737,7 @@ const UpdateGenerateEnquiry = () => {
         }}
       >
         <div style={{ width: "22%", marginLeft: "30px" }}>
-          <label style={{ fontWeight: "bold" }}>Looms Possible to Assign</label>
+          <label style={{ fontWeight: "bold" }}>Looms Possible to Assign <span style={{ color: "red" }}>*</span></label>
           <input
             style={{ border: "1px solid var(--primary-color)" }}
             value={cansetlooms}
@@ -767,7 +754,7 @@ const UpdateGenerateEnquiry = () => {
               alignItems: "flex-start",
             }}
           >
-            <label style={{ fontWeight: "bold" }}>Send Counter Offer</label>
+            <label style={{ fontWeight: "bold" }}>Send Counter Offer <span style={{ color: "red" }}>*</span></label>
             <div
               style={{
                 display: "flex",

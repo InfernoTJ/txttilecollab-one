@@ -18,9 +18,9 @@ const LoomRegister = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         // You can handle the form submission logic here
-        console.log('Email:', email);
-        console.log('Username:', username);
-        console.log('Password:', password);
+        //console.log('Email:', email);
+        //console.log('Username:', username);
+        //console.log('Password:', password);
 
         navigate('/loom-register/otp');
     };
