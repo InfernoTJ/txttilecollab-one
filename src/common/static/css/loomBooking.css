@@ -10,7 +10,7 @@
 .loom_booking_container{
     display: grid;
     grid-template-columns: 1fr 1fr;
-    
+ 
 }
 
 
@@ -28,6 +28,22 @@
   
   .form-open {
     right: 0;
+  }
+
+
+
+  @media only screen and (max-width: 902px) {
+  
+
+    .loom_booking_container{
+      display: grid;
+    grid-template-columns: 1fr ;
+    margin: 8px;
+    /* height: 100px; */
+    /* overflow-y: auto;
+    overflow-x: hidden; */
+
+    }
   }
   
 

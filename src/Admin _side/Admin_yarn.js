@@ -17,11 +17,12 @@ import {
   MaterialReactTable,
   useMaterialReactTable,
 } from 'material-react-table';
+import { useNavigate } from 'react-router-dom';
 
 const Admin_yarn = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const navigate =useNavigate() 
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -82,7 +83,10 @@ const Admin_yarn = () => {
   const table = useMaterialReactTable({
     columns,
     data, 
-    muiTableBodyRowProps: () => ({}),
+    muiTableBodyRowProps: ({ row }) => ({
+      onClick: () => sendingdata(row.original), // Trigger `gettingData` on row click
+      style: { cursor: 'pointer' }, // Add pointer cursor to indicate clickable row
+    }),
     muiTableHeadCellProps: {
       style: {
         backgroundColor: 'var(--color)',
@@ -93,6 +97,10 @@ const Admin_yarn = () => {
     },
   });
 
+ 
+const sendingdata = (row) => {
+  navigate('../userinfo/'+row.Id) 
+};
   return (
     <>
       <div>

@@ -37,16 +37,20 @@
   border-radius: 8px;
   padding: 20px;
   max-width: 600px;
-  margin: -100px auto;
+  /* margin: -100px auto; */
+  margin: -180px auto;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background-color: #fff;
 }
 
 .profile-image {
   position: absolute;
-  top: -50px;
+  /* top: -50px; */
+  top: -60px;
   left: 50%;
   transform: translateX(-50%);
+  /* width: 100px;
+  height: 100px; */
   width: 100px;
   height: 100px;
   border: 2px solid #ccc;
@@ -73,7 +77,7 @@
   line-height: 1.6;
 }
 
-/* .dashboardd-cards {
+.dashboardd-cards {
   display: flex;
   gap: 30px;
   margin-top: 20px;
@@ -88,15 +92,15 @@
   border-radius: 20px;
   box-shadow: 0 10px 10px rgba(0, 0, 0, 0.3);
   text-align: center;
-} */
+}
 
-.dashboardd-cards {
+/* .dashboardd-cards {
   display: flex;
   gap: 30px;
   margin-top: 20px;
   position: absolute;
   top: 290px;
-  right: -215px;
+  right: -260px;
 }
 
 .profile-cards {
@@ -114,7 +118,7 @@
   border-radius: 5px;
   box-shadow: 0 10px 10px rgba(3, 4, 5, 0.2);
   position: relative;
-}
+} */
 .numberinhomecount {
   width: 60px;
   margin: 25px;
@@ -138,4 +142,35 @@
 --caribbean-green: #08c27f;
 --geraldine: #fb606e;
 --robin's-egg blue: #0facb0;  */
+}
+
+
+
+@media only screen and (max-width: 900px) {
+  .dashboardd-cards{
+    flex-direction: column;
+    display: flex;
+    gap: 30px;
+    margin-top: 20px;
+    position: absolute;
+    top: 290px;
+    /* right: -215px; */
+    left: 150px; 
+    
+  }
+
+  .profileUser-card{
+    position: relative;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 450px;
+    margin: -100px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+  }
+
+
+
+  
 }

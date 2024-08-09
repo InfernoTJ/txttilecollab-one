@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "../common/static/css/home.css";
-import userr from "../common/static/image/user.jpg";
+// import userr from "../common/static/image/user.jpg";
 // import img9 from '../common/static/image/img9.webp';
 import img12 from "../common/static/image/img12.png";
 import { FaUsers } from "react-icons/fa6";
 import { SiLoom } from "react-icons/si";
 import { GiRolledCloth } from "react-icons/gi";
-import { PiFoldersFill } from "react-icons/pi";
+// import { PiFoldersFill } from "react-icons/pi";
 import { BsFillCollectionFill } from "react-icons/bs";
 function Home() {
   const userString = sessionStorage.getItem("user");
@@ -96,13 +96,13 @@ function Home() {
 
   return (
     <div>
-      <div className="Home_container">
-        <div className="background-image-container">
+      <div  className="Home_container">
+        <div  className="background-image-container">
           <img className="background-image" src={img12} alt="" />
         </div>
       </div>
 
-      <div className="profileUser-card">
+      <div  className="profileUser-card">
         <img src={user.Profilepic} alt="User" className="profile-image" />
         <div className="profile-content">
           <div className="profile-details">
@@ -111,7 +111,7 @@ function Home() {
             <h3>Owner Name: {user.OwnerName}</h3>
           </div>
 
-          <div className="dashboardd-cards" style={{marginTop:'50px'}}>
+          {/* <div className="dashboardd-cards" style={{marginTop:'50px'}}>
             <div className="profilecards">
          
               <div
@@ -201,7 +201,7 @@ function Home() {
                 {totalenquires}
               </p><BsFillCollectionFill  style={{ position:'absolute' , bottom:'30px' ,right:'30px',height:'27px',width:'27px',color:'#0facb0' }}/>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

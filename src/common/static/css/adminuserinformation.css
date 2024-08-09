@@ -1,0 +1,16 @@
+
+.responsive{
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+}
+
+@media (max-width: 881px) {
+    .responsive{
+        flex-direction: column;
+        gap: 30px;
+    }
+   
+    .firstdiv{width: 90% !important;}
+}
+/* 768 */

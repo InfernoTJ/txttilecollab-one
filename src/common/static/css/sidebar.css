@@ -4,6 +4,7 @@
   margin: 0;
   padding: 0;
   height: 100vh;
+
   display: grid;
   /* grid-template-columns: 200px 1fr; */
   grid-template-columns: auto 1fr;
@@ -37,7 +38,9 @@
 .sidebar-items {
   overflow-y: auto;
   overflow-x: hidden;
-  max-height: calc(85vh - 10px);
+  /* max-height: calc(85vh - 20px); */
+  height: 700px;
+  /* border: 2px solid red; */
   max-width: calc(350px - 10px);
   /* background-color: #000; */
 
@@ -64,6 +67,12 @@
   padding: 20px;
   background-color: #ffffff;
   grid-area: main;
+  /* border: 2px solid red; */
+  height: 85vh;
+  /* overflow-y: auto; */
+}
+.main::-webkit-scrollbar{
+  display: none;
 }
 
 .card {
@@ -132,6 +141,7 @@
 .menu {
   list-style-type: none !important;
   padding: 0;
+ 
 }
 
 .menu-link,
@@ -165,6 +175,8 @@
   border-top: 2px solid var(--primary-color); /* Adjusted to match the desired thickness */
   margin-top: 20px;
   width: 170%; 
+  z-index: 1000;
+  background-color: #f6f7f9;
 }
 .menu-item {
   list-style-type: none !important;

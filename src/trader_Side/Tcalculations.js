@@ -3,30 +3,30 @@ import { toast } from "react-toastify";
 import "../common/static/css/tradercalculations.css";
 
 const Tcalculations = () => {
-  const [warpepi, setwarpepi] = useState(100);
-  const [warpfabricwidth, setwarpfabricwidth] = useState(120);
-  const [warpcrimppercent, setwarpcrimppercent] = useState(11);
-  const [warpcount, setwarpcount] = useState(40);
-  const [warpwaste, setwarpwaste] = useState(3);
-  const [warpyarnrate, setwarpyarnrate] = useState(300);
+  const [warpepi, setwarpepi] = useState();
+  const [warpfabricwidth, setwarpfabricwidth] = useState();
+  const [warpcrimppercent, setwarpcrimppercent] = useState();
+  const [warpcount, setwarpcount] = useState();
+  const [warpwaste, setwarpwaste] = useState();
+  const [warpyarnrate, setwarpyarnrate] = useState();
 
   const [grosswarpweight, setgrosswarpweight] = useState();
   const [warpcost, setwarpcost] = useState();
 
-  const [weftppi, setweftppi] = useState(80);
-  const [weftfabricwidth, setweftfabricwidth] = useState(120);
-  const [weftcrimppercent, setweftcrimppercent] = useState(4);
-  const [weftcount, setweftcount] = useState(40);
-  const [weftwaste, setweftwaste] = useState(3);
-  const [weftyarnrate, setweftyarnrate] = useState(320);
+  const [weftppi, setweftppi] = useState();
+  const [weftfabricwidth, setweftfabricwidth] = useState();
+  const [weftcrimppercent, setweftcrimppercent] = useState();
+  const [weftcount, setweftcount] = useState();
+  const [weftwaste, setweftwaste] = useState();
+  const [weftyarnrate, setweftyarnrate] = useState();
 
   const [grossweftweight, setgrossweftweight] = useState();
   const [weftcost, setweftcost] = useState();
 
-  const [sizingrate, setsizingrate] = useState(20);
+  const [sizingrate, setsizingrate] = useState();
   const [sizingcost, setsizingcost] = useState();
 
-  const [weavingcostcal, setweavingcostcal] = useState(10);
+  const [weavingcostcal, setweavingcostcal] = useState();
   const [weavingcostresult, setweavingcostresult] = useState();
 
   const [totalfrabriccostval, settotalfrabriccostval] = useState();

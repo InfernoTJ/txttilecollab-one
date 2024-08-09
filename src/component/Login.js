@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../common/static/css/login.css";
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { CiFacebook, CiTwitter, CiInstagram } from "react-icons/ci";
 import logo from "../common/static/image/logo.png";
@@ -20,7 +20,8 @@ const AdminLogin = () => {
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  const handleLogin = async () => {
+  const handleLogin = async (e) => {
+    e.preventDefault()
     if (!email && !password) {
       toast.error("Enter the Credentials");
       setAllerror(true);
@@ -78,7 +79,17 @@ const AdminLogin = () => {
         toast.error("Invalid Credentials");
       }
       if (response.ok) {
-        sessionStorage.setItem("user", JSON.stringify(json));
+
+        const data = {
+          AppUserId:json.AppUserId,
+          Id:json.Id,
+          LoomOrTrader:json.LoomOrTrader,
+          OwnerName:json.OwnerName,
+          Name:json.Name,
+          Profilepic:json.Profilepic,
+          RegistrationNumber:json.RegistrationNumber,
+        };
+        sessionStorage.setItem("user", JSON.stringify(data));
         const userString = sessionStorage.getItem("user");
         const user = userString ? JSON.parse(userString) : null;
 
@@ -94,7 +105,8 @@ const AdminLogin = () => {
     }
   };
 
-  const handleloomreg = () => {
+  const handleloomreg = (e) => {
+    e.preventDefault();
     navigate("/loom-register/otp/resgistrationform");
   };
   const sendotptomail = () => {
@@ -223,7 +235,7 @@ const AdminLogin = () => {
               >
                 LOGIN
               </button>
-              <p style={{ textAlign: "center", marginTop: "60px" }}>
+              <p style={{ textAlign: "center",}}>
                 Don't have an Account?
               </p>
 
@@ -236,7 +248,7 @@ const AdminLogin = () => {
                 className="navlink-container"
               >
                 <div className="loom-class">
-                  <button onClick={handleloomreg} className="btn1" 
+                  <button  onClick={handleloomreg} className="btn1" 
                       disabled={loading}>
                     SignUp
                   </button>

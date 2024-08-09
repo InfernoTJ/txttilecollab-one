@@ -14,6 +14,7 @@ function Loom_booking() {
   const [fromdate, setfromdate] = useState();
   const [todate, settodate] = useState();
   const [knottingorder, setknottingorder] = useState();
+const [knottingid,setknottingid]=useState('');
 
   const [bookingdata, setbookingdata] = useState([]);
 
@@ -43,7 +44,7 @@ function Loom_booking() {
     )
       .then((response) => response.json())
       .then((jsonData) => {
-        //console.log(jsonData);
+        console.log(jsonData);
         setData(jsonData); // Update state with fetched data
       })
       .catch((error) => {
@@ -64,10 +65,11 @@ function Loom_booking() {
     )
       .then((response) => response.json())
       .then((result) => {
-        //console.log(result);
+        console.log(result);
         const enquiry = result[0];
         if(enquiry){
           toast.success('Got knotting order '+enquiry.OfferNo)
+          setknottingid(enquiry.KnottingId)
           setknottingorder(enquiry.OfferNo)
         }else{
           toast.info('Didnt find an order')
@@ -77,6 +79,8 @@ function Loom_booking() {
       })
       .catch((error) => console.error(error));
   };
+
+  const updateloomavailabilityform = new FormData();
 
   const updateloom = (selectedLoom) => {
     const today = new Date(todate);
@@ -99,150 +103,98 @@ function Loom_booking() {
 
     // Format future date
     const availableto4monthsahead = formatDate(futureDate);
+    updateloomavailabilityform.append("LoomAvailableTo", availableto4monthsahead);
 
-    const formdata = new FormData();
-    formdata.append("BookingId", selectedLoom.BookingId);
-    formdata.append("BookedFromDate", fromdate);
-    formdata.append("BookedToDate", todate);
-    formdata.append("LoomAvailableTo", availableto4monthsahead);
-
-    const formdataa = new FormData();
-
-    formdataa.append("ConfirmLoom", "true");
-
-    const requestOptions = {
-      method: "POST",
-      body: formdata,
-      redirect: "follow",
-    };
-    const requestOption = {
-      method: "POST",
-      body: formdataa,
-      redirect: "follow",
-    };
-
-    const rqoption = {
-      method: "GET",
-      redirect: "follow",
-    };
-
-    fetch(
-      "https://textileapp.microtechsolutions.co.in/php/getbyid.php?Table=KnottingOffer&Colname=OfferNo&Colvalue=" +
-        knottingorder,
-      rqoption
-    )
-      .then((response) => response.json())
-      .then((result) => {
-        //console.log(result);
-        const enquiry = result[0];
-
-        formdata.append(
-          "KnottingOrderId",
-          result.length > 0 ? enquiry.KnottingId : ""
-        );
-        formdataa.append("Id", result.length > 0 ? enquiry.KnottingId : "");
-
-        //codeee hereeeee
-
-        fetch(
-          "https://textileapp.microtechsolutions.co.in/php/updateloomavailabilitynew.php",
-          requestOptions
-        )
-          .then((response) => response.text())
-          .then((result) => {
-            //console.log(result);
-
-            fetch(
-              `https://textileapp.microtechsolutions.co.in/php/confirmknottingoffer.php`,
-              requestOption
-            )
-              .then((response) => response.text())
-              .then((result) => {
-                //console.log(result);
-                toast.success("Confirmed " + selectedLoom.LoomNo);
-                getloom();
-                setSelectedLoom(null);
-              })
-              .catch((error) => console.error(error));
-          })
-          .catch((error) => console.error(error));
-      })
-      .catch((error) => console.error(error));
+  
+    confirmknottingoffer()
+    updateloomavailability()
+  
   };
 
-  const bookloom = (selectedLoom) => {
-    const formdataa = new FormData();
 
-    formdataa.append("LoomDetailId", selectedLoom.LoomDetailId);
-    formdataa.append("LoomNo", selectedLoom.LoomNo);
-    formdataa.append("Available", "false");
-    formdataa.append("LoomAvailableFrom", "");
-    formdataa.append("LoomAvailableTo", fromdate);
-    formdataa.append("BookedFromDate", fromdate);
-    formdataa.append("BookedToDate", todate);
+const confirmknottingoffer =()=>{
 
-    const postloomcon = {
+  const confirmknottingform = new FormData();
+    confirmknottingform.append("Id", knottingid);
+    confirmknottingform.append("ConfirmLoom", "true");
+
+    const confirmknottingoffers = {
       method: "POST",
-      body: formdataa,
-      redirect: "follow",
-    };
-    const rqoption = {
-      method: "GET",
+      body: confirmknottingform,
       redirect: "follow",
     };
 
-    const knotconfirmform = new FormData();
+  fetch(
+    `https://textileapp.microtechsolutions.co.in/php/confirmknottingoffer.php`,
+    confirmknottingoffers
+  )
+    .then((response) => response.text())
+    .then((result) => {
+      //console.log(result);
+      toast.success("Confirmed " + selectedLoom.LoomNo);
+      getloom();
+      setSelectedLoom(null);
+    })
+    .catch((error) => console.error(error));
+}
+  const updateloomavailability =()=>{
 
-    knotconfirmform.append("ConfirmLoom", "true");
 
-    const requestOptionn = {
+    updateloomavailabilityform.append("BookingId", selectedLoom.BookingId);
+    updateloomavailabilityform.append("KnottingOrderId",knottingid);
+    updateloomavailabilityform.append("BookedFromDate", fromdate);
+    updateloomavailabilityform.append("BookedToDate", todate);
+
+    const updateloomavailabilityconnection = {
       method: "POST",
-      body: knotconfirmform,
+      body: updateloomavailabilityform,
       redirect: "follow",
     };
+
     fetch(
-      "https://textileapp.microtechsolutions.co.in/php/getbyid.php?Table=KnottingOffer&Colname=OfferNo&Colvalue=" +
-        knottingorder,
-      rqoption
+      "https://textileapp.microtechsolutions.co.in/php/updateloomavailabilitynew.php",
+      updateloomavailabilityconnection
     )
-      .then((response) => response.json())
+      .then((response) => response.text())
       .then((result) => {
         //console.log(result);
-        const enquiry = result[0];
 
-        formdataa.append(
-          "KnottingOrderId",
-          result.length > 0 ? enquiry.KnottingId : ""
-        );
-        knotconfirmform.append(
-          "Id",
-          result.length > 0 ? enquiry.KnottingId : ""
-        );
-
-        fetch(
-          "https://textileapp.microtechsolutions.co.in/php/postloombooking.php",
-          postloomcon
-        )
-          .then((response) => response.text())
-          .then((result) => {
-            //console.log(result);
-
-            fetch(
-              `https://textileapp.microtechsolutions.co.in/php/confirmknottingoffer.php`,
-              requestOptionn
-            )
-              .then((response) => response.text())
-              .then((result) => {
-                //console.log(result);
-                toast.success("Confirmed " + selectedLoom.LoomNo);
-                getloom();
-                setSelectedLoom(null);
-              })
-              .catch((error) => console.error(error));
-          })
-          .catch((error) => console.error(error));
       })
       .catch((error) => console.error(error));
+  }
+  const postloombookingform = new FormData();
+const postloombooking =()=>{
+
+  
+  postloombookingform.append("KnottingOrderId",knottingid);
+  postloombookingform.append("BookedFromDate", fromdate);
+  postloombookingform.append("BookedToDate", todate);
+
+  const postloomcon = {
+    method: "POST",
+    body: postloombookingform,
+    redirect: "follow",
+  };
+fetch(
+        "https://textileapp.microtechsolutions.co.in/php/postloombooking.php",
+        postloomcon
+      )
+        .then((response) => response.text())
+        .then((result) => {
+          //console.log(result);
+
+         
+        })
+        .catch((error) => console.error(error));
+   
+}
+
+  const bookloom = (selectedLoom) => {
+    postloombookingform.append("BookingId", selectedLoom.BookingId);
+  
+    confirmknottingoffer()
+    postloombooking()
+
   };
   const checkbooking = async () => {
     if (!fromdate || !todate) {
@@ -282,6 +234,7 @@ function Loom_booking() {
   };
   useEffect(() => {
     getloom();
+
   }, []);
 
   const [selectedLoom, setSelectedLoom] = useState(null);
@@ -403,13 +356,10 @@ function Loom_booking() {
                     <hr />
 
                     <>
-                      {data.LoomAvailableFrom.date.substring(0, 10) <=
+                      {(data.LoomAvailableFrom.date.substring(0, 10) <
                         formattedToday &&
-                      data.LoomAvailableTo.date.substring(0, 10) >=
-                        formattedToday && 
-                      (data.BookedFromDate ?!data.BookedFromDate.date.substring(0, 10) <=
-                        formattedToday:true && data.BookedToDate ?!data.BookedToDate.date.substring(0, 10) >=
-                        formattedToday:true ) ?(
+                      data.LoomAvailableTo.date.substring(0, 10) >
+                        formattedToday )?(
                         <>
                           {" "}
                           <p
@@ -528,13 +478,13 @@ function Loom_booking() {
           <div className="loom_booking-right" style={{ margin: "10px" }}>
             <div style={{ position: "fixed", marginRight: "50px" }}>
               <h2
-                style={{ textAlign: "center", color: "var(--primary-color)" }}
+                style={{ textAlign: "center", color: "var(--complementary-color)" }}
               >
                 {selectedLoom
                   ? `Selected Loom: ${selectedLoom.LoomNo}`
                   : "Select Loom No"}
               </h2>
-              <div
+              <div 
                 // style={{ border: "1px solid var(--secondary-color)", background: 'var(--background-color)', borderRadius: '10px', padding: '10px' }}
                 className="loom_booking-form-container"
               >
@@ -549,7 +499,7 @@ function Loom_booking() {
                   <label
                     style={{
                       fontWeight: "bold",
-                      padding: "10px",
+                      // padding: "10px",
                       fontSize: 18,
                     }}
                   >
@@ -577,7 +527,7 @@ function Loom_booking() {
                       />
                        <button
                       style={{
-                        width: "50%",
+                        width: "30%",
                         marginTop: "25px",
                         margin: "10px",
                         backgroundColor: "white",
@@ -589,9 +539,10 @@ function Loom_booking() {
                       className="btn1"
                       onClick={getknottingid}
                     >
-                      Verify knotting order
+                      Verify 
                     </button>
                     </div>
+                    <div  className="loom-dateContainer" style={{display:'flex',}}>
                     <div style={{ marginTop: "10px" }}>
                       <label style={{ fontWeight: "bold", padding: "10px" }}>
                         From Date <span style={{ color: "red" }}>*</span>
@@ -630,18 +581,21 @@ function Loom_booking() {
                         type="date"
                       />
                     </div>
-                    <button
+                    </div>
+                    <button   className="checkdate"
                       style={{
-                        width: "30%",
-                        marginTop: "25px",
+                        // width: "30%",
+                        // marginTop: "35px",
                         margin: "10px",
                         backgroundColor: "white",
                         border: "2px solid var(  --complementary-color)",
                         color: "var( --complementary-color)",
                         fontWeight: "800",
                         padding: "9px 0",
+                        borderRadius:'8px',
+                      
                       }}
-                      className="btn1"
+                    
                       onClick={checkbooking}
                     >
                       Check Date
@@ -656,9 +610,10 @@ function Loom_booking() {
                   {chckstate && (
                     <button
                       style={{
-                        width: "30%",
-                        marginTop: "20px",
+                        // width: "30%",
+                        
                         margin: "10px",
+
                       }}
                       className="btn1"
                       // onClick={testbook}
@@ -672,7 +627,7 @@ function Loom_booking() {
                     </button>
                   )}
                 </div>
-                <table style={{backgroundColor:'white',}}> 
+                <table className="loomform-table" style={{backgroundColor:'white',}}> 
                   <thead>
                     <tr>
                       <th>Order No.</th>

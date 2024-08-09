@@ -9,10 +9,10 @@ import Select from "react-select";
 // import img8 from '../common/static/image/img8.jpg';
 import { Country, State, City } from "country-state-city";
 import img13 from "../common/static/image/img13.jfif";
-import img14 from "../common/static/image/img14.jfif";
+//import img14 from "../common/static/image/img14.jfif";
 
 import img15 from "../common/static/image/img15.webp";
-import img16 from "../common/static/image/img16.jpg";
+//import img16 from "../common/static/image/img16.jpg";
 import { toast } from "react-toastify";
 import otpimage from "../common/static/image/otp.png";
 
@@ -238,9 +238,9 @@ const RegistrationForm = () => {
       .catch((error) => {console.error(error)
       });
   };
-  const handleOtpSubmit = () => {
+  const handleOtpSubmit = (e) => {
 
-
+    e.preventDefault()
     const checkotp = {
       method: "GET",
       redirect: "follow",

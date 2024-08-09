@@ -9,7 +9,10 @@ function GetYarn() {
                 <form className='get-form'>
                     <div className='get-title'>
                         <h5>Get Yarn Rates</h5>
+                        
+                       
                     </div>
+                    <div>This service is not available yet!!</div>
 
                 </form>
 

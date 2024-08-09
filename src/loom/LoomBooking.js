@@ -82,15 +82,11 @@ function LoomBooking() {
    
   };
 
-  const bookloom = (selectedLoom) => {
+  const bookloom = () => {
     const formdataa = new FormData();
-    formdataa.append("LoomDetailId", selectedLoom.LoomDetailId);
+    formdataa.append("BookingId", bookingid);
     formdataa.append("OrderNoId", oid);
     formdataa.append("KnottingOrderId", "");
-    formdataa.append("LoomNo", selectedLoom.LoomNo);
-    formdataa.append("Available", "false");
-    formdataa.append("LoomAvailableFrom", "");
-    formdataa.append("LoomAvailableTo", fromdate);
     formdataa.append("BookedFromDate", fromdate);
     formdataa.append("BookedToDate", todate);
 
@@ -198,25 +194,21 @@ function LoomBooking() {
       <div className="loombooking-container">
         <div
           className="loombooking-left"
-          //style={{ border: '2px solid green', }}
+        
         >
-          <div>
+          <div >
             <h1 style={{ textAlign: "center", color: "var( --primary-color)" }}>
               Loom Booking panel{" "}
             </h1>
           </div>  {Array.isArray(data) && data.length > 0 && (
-          <div
+          <div className="live-orderCards-btns"
             style={{
-              //  border: '3px solid blue',
-              padding: "20px",
-              margin: "10px",
-              display: "grid",
-              height: "88vh",
+            //  border:'2px solid red',
               gridTemplateColumns:"repeat(5, 0.3fr)",
               gridTemplateRows:"repeat(4,0.3fr)",
               gap: "30px",
             }}
-            className="loom_numbers">
+            >
         
               {data.map((data) => (
                 <div
@@ -345,7 +337,7 @@ function LoomBooking() {
         <div
           className="loombooking-right"
           style={{
-            // border: '2px solid blue',
+            
             margin: "10px",
           }}
         >
@@ -358,6 +350,7 @@ function LoomBooking() {
           <div
             style={{
               border: "1px solid  var( --secondary-color)",
+             
               background: "var(--background-color)",
               borderRadius: "10px",
               padding: "10px",
@@ -370,6 +363,7 @@ function LoomBooking() {
                 alignItems: "center",
                 marginTop: "20px",
                 justifyContent: "center",
+                 
               }}
             >
               <label
@@ -595,100 +589,3 @@ function LoomBooking() {
 }
 
 export default LoomBooking;
-
-// import React, { useState } from 'react';
-// import '../common/static/css/loomBooking.css';
-// import { IoMdInformationCircleOutline } from "react-icons/io";
-
-// function LoomBooking() {
-//     const [isBooked, setIsBooked] = useState(true);
-//     const [selectedLoom, setSelectedLoom] = useState(null);
-
-//     const toggleBookingStatus = () => {
-//         setIsBooked(!isBooked);
-//     };
-
-//     const handleLoomClick = (loomNumber) => {
-//         setSelectedLoom(loomNumber);
-//     };
-
-//     return (
-//         <>
-//             <div className='loombooking-container'>
-//                 <div className='loombooking-left' style={{ border: '2px solid green', margin: '10px' }}>
-//                     <div>
-//                         <h1 style={{ textAlign: 'center', color: 'var( --primary-color)' }}>Loom Booking panel  </h1>
-//                     </div>
-//                     <div style={{ border: '3px solid blue', padding: '20px', margin: '10px', display: 'grid', height: '80vh', gridTemplateColumns: 'repeat(4, 1fr)', gridTemplateRows: 'repeat(5,1fr)', gap: '30px' }} className='loom_numbers'>
-//                         {[...Array(20)].map((_, index) => (
-//                             <div key={index} style={{ border: '2px solid var(--secondary-color)', borderRadius: "8px", background: isBooked ? 'var(--complementary-color)' : 'var(--tershary-color)', color: 'white' }} className="box" onClick={() => handleLoomClick(index + 1)}>
-//                                 <div style={{ textAlign: 'center' }}>
-//                                     <div className='loomnumber' style={{ display: 'flex', alignItems: 'center', gap: '10px', justifyContent: 'center' }}>
-//                                         <p style={{ cursor: 'pointer', fontSize: '20px' }}>L- {index + 1}</p>
-//                                         <IoMdInformationCircleOutline style={{ cursor: 'pointer', fontSize: '30px' }} />
-//                                     </div>
-//                                     <hr />
-//                                     {isBooked && selectedLoom === index + 1 && (
-//                                         <>
-//                                             <p>OR: <span id="orderNo">123456</span></p>
-//                                             <p>To: <span id="bookedDate">2024-06-05</span></p>
-//                                         </>
-//                                     )}
-//                                 </div>
-//                             </div>
-//                         ))}
-//                     </div>
-//                 </div>
-//                 <div className='loombooking-right' style={{ border: '2px solid blue', margin: '10px' }}>
-//                     <div>
-//                         <h1 style={{ textAlign: 'center', color: 'var( --primary-color)' }}>Selected Loom No: {selectedLoom ? `L-${selectedLoom}` : 'None'}</h1>
-//                     </div>
-//                     {selectedLoom && (
-//                         <div style={{ margin: '10px', border: "1px solid var(--secondary-color)", marginTop: '90px', background: 'var(--background-color)', borderRadius: '10px' }} className='loom_booking-form-container'>
-//                             <div className='loom_booking_container'>
-//                                 <div>
-//                                     <div>
-//                                         <label style={{ fontWeight: 'bold' }}>Order No</label>
-//                                         <input style={{ width: '85%', margin: "10px", border: '1px solid var(--primary-color)' }}
-//                                             type="text" placeholder='Order No' />
-//                                     </div>
-//                                     <div>
-//                                         <label style={{ fontWeight: 'bold' }}>Quality</label>
-//                                         <input style={{ width: '85%', margin: "10px", border: '1px solid var(--primary-color)' }} type="text" placeholder='Quality' />
-//                                     </div>
-//                                     <div>
-//                                         <label style={{ fontWeight: 'bold' }}>Job Rate Exp</label>
-//                                         <input style={{ width: '85%', margin: "10px", border: '1px solid var(--primary-color)' }} type="text" placeholder='Enter Job Rate ' />
-//                                     </div>
-//                                     <div>
-//                                         <label style={{ fontWeight: 'bold' }}>Party Name</label>
-//                                         <input style={{ width: '85%', margin: "10px", border: '1px solid var(--primary-color)' }} type="text" placeholder='Enter Party Name' />
-//                                     </div>
-//                                 </div>
-//                                 <div>
-//                                     <div>
-//                                         <label style={{ fontWeight: 'bold' }}>Order Date</label>
-//                                         <input style={{ width: '85%', margin: "10px", border: '1px solid var(--primary-color)', marginTop: '5px' }} type="date" />
-//                                     </div>
-//                                     <div>
-//                                         <label style={{ fontWeight: 'bold' }}>From Date</label>
-//                                         <input style={{ width: '85%', margin: "10px", border: '1px solid var(--primary-color)', marginTop: '5px' }} type="date" />
-//                                     </div>
-//                                     <div>
-//                                         <label style={{ fontWeight: 'bold' }}>To Date</label>
-//                                         <input style={{ width: '85%', margin: "10px", border: '1px solid var(--primary-color)', marginTop: '3px' }} type="date" readOnly />
-//                                     </div>
-//                                 </div>
-//                             </div>
-//                             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-//                                 <button style={{ width: '30%', marginTop: '20px', margin: '10px' }} className='btn1'>Submit</button>
-//                             </div>
-//                         </div>
-//                     )}
-//                 </div>
-//             </div>
-//         </>
-//     );
-// }
-
-// export default LoomBooking;

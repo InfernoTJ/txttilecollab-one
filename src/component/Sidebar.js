@@ -136,7 +136,7 @@ function Sidebar() {
           <div className="sidebar-items">
             <div className="menu-bar">
               <div className="menus">
-                <ul className="menu">
+                <ul  className="menu">
                   {filteredMenuItems.map((item, index) => (
                     <li className="main-link" key={index}>
                       <div className="menu-item">

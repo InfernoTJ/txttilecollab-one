@@ -58,14 +58,35 @@
     background: var(--background-color);
     border-radius: 10px;
      padding: 10px;
+     
 }
 
-
+.loom-dateContainer{
+  display: flex;
+}
 .loom_booking_btn-container{
   display: flex;
    justify-content: center;
     align-items: center;
+  
+    
+
+    /* margin-top: -40px; */
 }
+
+.checkdate{
+  margin-top: 35px;
+  margin: 10px;
+  background-color: white;
+  border: 2px solid var(  --complementary-color);
+  color: 'var( --complementary-color)';
+  font-weight: 800;
+  padding: 9px 0;
+
+}
+
+
+
 
   @media only screen and (max-width: 902px){
     .loom_booking-container {
@@ -87,8 +108,8 @@
       margin: 10px;
       display: grid;
       height: 88vh;
-      grid-template-columns: repeat(2, 0.35fr);
-      grid-template-rows: repeat(4, 0.35fr);
+      grid-template-columns: repeat(2,1fr);
+      grid-template-rows: repeat(2, 1fr);
       gap: 30px;
   }
   
@@ -128,13 +149,24 @@
    background: var(--background-color);
    border-radius: 10px;
     /* padding: 10px; */
-    height: 65vh;
+    height: 85vh;
+    
 }
 
 .loom_booking_btn-container{
   display: flex;
    justify-content: center;
     align-items: center;
+}
+
+.loom-dateContainer{
+ 
+  display: flex;
+  flex-direction: column;
+}
+
+.loomform-table{
+  margin-top: 60px;
 }
 
 

@@ -14,7 +14,7 @@
     max-width: 1000px;
 }
 
-.cancel-form {
+/* .cancel-form {
     display: grid;
     grid-template-columns: 1fr 2fr;
     gap: 10px 35px;
@@ -25,7 +25,7 @@
     min-width: 640px;
     max-width: 100%;
     margin: auto;
-}
+} */
 
 .cancel-title {
     grid-column: span 2;
@@ -50,3 +50,5 @@
     width: 30%;
     text-align: left;
 }
+
+

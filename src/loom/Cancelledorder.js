@@ -97,16 +97,18 @@ function Cancelledorder() {
       })
       .catch((error) => console.error(error));
   };
+
   useEffect(() => {
     getknottingcanncelled();
     loadcancelledorder();
   }, []);
+
   return (
     <>
       <div
         // className='completed-title'
         style={{
-          marginTop: "30px",
+          // marginTop: "30px",
           marginLeft: "20px",
           display: "flex",
           justifyContent: "center",
@@ -131,7 +133,7 @@ function Cancelledorder() {
               justifyContent: "center",
               alignItems: "center",
               flexDirection: "column",
-              height: "70vh",
+              // height: "70vh",
             }}
           >
             {" "}
@@ -142,8 +144,16 @@ function Cancelledorder() {
       )}
       <div className="cancel-container">
         <div className="subcancel-container">
-          <div style={{ padding: 50, height: "auto", width: "100%" }}>
-            <div className="live-ordersCards-container">
+          <div
+           style=
+           {{ padding: 50,
+            height: "auto",
+             width: "100%" 
+             }}>
+            <div 
+            className=
+            "live-ordersCards-container"
+            >
               {cancelledorder.map((order) => (
                 <div
                   className="live-ordersCards-all"
@@ -183,8 +193,13 @@ function Cancelledorder() {
                       <p>Qlt: {order.Quality}</p>
                     </div>
                   </div>
+
+
+
                   <hr />
-                  <div className="live-orderCards-btns">
+                  <div 
+                  // className="live-orderCards-btns"
+                  >
                     <button
                       onClick={() => handleStartOrderClick(order.LoomOrderId)}
                       className="start-order-btn"
@@ -197,7 +212,7 @@ function Cancelledorder() {
                         padding: "10px 15px",
                         margin: "5px",
                         width: "80%",
-                        margin: "0 auto",
+                       // margin: "0 auto",
                         marginBottom: "5px",
                       }}
                     >
@@ -205,10 +220,11 @@ function Cancelledorder() {
                     </button>
                   </div>
                 </div>
+               
               ))}
               {cancelledknotting.map((knotingcan) => (
                 <div
-                  className="live-ordersCards-all"
+                  className="cnsllive-ordersCards-all"
                   key={knotingcan.id}
                   style={{
                     border: "3px solid var(--tershary-color)",
@@ -238,7 +254,7 @@ function Cancelledorder() {
                         padding: "10px 15px",
                         margin: "5px",
                         width: "80%",
-                        margin: "0 auto",
+                       // margin: "0 auto",
                         marginBottom: "5px",
                       }}
                     >

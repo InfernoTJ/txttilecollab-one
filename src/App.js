@@ -34,6 +34,7 @@ import Trorderdetails from './trader_Side/Trorderdetails.js';
 import Users from '../src/Admin _side/Users.js'
 import Admin_trader from './Admin _side/Admin_trader.js';
 import Addmin_loom from './Admin _side/Addmin_loom.js';
+import Addminuserinfo from './Admin _side/userinformation.js';
 import Admin_yarn from './Admin _side/Admin_yarn.js';
 import Profile from './loom/Profile.js';
 import Tprofile from './trader_Side/Tprofile.js';
@@ -106,6 +107,8 @@ function App() {
             <Route path='trader' element={<Admin_trader />} />
             <Route path='loom' element={<Addmin_loom />} />
             <Route path='yarn' element={<Admin_yarn />} />
+            <Route path='userinfo/:uid' element={<Addminuserinfo/>} />
+
 
             <Route path='notifications' element={<Notification />} />
             <Route path='yarn-loom' element={<Y_loom/>} />

@@ -70,9 +70,10 @@
 import { MdCancelPresentation } from "react-icons/md";
 import { GrCompliance,GrDocumentTime  } from "react-icons/gr";
 import { MdPeople } from "react-icons/md";
+import { PiUsersFill, PiUsersFourFill } from "react-icons/pi";
 // import { BsPersonWorkspace } from "react-icons/bs";
-import { RiHome2Fill, RiCalculatorLine, RiPriceTag3Fill, RiStickyNoteAddLine } from "react-icons/ri";
-import { FaChartLine, FaUserTie, FaUser, FaBell, } from "react-icons/fa"; // Import additional icons for trader, yarn, and admin
+import { RiHome2Fill, RiCalculatorLine, RiPriceTag3Fill, RiStickyNoteAddLine, RiAdminFill } from "react-icons/ri";
+import { FaChartLine, FaUserTie, FaUser, FaBell, FaUsers, } from "react-icons/fa"; // Import additional icons for trader, yarn, and admin
 import { MdPostAdd,  MdNotificationAdd,MdOutlineAddToPhotos } from "react-icons/md";
 import { SiGitbook } from "react-icons/si";
 import { AiOutlineAudit } from "react-icons/ai";
@@ -289,25 +290,25 @@ export const menuItems = [
   {
     title: "Users",
     path: "users",
-    icon: <FaUser />,
+    icon: <RiAdminFill />,
     roles: ["A"],
   },
   {
     title: "Trader",
     path: "trader",
-    icon: <FaUser />,
+    icon: <FaUsers />,
     roles: ["A"],
   },
   {
     title: "Loom",
     path: "loom",
-    icon: <FaUser />,
+    icon: <PiUsersFourFill />,
     roles: ["A"],
   },
   {
     title: "Yarn",
     path: "yarn",
-    icon: <FaUser />,
+    icon: <PiUsersFill />,
     roles: ["A"],
   },
 ];

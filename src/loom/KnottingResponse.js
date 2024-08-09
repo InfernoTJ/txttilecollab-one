@@ -153,11 +153,15 @@ fetch("https://textileapp.microtechsolutions.co.in/php/confirmknottingoffer.php"
               <div style={{display:'flex',justifyContent:'center',alignItems:'center',flexDirection:'column',height:'80vh'}}> <img src={add} style={{width:'25%',}} alt="add" /> 
               <h2 style={{color:'#dda960',fontSize:'35px'}}>No order yet</h2></div> 
               </div>} 
-            <div className='live-ordersCards-container' > 
+            <div 
+            // className='live-ordersCards-container'
+             > 
            
            
               {view === 'liveOrders' && liveOrders.map((order) => (<>
-                <div className='live-ordersCards-all' key={order.id} >
+                <div
+                //  className='live-ordersCards-all'
+                 key={order.id} >
                   <div  
                   style={{ marginLeft: '10px', cursor: 'pointer' }}
                   >
@@ -191,7 +195,9 @@ fetch("https://textileapp.microtechsolutions.co.in/php/confirmknottingoffer.php"
               <div style={{display:'flex',justifyContent:'center',alignItems:'center',flexDirection:'column',height:'80vh'}}> <img src={add} style={{width:'25%',}} alt="add" /> 
               <h2 style={{color:'#dda960',fontSize:'35px'}}>No order yet</h2></div> 
               </div>} 
-          <div className='confirmOrdersCards-container'  >
+          <div
+           className='confirmOrdersCards-container'
+             >
             {confirmOrders.map((order) => (
               <div className='confirmOrdersCards-all' key={order.id}  >
                 <div  style={{ marginLeft: '10px'}}>

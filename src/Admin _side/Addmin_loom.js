@@ -5,10 +5,14 @@ import {
   MaterialReactTable,
   useMaterialReactTable,
 } from 'material-react-table';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+
 
 const Admin_loom = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+const navigate =useNavigate() 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,7 +28,7 @@ const Admin_loom = () => {
           ...item,
           srNo: index + 1, // Auto-incrementing srNo
         }));
-
+        console.log(dataWithSrNo)
         setData(dataWithSrNo);
         setLoading(false);
       } catch (error) {
@@ -70,7 +74,10 @@ const Admin_loom = () => {
   const table = useMaterialReactTable({
     columns,
     data, 
-    muiTableBodyRowProps: () => ({}),
+    muiTableBodyRowProps: ({ row }) => ({
+      onClick: () => sendingdata(row.original), // Trigger `gettingData` on row click
+      style: { cursor: 'pointer' }, // Add pointer cursor to indicate clickable row
+    }),
     muiTableHeadCellProps: {
       style: {
         backgroundColor: 'var(--color)',
@@ -81,6 +88,10 @@ const Admin_loom = () => {
     },
   });
 
+
+  const sendingdata = (row) => {
+    navigate('../userinfo/'+row.Id) 
+  };
   return (
     <>
       <div>

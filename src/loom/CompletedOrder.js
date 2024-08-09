@@ -11,9 +11,10 @@ function CompletedOrder() {
   const user = userString ? JSON.parse(userString) : null;
 
   const handlecardclick = (orderid) => {
- 
+    
     navigate('loom-completed-orders/'+orderid);
   };
+
     const loadcompletedorder = () => {
 
         const requestOptions = {

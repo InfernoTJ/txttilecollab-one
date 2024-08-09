@@ -50,6 +50,7 @@
     font-weight: bold;
 }
 
+
 @media only screen and (max-width: 902px) {
  
    
@@ -96,4 +97,5 @@
         height: 13vh;
         width: 100%;
     }
+   
 }

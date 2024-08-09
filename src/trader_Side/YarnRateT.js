@@ -3,7 +3,8 @@ import React from 'react'
 const YarnRateT = () => {
   return (
     <div>
-      YarnRateT
+      <h2> This service is not available yet!!</h2>
+    
      
     </div>
   )

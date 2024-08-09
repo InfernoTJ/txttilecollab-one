@@ -205,7 +205,7 @@ const LoomDetails = () => {
 
     return (
         <div className='loom_details-container'>
-            <div style={{ borderRadius: '10px', padding: '20px', marginTop: '30px', background: 'var(--background-color)' }} className='loom_details'>
+            <div style={{ borderRadius: '10px',backgroundColor:'var(--background-color)' }} className='loom_details'>
                 <div>
                     <h1 style={{ color: 'var(--primary-color)', margin: '30px' }}>Loom Details</h1>
                 </div>
@@ -319,7 +319,7 @@ const LoomDetails = () => {
                             <h3 style={{ color: 'var(--primary-color)', textAlign: 'center' }}>Other Loom Attachments </h3>
                         </div>
 
-                        <div style={{ display: 'flex', flexDirection: 'row', gap: '30px', border: '1px solid var(--primary-color)', padding: '40px', borderRadius: '10px', marginTop: '30px' }}>
+                        <div className="loomattachments" style={{ display: 'flex', gap: '30px',   borderRadius: '10px', marginTop: '30px',}}>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', justifyContent: 'center', marginLeft: '20px' }}>
                                 <div style={{ fontWeight: 'bold' }}>
                                     Selvadge Jacquard
@@ -357,8 +357,8 @@ const LoomDetails = () => {
                                     Cramming
                                 </div>
                             </div>
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', justifyContent: 'center' }}>
-                                <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center' }}>
+                            <div className="available-attachments" style={{ display: 'flex', flexDirection: 'column', gap: '10px', justifyContent: 'center' }}>
+                                <div  style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center' }}>
                                     <div><input
                                         style={{ width: '20px' }}
                                         type='checkbox'
@@ -367,7 +367,7 @@ const LoomDetails = () => {
                                     /></div>
                                     <div>Available</div>
                                 </div>
-                                <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center' }}>
+                                <div  style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center' }}>
                                     <div><input
                                         style={{ width: '20px' }}
                                         type='checkbox'
@@ -380,8 +380,8 @@ const LoomDetails = () => {
                         </div>
                     </div>
 
-                    <div style={{ padding: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <button style={{ width: '10%', fontSize: 18 }} className='btn2' onClick={handleSubmit}>
+                    <div style={{  display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <button style={{  fontSize: 18 }} className='btn2' onClick={handleSubmit}>
                             Submit
                         </button>
                     </div>
