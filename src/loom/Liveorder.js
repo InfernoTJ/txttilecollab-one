@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import "../common/static/css/Liveorder.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-
+import { FaCircleInfo } from "react-icons/fa6";
 import add from "../common/static/image/emptybox1.jpg";
+import { IoClose } from "react-icons/io5";
+import { HiMiniInformationCircle } from "react-icons/hi2";
 function Liveorder() {
   const navigate = useNavigate();
 
@@ -28,26 +30,33 @@ function Liveorder() {
       redirect: "follow",
     };
 
-    getmail(order,'started')
-  
-        fetch(
-          `https://textileapp.microtechsolutions.co.in/php/updateloomorder.php?LoomOrderId=${order.LoomOrderId}&Confirmed=true`,
-          confirmform
-        )
-          .then((response) => response.text())
-          .then((result) => {
-            console.log(result);
-            toast.success(`Order ${order.OrderNo} confirmed`);
-            navigate(`../loom/LoomBooking/${order.LoomOrderId}`);
-         
-          })
-          .catch((error) => console.error(error));
-    
+    getmail(order, "started");
+
+    fetch(
+      `https://textileapp.microtechsolutions.co.in/php/updateloomorder.php?LoomOrderId=${order.LoomOrderId}&Confirmed=true`,
+      confirmform
+    )
+      .then((response) => response.text())
+      .then((result) => {
+        console.log(result);
+        toast.success(`Order ${order.OrderNo} confirmed`);
+        navigate(`../loom/LoomBooking/${order.LoomOrderId}`);
+      })
+      .catch((error) => console.error(error));
   };
+  const [isInfoFormOpen, setisInfoFormOpen] = useState(false);
+  const handleInfoBtnClick = () => {
+    setisInfoFormOpen(!isInfoFormOpen);
+  };
+  const handleFormClose = () => {
+    setisInfoFormOpen(false);
+  };
+  const [selectedLoom, setSelectedLoom] = useState(null);
 
+  const handleLoomSelection = (loomNumber) => {
+    setSelectedLoom(loomNumber);
+  };
   // const handleCancelOrderClick = (order) => {
-
-
 
   //   const confirmform = {
   //     method: "GET",
@@ -108,32 +117,29 @@ function Liveorder() {
 
   // };
 
-
-
-  
-
   const emailform = new FormData();
 
+  const getmail = (order, status) => {
+    const gettradermailconnection = {
+      method: "GET",
+      redirect: "follow",
+    };
 
-const getmail =(order,status)=>{
-  const gettradermailconnection = {
-    method: "GET",
-    redirect: "follow"
+    fetch(
+      "https://textileapp.microtechsolutions.co.in/php/getbyid.php?Table=LoomTraderDetail&Colname=Id&Colvalue=" +
+        order.TraderId,
+      gettradermailconnection
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        const emaildata = result[0];
+        emailform.append("AppUserId", emaildata.AppUserId);
+        sendtradermail(order, status);
+      })
+      .catch((error) => console.error(error));
   };
-  
-  fetch("https://textileapp.microtechsolutions.co.in/php/getbyid.php?Table=LoomTraderDetail&Colname=Id&Colvalue="+order.TraderId, gettradermailconnection)
-    .then((response) => response.json())
-    .then((result) => {
-      const emaildata = result[0];
-      emailform.append("AppUserId", emaildata.AppUserId);
-      sendtradermail(order,status)
-    })
-    .catch((error) => console.error(error));
-}
 
-  const sendtradermail = (order,status)=>{
-
-
+  const sendtradermail = (order, status) => {
     emailform.append(
       "Body",
       `Your order ${order.OrderNo} has been ${status} by ${user.Name}`
@@ -145,37 +151,47 @@ const getmail =(order,status)=>{
       redirect: "follow",
     };
 
-
     fetch(
       "https://textileapp.microtechsolutions.co.in/php/sendemail.php",
       emailconnection
     )
       .then((response) => response.text())
-      .then((result) => {console.log(result)})
+      .then((result) => {
+        console.log(result);
+      })
       .catch((error) => console.error(error));
-  }
+  };
 
   const handleCancelOrderClick = (order) => {
     const requestOptions = {
       method: "GET",
-      redirect: "follow"
+      redirect: "follow",
     };
 
-    getmail(order,'cancelled')
+    getmail(order, "cancelled");
 
-    fetch("https://textileapp.microtechsolutions.co.in/php/updateloomorder.php?LoomOrderId="+order.LoomOrderId+"&Confirmed=false", requestOptions)
+    fetch(
+      "https://textileapp.microtechsolutions.co.in/php/updateloomorder.php?LoomOrderId=" +
+        order.LoomOrderId +
+        "&Confirmed=false",
+      requestOptions
+    )
       .then((response) => response.text())
       .then((result) => {
-    console.log(result);
+        console.log(result);
 
         toast.success(`Cancelled ${order.OrderNo}`);
         loadliveorders();
       })
       .catch((error) => console.error(error));
-  }
+  };
 
-  const handlecardclick = (orderid) => {
-    navigate("../live-orders/orderdetails/" + orderid);
+  const handlecardclick = (order) => {
+    const data={
+      enquiryid:order.EnquiryId,
+      orderno:order.OrderNo
+    }
+    navigate("../live-orders/orderdetails/" + order.LoomOrderId,{state:data});
   };
   const loadliveorders = () => {
     const requestOptions = {
@@ -185,7 +201,7 @@ const getmail =(order,status)=>{
 
     fetch(
       "https://textileapp.microtechsolutions.co.in/php/loomliveorder.php?LoomTraderId=" +
-      user.Id,
+        user.Id,
       requestOptions
     )
       .then((response) => response.json())
@@ -208,7 +224,16 @@ const getmail =(order,status)=>{
       })
       .catch((error) => console.error(error));
   };
-  useEffect(() => {
+  const [showConfirm, setShowConfirm] = useState(false);
+  const confirmDelete = (order) => {
+    handleStartOrderClick(order)
+    setShowConfirm(false);
+  };
+  const askconfirmation=(order)=>
+  {
+    setShowConfirm(true)
+  }
+  useEffect(() => { 
     loadliveorders();
   }, []);
 
@@ -245,8 +270,9 @@ const getmail =(order,status)=>{
             <div className="vl"></div>
             <div onClick={handleConfirmOrdersClick} style={{ flex: 1 }}>
               <button
-                className={`livebtn ${view === "confirmOrders" ? "active" : ""
-                  }`}
+                className={`livebtn ${
+                  view === "confirmOrders" ? "active" : ""
+                }`}
               >
                 Confirm Order
               </button>
@@ -278,10 +304,12 @@ const getmail =(order,status)=>{
                   </div>
                 )}
                 <div className="live-ordersCards-container">
+                  {liveOrders && <> 
                   {liveOrders.map((order) => (
                     <div
                       className="live-ordersCards-all"
                       key={order.id}
+                      onClick={() => handleLoomSelection(order)}
                       style={{
                         border: "3px solid var(--tershary-color)",
                         borderRadius: "10px",
@@ -292,10 +320,22 @@ const getmail =(order,status)=>{
                           style={{
                             color: "var(--secondary-color)",
                             fontWeight: "bold",
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
                             margin: "10px",
                           }}
                         >
                           <p>OR: {order.OrderNo}</p>
+                          <HiMiniInformationCircle
+                            onClick={handleInfoBtnClick}
+                            style={{
+                              color: "var(--secondary-color)",
+                              fontSize: "25px",
+                              cursor: "pointer",
+                              marginRight: "3px",
+                            }}
+                          />
                         </div>
                         <div
                           style={{
@@ -320,7 +360,7 @@ const getmail =(order,status)=>{
                       <hr />
                       <div className="live-orderCards-btns">
                         <button
-                          onClick={() => handleStartOrderClick(order)}
+                          onClick={() => askconfirmation(order)}
                           className="start-order-btn"
                           style={{
                             backgroundColor: "var(--tershary-color)",
@@ -337,9 +377,7 @@ const getmail =(order,status)=>{
                         </button>
                         <button
                           className="btn2"
-                          onClick={() =>
-                            handleCancelOrderClick(order)
-                          }
+                          onClick={() => handleCancelOrderClick(order)}
                           style={{
                             backgroundColor: "var(--complementary-color)",
                             borderRadius: "10px",
@@ -354,8 +392,21 @@ const getmail =(order,status)=>{
                           Cancel
                         </button>
                       </div>
+                      {showConfirm && (
+                    <div className="custom-confirmation-dialog">
+                      <div className="dialog-content">
+                        <p>Are you sure you want to start order {order.OrderNo}?</p>
+                        <button style={{ width: "30%" ,backgroundColor:'var(--complementary-color)' }}
+                        className="btn2" onClick={ ()=>confirmDelete(order)}>Yes</button>
+                        <button   style={{ width: "30%" }}
+                        className="btn2" onClick={() => setShowConfirm(false)}>No</button>
+                      </div>
                     </div>
-                  ))}
+                  )}
+                    </div>
+                  ))} 
+                  </>
+                  }
                 </div>
               </>
             )}
@@ -385,10 +436,10 @@ const getmail =(order,status)=>{
                     <div
                       key={order.id}
                       className="confirmOrdersCards-all"
-                    //  style={{ border: '3px solid var(--tershary-color)', borderRadius: '10px' }}
+                      //  style={{ border: '3px solid var(--tershary-color)', borderRadius: '10px' }}
                     >
                       <div
-                        onClick={() => handlecardclick(order.LoomOrderId)}
+                        onClick={() => handlecardclick(order)}
                         style={{ marginLeft: "10px", cursor: "pointer" }}
                       >
                         <div
@@ -421,9 +472,7 @@ const getmail =(order,status)=>{
                         <button
                           className="btn1"
                           style={{ margin: "0 auto" }}
-                          onClick={() =>
-                            handleCancelOrderClick(order)
-                          }
+                          onClick={() => handleCancelOrderClick(order)}
                         >
                           Cancel Order
                         </button>
@@ -435,6 +484,114 @@ const getmail =(order,status)=>{
             )}
           </div>
         )}
+        <div
+          className={`loom_booking_infoform-container ${
+            isInfoFormOpen ? "form-open" : ""
+          }`}
+        >
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <h2 style={{ color: "var(--primary-color)", padding: "20px" }}>
+              {selectedLoom && selectedLoom.OrderNo} Information
+            </h2>
+            <IoClose
+              style={{ fontSize: "30px", color: "var(--primary-color)",marginRight:'20%' }}
+              onClick={handleFormClose}
+            />
+          </div>
+          {selectedLoom && (
+            <div style={{ marginLeft: "50px" }}>
+              <div>
+                <h3>Enquiry No: {selectedLoom.EnquiryNo}</h3>
+              </div>
+              <div>
+                <h3>Agent Name: {selectedLoom.AgentName}</h3>
+              </div>
+              <div>
+                <h3>Fabric Length: {selectedLoom.FabricLength}</h3>
+              </div>
+              <div>
+                <h3>Fabric Quality: {selectedLoom.FabricQuality}</h3>
+              </div>
+              <div>
+                <h3>Fabric Width: {selectedLoom.FabricWidth}</h3>
+              </div>
+              <div>
+                <h3>Machine Type: {selectedLoom.MachineType}</h3>
+              </div>
+              <div>
+                <h3>Shedding Type: {selectedLoom.SheddingType}</h3>
+              </div>
+
+              <div style={{ display: "flex", justifyContent: "space-between",padding:'0 10% 0 0' }}> 
+                <div>
+                  <div>
+                    <h3>Width: {selectedLoom.Width}</h3>
+                  </div>
+                  <div>
+                    <h3>RPM: {selectedLoom.RPM}</h3>
+                  </div>
+                </div>
+                <div>
+                  <div>
+                    <h3>No of Frames: {selectedLoom.NoofFrame}</h3>
+                  </div>
+                  <div>
+                    <h3>No of Feeders: {selectedLoom.NoofFeedero}</h3>
+                  </div>
+                </div>
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-between",padding:'0 5% 0 0' }}>
+                {" "}
+                <div>
+                  {selectedLoom.SelvageJacquard === 1 && (
+                    <div>
+                      <h3>Selvage Jacquard: Available </h3>
+                    </div>
+                  )}
+                  {selectedLoom.TopBeam === 1 && (
+                    <div>
+                      <h3>Top Beam: Available</h3>
+                    </div>
+                  )}
+                </div>{" "}
+                <div>
+                  {" "}
+                  {selectedLoom.Cramming === 1 && (
+                    <div>
+                      <h3>Cramming: Available </h3>
+                    </div>
+                  )}
+                  {selectedLoom.LenoDesignEquipment === 1 && (
+                    <div>
+                      <h3>Leno Design Equipment: Available </h3>
+                    </div>
+                  )}
+                </div>
+              </div>
+              {selectedLoom.Photopath && (
+                <div>
+                  <img
+                    src={selectedLoom.Photopath}
+                    style={{
+                      width: "50%",
+                      maxHeight: "25vh",
+                      borderRadius: "5px",
+                      border:'1px solid black'
+                    }}
+                    alt="designpaper"
+                  />
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+       
       </div>
     </>
   );

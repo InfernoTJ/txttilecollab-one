@@ -1,68 +1,68 @@
 import React, { useEffect, useState } from 'react'
 import './../common/static/css/y_loom.css'
+import {  useNavigate } from "react-router-dom";
 const Y_loom = () => {
 
   const userString = sessionStorage.getItem("user");
   const user = userString ? JSON.parse(userString) : null;
-  const [loomIds, setLoomIds] = useState([]);
- const[looms,setlooms]=useState([]);
+
+  const [uniqueLooms,setuniqueLooms] = useState([]);
+const navigate = useNavigate(); 
 
 
 
 const getlooms =()=>{
-  const getlooms = {
+  const yarnforloom = {
     method: "GET",
     redirect: "follow"
   };
   
-  fetch("https://textileapp.microtechsolutions.co.in/php/getbyid.php?Table=YarnRate &Colname=YarnId&Colvalue="+user.Id, getlooms)
+  fetch(`https://textileapp.microtechsolutions.co.in/php/getyarnrate.php?YarnId=${user.Id}&LoomId=&TraderId=`, yarnforloom)
     .then((response) => response.json())
-    .then((result) => {console.log(result.filter((looms)=>looms.LoomId!=null && looms.TraderId===null))
-      setlooms(result.filter((looms)=>looms.LoomId!=null && looms.TraderId===null))
-      getLoomComponents()
+    .then((result) => {console.log(result)
+      setuniqueLooms(result.filter((loom)=>loom.LoomOrTrader==='L'))
     })
     .catch((error) => console.error(error));
 }
 
-const getnames =(id)=>{
 
-  const getdetails = {
-    method: "GET",
-    redirect: "follow"
+
+
+const gotochat =(loom)=>{
+  const dataToSend = {
+    chatingid: loom.Id,
+    receivername: loom.LoomOrTraderName,
+    roleofreceiver:loom.LoomOrTrader
   };
-  
-  fetch("https://textileapp.microtechsolutions.co.in/php/getbyid.php?Table=LoomTraderDetail &Colname=Id&Colvalue="+id, getdetails)
-    .then((response) => response.json())
-    .then((result) => {
-      console.log(result)
-      const data = result[0]
-      return data.OwnerName
-    })
-    .catch((error) => console.error(error));
-
+ navigate('../notifications',{ state: dataToSend })
 }
 
-const getLoomComponents = () => {
-  const uniqueLooms = [...new Map(looms.map(loom => [loom.LoomId, loom])).values()];
-  
-  uniqueLooms.map((loom) =>setLoomIds(prevLoomIds => [...prevLoomIds, loom.LoomId]));
- 
-
-};
   useEffect(()=>{
-
+ 
     getlooms()
   },[]) 
 
   return (
-    <div style={{height:'100vh'}} className='y-loomcontainer'>
+    <div style={{height:'100vh',padding:'3% 2%'}} className='y-loomcontainer'>
+      
+      <h5 style={{
+              fontSize: "16px",
+              fontWeight: 300,
+              color: "#fff",
+              backgroundColor: "var(--primary-color)",
+              padding: "7px",
+              margin:0,
+             marginBottom:'3%',
+              width:'15vw',
+              borderRadius: "5px",
+            }}>Looms</h5>
     <div className='Y-loom_cards-container' style={{display:'grid',gridTemplateColumns:'repeat(10,1fr)',gridTemplateRows:'repeat(10 ,1fr)'}}>
 
-    {loomIds && loomIds
-    .map((loom) => (
-      <div key={loom.LoomId} style={{border: '2px solid blue'}}>
-        <p>
-          Loom: {loom.LoomId}
+    {uniqueLooms && uniqueLooms
+    .map((loom) => (  
+      <div style={{ boxShadow: '0px 0px 10px 0px rgba(0, 0, 0, 0.5)',borderRadius:'15px'  , textAlign:'center',alignContent:'center',cursor:'pointer'}} onClick={()=>gotochat(loom)}>
+        <p> 
+          Loom: <br/> {loom.LoomOrTraderName}
         </p>
       </div>
   ))}

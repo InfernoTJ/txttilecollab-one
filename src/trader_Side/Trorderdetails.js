@@ -13,6 +13,8 @@ import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { IoMdRefresh } from "react-icons/io";
+import { IoClose } from "react-icons/io5";
+import { FaCircleInfo } from "react-icons/fa6";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -47,9 +49,12 @@ function a11yProps(index) {
 }
 export default function VerticalTabs() {
   const location = useLocation();
+
+
   const userString = sessionStorage.getItem("user");
   const user = userString ? JSON.parse(userString) : null;
-  const { Name, Completed } = location.state || {};
+  const { Name, Completed,enquiryid, orderno,loomid } = location.state || {};
+
   const [beamindata, setbeamindata] = useState([]);
   const [weftyarnindata, setweftyarnindata] = useState([]);
   const [drawingindata, setdrawingindata] = useState();
@@ -248,7 +253,65 @@ export default function VerticalTabs() {
       })
       .catch((error) => console.error(error));
   };
+
+
+  const [isInfoFormOpen, setisInfoFormOpen] = useState(false);
+  const handleInfoBtnClick = () => {
+
+    setisInfoFormOpen(!isInfoFormOpen);
+    handletraderformclose()
+  };
+  const handleFormClose = () => {
+    setisInfoFormOpen(false);
+  };
+
+  const [traderinfoform, settraderinfoform] = useState(false);
+  const handletraderformopen = () => {
+    settraderinfoform(!traderinfoform);
+    handleFormClose()
+  };
+  const handletraderformclose = () => {
+    settraderinfoform(false);
+  };
+  const [selectedLoom, setSelectedLoom] = useState([]);
+  const getenquirydetails = () => {
+    const getenquirydetails = {
+      method: "GET",
+      redirect: "follow",
+    };
+
+    fetch(
+      "https://textileapp.microtechsolutions.co.in/php/getjoin.php?EnquiryId=" +
+        enquiryid,
+      getenquirydetails
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        console.log("tttttt", result);
+        const data=result[0]
+        setSelectedLoom(result[0]);
+      
+      })
+      .catch((error) => console.error(error));
+  };
+const[traderinfo,settraderinfo]=useState([])
+
+  const gettraderinfo=()=>{
+    const gettraderinfo = {
+      method: "GET",
+      redirect: "follow"
+    };
+    
+    fetch("https://textileapp.microtechsolutions.co.in/php/getbyid.php?Table=LoomTraderDetail&Colname=Id&Colvalue="+loomid, gettraderinfo)
+      .then((response) => response.json())
+      .then((result) => {console.log('the trader infoo',result)
+        settraderinfo(result[0])
+      })
+      .catch((error) => console.error(error));
+  }
   useEffect(() => {
+    gettraderinfo();
+    getenquirydetails()
     getorderdetailss();
     beamindetails();
     weftyarndetails();
@@ -329,9 +392,28 @@ export default function VerticalTabs() {
           <div style={{ flex: "1", marginLeft: "20px" }}>
             <p style={{ color: "var(--text-color)", fontWeight: "bold" }}>
               {" "}
-              Party : {Name}{" "}
+              Party : {Name}{" "} <FaCircleInfo onClick={handletraderformopen} style={{color: "var(--text-color)",cursor:'pointer'}} />
             </p>
           </div>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            // backgroundColor: "red",
+            padding: "1% 2%",
+            justifyContent: "space-evenly",
+          }}
+        >
+          <div>
+            <button
+              className="btn2"
+              style={{ backgroundColor: "var(--secondary-color)" ,height:'5vh' }}
+              onClick={handleInfoBtnClick}
+            >
+              Enquiry Details
+            </button> 
+          </div>
+          
         </div>
       </div>
       <div style={{ marginTop: "2.5%" }}>
@@ -741,7 +823,191 @@ export default function VerticalTabs() {
         </Box>
       </div>
 
-      <ToastContainer />
+      <div
+        className={`loom_booking_infoform-container ${
+          isInfoFormOpen ? "form-open" : ""
+        }`}
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <h2 style={{ color: "var(--primary-color)", padding: "20px" }}>
+            {orderno} Information
+          </h2>
+          <IoClose
+            style={{
+              fontSize: "30px",
+              color: "var(--primary-color)",
+              marginRight: "20%",
+            }}
+            onClick={handleFormClose}
+          />
+        </div>
+        {selectedLoom && (
+          <div style={{ marginLeft: "50px" }}>
+            <div>
+              <h3>Enquiry No: {selectedLoom.EnquiryNo}</h3>
+            </div>
+            <div>
+              <h3>Agent Name: {selectedLoom.AgentName}</h3>
+            </div>
+            <div>
+              <h3>Fabric Length: {selectedLoom.FabricLength}</h3>
+            </div>
+            <div>
+              <h3>Fabric Quality: {selectedLoom.FabricQuality}</h3>
+            </div>
+            <div>
+              <h3>Fabric Width: {selectedLoom.FabricWidth}</h3>
+            </div>
+            <div>
+              <h3>Machine Type: {selectedLoom.MachineType}</h3>
+            </div>
+            <div>
+              <h3>Shedding Type: {selectedLoom.SheddingType}</h3>
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                padding: "0 10% 0 0",
+              }}
+            >
+              <div>
+                <div>
+                  <h3>Width: {selectedLoom.Width}</h3>
+                </div>
+                <div>
+                  <h3>RPM: {selectedLoom.RPM}</h3>
+                </div>
+              </div>
+              <div>
+                <div>
+                  <h3>No of Frames: {selectedLoom.NoofFrame}</h3>
+                </div>
+                <div>
+                  <h3>No of Feeders: {selectedLoom.NoofFeedero}</h3>
+                </div>
+              </div>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                padding: "0 5% 0 0",
+              }}
+            >
+              {" "}
+              <div>
+                {selectedLoom.SelvageJacquard === 1 && (
+                  <div>
+                    <h3>Selvage Jacquard: Available </h3>
+                  </div>
+                )}
+                {selectedLoom.TopBeam === 1 && (
+                  <div>
+                    <h3>Top Beam: Available</h3>
+                  </div>
+                )}
+              </div>{" "}
+              <div>
+                {" "}
+                {selectedLoom.Cramming === 1 && (
+                  <div>
+                    <h3>Cramming: Available </h3>
+                  </div>
+                )}
+                {selectedLoom.LenoDesignEquipment === 1 && (
+                  <div>
+                    <h3>Leno Design Equipment: Available </h3>
+                  </div>
+                )}
+              </div>
+            </div>
+            {selectedLoom.Photopath && (
+              <div>
+                <img
+                  src={selectedLoom.Photopath}
+                  style={{
+                    width: "50%",
+                    maxHeight: "25vh",
+                    borderRadius: "5px",
+                    border: "1px solid black",
+                  }}
+                  alt="designpaper"
+                />
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+      <div
+        className={`loom_booking_infoform-container ${
+          traderinfoform ? "form-open" : ""
+        }`}
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <h2 style={{ color: "var(--primary-color)", padding: "20px" }}>
+            {traderinfo && traderinfo.Name} Information
+          </h2>
+          <IoClose
+            style={{
+              fontSize: "30px",
+              color: "var(--primary-color)",
+              marginRight: "20%",
+            }}
+            onClick={handletraderformclose}
+          />
+        </div>
+        {traderinfo && (
+          <div style={{ marginLeft: "50px" }}>
+            <div>
+              <h3>Email: {traderinfo.AppUserId}</h3>
+            </div>
+            <div>
+              <h3>Company Name: {traderinfo.Name}</h3>
+            </div>
+            <div>
+              <h3>Owner Name: {traderinfo.OwnerName}</h3>
+            </div>
+            <div>
+              <h3>Primary Contact: {traderinfo.PrimaryContact}</h3>
+            </div>
+            <div>
+              <h3>City: {traderinfo.City}</h3>
+            </div>
+            <div>
+              <h3>Pincode: {traderinfo.Pincode}</h3>
+            </div>
+          
+            {traderinfo.Profilepic && (
+              <div>
+                <img
+                  src={traderinfo.Profilepic}
+                  style={{
+                    width: "50%",
+                    maxHeight: "25vh",
+                    borderRadius: "5px",
+                    border: "1px solid black",
+                  }}
+                  alt="designpaper"
+                />
+              </div>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

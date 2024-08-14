@@ -7,10 +7,13 @@ import Box from "@mui/material/Box";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { useState } from "react";
 import "../common/static/css/Liveorder.css";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useNavigate } from 'react-router-dom';
-import { IoMdRefresh  } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
+import { IoMdRefresh } from "react-icons/io";
+import { FaCircleInfo } from "react-icons/fa6";
+import { IoClose } from "react-icons/io5";
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -45,9 +48,13 @@ function a11yProps(index) {
 }
 
 export default function VerticalTabs() {
-  const navigate=useNavigate()
-const[checkbeamgetting,setcheckbeamgetting]=useState()
-const[checkdrawingin,setcheckdrawingin]=useState()
+  const navigate = useNavigate();
+
+  const location = useLocation();
+  const { enquiryid, orderno } = location.state || {};
+
+  const [checkbeamgetting, setcheckbeamgetting] = useState();
+  const [checkdrawingin, setcheckdrawingin] = useState();
   const [beamindata, setbeamindata] = useState([]);
   const [weftyarnindata, setweftyarnindata] = useState([]);
   const [drawingindata, setdrawingindata] = useState();
@@ -64,6 +71,12 @@ const[checkdrawingin,setcheckdrawingin]=useState()
   const user = userString ? JSON.parse(userString) : null;
   const [tableRows, setTableRows] = React.useState([]);
 
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
+  const day = String(today.getDate()).padStart(2, "0");
+
+  const todaysdate = `${year}-${month}-${day}`;
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -248,7 +261,7 @@ const[checkdrawingin,setcheckdrawingin]=useState()
     )
       .then((response) => response.text())
       .then((result) => {
-        //console.log(result);
+        console.log(result);
         toast.success("Message Sent");
         setInputText("");
         firstpicedetails();
@@ -268,7 +281,7 @@ const[checkdrawingin,setcheckdrawingin]=useState()
     )
       .then((response) => response.json())
       .then((result) => {
-        //console.log(result);
+        console.log(result);
         setdata(result);
       })
       .catch((error) => console.error(error));
@@ -282,7 +295,7 @@ const[checkdrawingin,setcheckdrawingin]=useState()
       const photo = tableRows.photo;
 
       formdata.append("OrderNoId", orderid);
-      formdata.append("Date", date);
+      formdata.append("Date", date ? date : todaysdate);
       formdata.append("SizingTippanNo", tippanNumber);
       formdata.append("PhotoPath", photo);
 
@@ -298,7 +311,7 @@ const[checkdrawingin,setcheckdrawingin]=useState()
       )
         .then((response) => response.text())
         .then((result) => {
-          //console.log(result);
+          console.log(result);
           beamindetails();
           setTableRows([]);
           toast.success("Response submitted");
@@ -314,7 +327,7 @@ const[checkdrawingin,setcheckdrawingin]=useState()
       const photo = weftRow.photo;
 
       formdata.append("OrderNoId", orderid);
-      formdata.append("Date", date);
+      formdata.append("Date", date ? date : todaysdate);
       formdata.append("GatePassNo", gatepassno);
       formdata.append("PhotoPath", photo);
 
@@ -330,9 +343,9 @@ const[checkdrawingin,setcheckdrawingin]=useState()
       )
         .then((response) => response.text())
         .then((result) => {
-          //console.log(result);
+          console.log(result);
           toast.success("Response submitted");
-          setWeftRow([])
+          setWeftRow([]);
           weftyarndetails();
         })
         .catch((error) => console.error(error));
@@ -357,7 +370,7 @@ const[checkdrawingin,setcheckdrawingin]=useState()
     )
       .then((response) => response.text())
       .then((result) => {
-        //console.log(result);
+        console.log(result);
         toast.success("Response submitted");
         drawingindetails();
       })
@@ -381,10 +394,9 @@ const[checkdrawingin,setcheckdrawingin]=useState()
     )
       .then((response) => response.text())
       .then((result) => {
-        //console.log(result);
+        console.log(result);
         toast.success("Response submitted");
         beamgettingdetails();
-
       })
       .catch((error) => console.error(error));
   };
@@ -399,7 +411,7 @@ const[checkdrawingin,setcheckdrawingin]=useState()
       const photo = fabricRow.photo;
 
       formdata.append("OrderNoId", orderid);
-      formdata.append("Date", date);
+      formdata.append("Date", date ? date : todaysdate);
       formdata.append("Meter", meter);
       formdata.append("Weight", weight);
       formdata.append("PhotoPath", photo);
@@ -417,9 +429,9 @@ const[checkdrawingin,setcheckdrawingin]=useState()
       )
         .then((response) => response.text())
         .then((result) => {
-          //console.log(result);
+          console.log(result);
           toast.success("Response submitted");
-         setFabricRow([])
+          setFabricRow([]);
           fabricdispatchdetails();
         })
         .catch((error) => console.error(error));
@@ -454,10 +466,10 @@ const[checkdrawingin,setcheckdrawingin]=useState()
       )
         .then((response) => response.text())
         .then((result) => {
-          //console.log(result);
+          console.log(result);
           toast.success("Response submitted");
           goodsreturnsdetails();
-          setReturnRow([])
+          setReturnRow([]);
         })
         .catch((error) => console.error(error));
     });
@@ -476,7 +488,7 @@ const[checkdrawingin,setcheckdrawingin]=useState()
     )
       .then((response) => response.json())
       .then((result) => {
-        //console.log(result);
+        console.log(result);
         setbeamindata(result);
       })
       .catch((error) => console.error(error));
@@ -495,7 +507,7 @@ const[checkdrawingin,setcheckdrawingin]=useState()
     )
       .then((response) => response.json())
       .then((result) => {
-        //console.log(result);
+        console.log(result);
         setweftyarnindata(result);
       })
       .catch((error) => console.error(error));
@@ -513,7 +525,7 @@ const[checkdrawingin,setcheckdrawingin]=useState()
     )
       .then((response) => response.json())
       .then((result) => {
-        //console.log(result);
+        console.log(result);
         const enq = result[0];
         setdrawingindata(enq.Status);
         setdrawingindate(enq.CreatedOn.date.substring(0, 10));
@@ -533,7 +545,7 @@ const[checkdrawingin,setcheckdrawingin]=useState()
     )
       .then((response) => response.json())
       .then((result) => {
-        //console.log(result);
+        console.log(result);
         const enq = result[0];
         setbeamgettingdata(enq.Status);
         setbeamgettingdate(enq.CreatedOn.date.substring(0, 10));
@@ -553,7 +565,7 @@ const[checkdrawingin,setcheckdrawingin]=useState()
     )
       .then((response) => response.json())
       .then((result) => {
-        //console.log(result);
+        console.log(result);
         setfirstpiecechatdata(result);
       })
       .catch((error) => console.error(error));
@@ -571,7 +583,7 @@ const[checkdrawingin,setcheckdrawingin]=useState()
     )
       .then((response) => response.json())
       .then((result) => {
-        //console.log(result);
+        console.log(result);
         setfabricdispatchdata(result);
       })
       .catch((error) => console.error(error));
@@ -589,12 +601,90 @@ const[checkdrawingin,setcheckdrawingin]=useState()
     )
       .then((response) => response.json())
       .then((result) => {
-        //console.log(result);
+        console.log(result);
         setgoodsreturnsdata(result);
       })
       .catch((error) => console.error(error));
   };
+
+  const [isInfoFormOpen, setisInfoFormOpen] = useState(false);
+  const handleInfoBtnClick = () => {
+
+    setisInfoFormOpen(!isInfoFormOpen);
+    handletraderformclose()
+  };
+  const handleFormClose = () => {
+    setisInfoFormOpen(false);
+  };
+
+  const [traderinfoform, settraderinfoform] = useState(false);
+  const handletraderformopen = () => {
+    settraderinfoform(!traderinfoform);
+    handleFormClose()
+  };
+  const handletraderformclose = () => {
+    settraderinfoform(false);
+  };
+  const [selectedLoom, setSelectedLoom] = useState([]);
+  const getenquirydetails = () => {
+    const getenquirydetails = {
+      method: "GET",
+      redirect: "follow",
+    };
+
+    fetch(
+      "https://textileapp.microtechsolutions.co.in/php/getjoin.php?EnquiryId=" +
+        enquiryid,
+      getenquirydetails
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        console.log("tttttt", result);
+        const data=result[0]
+        setSelectedLoom(result[0]);
+        gettraderinfo(data.Id)
+      })
+      .catch((error) => console.error(error));
+  };
+  
+  const [loomhistory, setloomhistory] = useState([]);
+  const getloombookedhistory = () => {
+    const getloombookedhistory = {
+      method: "GET",
+      redirect: "follow",
+    };
+
+    fetch(
+      "https://textileapp.microtechsolutions.co.in/php/getbyid.php?Table=LoomBooking&Colname=OrderNoId&Colvalue=" +
+        orderid,
+      getloombookedhistory
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        //console.log(result)
+        setloomhistory(result.length);
+      })
+      .catch((error) => console.error(error));
+  };
+  const[traderinfo,settraderinfo]=useState([])
+
+  const gettraderinfo=(traderid)=>{
+    const gettraderinfo = {
+      method: "GET",
+      redirect: "follow"
+    };
+    
+    fetch("https://textileapp.microtechsolutions.co.in/php/getbyid.php?Table=LoomTraderDetail&Colname=Id&Colvalue="+traderid, gettraderinfo)
+      .then((response) => response.json())
+      .then((result) => {console.log('the trader infoo',result)
+        settraderinfo(result[0])
+      })
+      .catch((error) => console.error(error));
+  }
   React.useEffect(() => {
+    gettraderinfo();
+    getloombookedhistory();
+    getenquirydetails();
     getorderdetailss();
     beamindetails();
     weftyarndetails();
@@ -603,7 +693,7 @@ const[checkdrawingin,setcheckdrawingin]=useState()
     firstpicedetails();
     fabricdispatchdetails();
     goodsreturnsdetails();
-    //console.log("this is the main", tableRows.photo);
+    console.log("this is the main", tableRows.photo);
   }, []);
 
   const convertDateFormat = (dateString) => {
@@ -627,22 +717,26 @@ const[checkdrawingin,setcheckdrawingin]=useState()
     return formattedDate;
   };
 
-  const completeorder=()=>{
+  const completeorder = () => {
+    const requestOptions = {
+      method: "GET",
+      redirect: "follow",
+    };
 
-const requestOptions = {
-  method: "GET",
-  redirect: "follow"
-};
+    fetch(
+      "https://textileapp.microtechsolutions.co.in/php/finishloomorder.php?LoomOrderId=" +
+        orderid,
+      requestOptions
+    )
+      .then((response) => response.text())
+      .then((result) => {
+        console.log(result);
+        toast.success("Order Completed");
+        navigate("../completed-orders");
+      })
+      .catch((error) => console.error(error));
+  };
 
-fetch("https://textileapp.microtechsolutions.co.in/php/finishloomorder.php?LoomOrderId="+orderid, requestOptions)
-  .then((response) => response.text())
-  .then((result) => {//console.log(result)
-    toast.success('Order Completed')
-    navigate('../completed-orders')
-  })
-  .catch((error) => console.error(error));
-  }
-  
   return (
     <div style={{ flex: "1" }}>
       <div
@@ -650,8 +744,7 @@ fetch("https://textileapp.microtechsolutions.co.in/php/finishloomorder.php?LoomO
           borderRadius: "20px",
           backgroundColor: "var(  --background-color)",
           margin: "10px",
-      position:'relative'
-
+          position: "relative",
         }}
       >
         <h3
@@ -664,10 +757,10 @@ fetch("https://textileapp.microtechsolutions.co.in/php/finishloomorder.php?LoomO
           {" "}
           Order Details{" "}
         </h3>
-        <button className="btn2" style={{position:'absolute' , top:'15%',right:'19%'}} onClick={()=> navigate(`../loom/LoomBooking/${orderid}`)}>Book more Looms</button> 
+
         <div
           style={{
-            display: "flex", 
+            display: "flex",
             flexDirection: "row",
             marginTop: "-17px",
             margin: "10px",
@@ -692,13 +785,44 @@ fetch("https://textileapp.microtechsolutions.co.in/php/finishloomorder.php?LoomO
                 </p>
               </div>
               <div style={{ flex: "1", marginLeft: "20px" }}>
-                <p style={{ color: "var(--text-color )", fontWeight: "bold" }}>
+                <p style={{ color: "var(--text-color )", fontWeight: "bold",alignItems:'center' }}>
                   {" "}
-                  Party Name : {orderinfo.PartyName}{" "}
+                  Party Name : {orderinfo.PartyName}{" "} <FaCircleInfo onClick={handletraderformopen} style={{color: "var(--text-color)",cursor:'pointer'}} />
                 </p>
               </div>
             </>
           ))}
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            // backgroundColor: "red",
+            padding: "1% 2%",
+            justifyContent: "space-evenly",
+          }}
+        >
+          <div>
+            <button
+              className="btn2"
+              style={{ backgroundColor: "var(--secondary-color)" ,height:'5vh' }}
+              onClick={handleInfoBtnClick}
+            >
+              Enquiry Details
+            </button> 
+          </div>
+          <div style={{ display: "flex", width: "30% ",alignItems:'center' }}>
+          <p style={{ color: "var(--text-color )", fontWeight: "bold",marginRight: "5%" }}> 
+              Looms Booked : {loomhistory}
+            </p>
+            <button
+              className="btn2"
+              style={{ backgroundColor: "var(--secondary-color)", height:'5vh' }} 
+              onClick={() => navigate(`../loom/LoomBooking/${orderid}`)}
+            >
+              Book more Looms
+            </button>
+          </div>
         </div>
       </div>
       <div style={{ marginTop: "2.5%" }}>
@@ -973,12 +1097,16 @@ fetch("https://textileapp.microtechsolutions.co.in/php/finishloomorder.php?LoomO
             >
               <div>
                 {" "}
-                 <input
+                <input
                   style={{ width: "30px", height: "25px" }}
-                  checked={drawingindata?drawingindata:checkdrawingin}
-                  onChange={drawingindata?()=>{}:()=>setcheckdrawingin(!checkdrawingin)}
+                  checked={drawingindata ? drawingindata : checkdrawingin}
+                  onChange={
+                    drawingindata
+                      ? () => {}
+                      : () => setcheckdrawingin(!checkdrawingin)
+                  }
                   type="checkbox"
-                />{" "}  
+                />{" "}
               </div>
               <div>
                 <p style={{ fontSize: 18 }}> Done </p>
@@ -993,13 +1121,15 @@ fetch("https://textileapp.microtechsolutions.co.in/php/finishloomorder.php?LoomO
                 marginTop: "20px",
               }}
             >
-             {!drawingindata && <button
-                className="btn1"
-                style={{ height: "40px", padding: "7px 10px" }}
-                onClick={drawinginsubmit}
-              >
-                Submit
-              </button>}
+              {!drawingindata && (
+                <button
+                  className="btn1"
+                  style={{ height: "40px", padding: "7px 10px" }}
+                  onClick={drawinginsubmit}
+                >
+                  Submit
+                </button>
+              )}
             </div>
           </TabPanel>
 
@@ -1019,15 +1149,19 @@ fetch("https://textileapp.microtechsolutions.co.in/php/finishloomorder.php?LoomO
             >
               <div>
                 {" "}
-              <input
+                <input
                   style={{ width: "30px", height: "25px" }}
-                  checked={beamgettingdata?beamgettingdata:checkbeamgetting}
-                  onChange={beamgettingdata?()=>{}:()=>setcheckbeamgetting(!checkbeamgetting)}
+                  checked={beamgettingdata ? beamgettingdata : checkbeamgetting}
+                  onChange={
+                    beamgettingdata
+                      ? () => {}
+                      : () => setcheckbeamgetting(!checkbeamgetting)
+                  }
                   type="checkbox"
                 />{" "}
               </div>
               <div>
-                <p style={{ fontSize: 18 }}> Done </p> 
+                <p style={{ fontSize: 18 }}> Done </p>
               </div>
               <div style={{ marginLeft: "50px" }}>{beamgettingdate}</div>
             </div>
@@ -1039,13 +1173,15 @@ fetch("https://textileapp.microtechsolutions.co.in/php/finishloomorder.php?LoomO
                 marginTop: "20px",
               }}
             >
-             { !beamgettingdata  && <button
-                className="btn1"
-                style={{ height: "40px", padding: "7px 10px" }}
-                onClick={beamgettingsubmit}
-              >
-                Submit
-              </button>}
+              {!beamgettingdata && (
+                <button
+                  className="btn1"
+                  style={{ height: "40px", padding: "7px 10px" }}
+                  onClick={beamgettingsubmit}
+                >
+                  Submit
+                </button>
+              )}
             </div>
           </TabPanel>
 
@@ -1056,12 +1192,27 @@ fetch("https://textileapp.microtechsolutions.co.in/php/finishloomorder.php?LoomO
                 borderRadius: "10px",
                 padding: "20px",
               }}
-            > <button className="btn2" onClick={()=>{firstpicedetails(); 
-              toast.success('Refreshed chat');}}><span style={{display: 'flex',
-              alignItems: 'center',
-              gap: '10px' ,fontSize:'18px' }}>
-              Refresh chat  <IoMdRefresh  style={{ color:'white',fontSize:'25px'}} />
-              </span></button>
+            >
+              {" "}
+              <button
+                className="btn2"
+                onClick={() => {
+                  firstpicedetails();
+                  toast.success("Refreshed chat");
+                }}
+              >
+                <span
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                    fontSize: "18px",
+                  }}
+                >
+                  Refresh chat{" "}
+                  <IoMdRefresh style={{ color: "white", fontSize: "25px" }} />
+                </span>
+              </button>
               <div
                 className="msgs-container"
                 style={{
@@ -1071,7 +1222,6 @@ fetch("https://textileapp.microtechsolutions.co.in/php/finishloomorder.php?LoomO
                   flexDirection: "column-reverse",
                 }}
               >
-               
                 {firstpiecechatdata
                   .slice()
                   .reverse()
@@ -1455,10 +1605,195 @@ fetch("https://textileapp.microtechsolutions.co.in/php/finishloomorder.php?LoomO
         <button
           className="btn1"
           style={{ height: "60px", width: "21%", fontSize: 18 }}
-           onClick={completeorder}
+          onClick={completeorder}
         >
           Order Completed
         </button>
+      </div>
+      <div
+        className={`loom_booking_infoform-container ${
+          isInfoFormOpen ? "form-open" : ""
+        }`}
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <h2 style={{ color: "var(--primary-color)", padding: "20px" }}>
+            {orderno} Information
+          </h2>
+          <IoClose
+            style={{
+              fontSize: "30px",
+              color: "var(--primary-color)",
+              marginRight: "20%",
+            }}
+            onClick={handleFormClose}
+          />
+        </div>
+        {selectedLoom && (
+          <div style={{ marginLeft: "50px" }}>
+            <div>
+              <h3>Enquiry No: {selectedLoom.EnquiryNo}</h3>
+            </div>
+            <div>
+              <h3>Agent Name: {selectedLoom.AgentName}</h3>
+            </div>
+            <div>
+              <h3>Fabric Length: {selectedLoom.FabricLength}</h3>
+            </div>
+            <div>
+              <h3>Fabric Quality: {selectedLoom.FabricQuality}</h3>
+            </div>
+            <div>
+              <h3>Fabric Width: {selectedLoom.FabricWidth}</h3>
+            </div>
+            <div>
+              <h3>Machine Type: {selectedLoom.MachineType}</h3>
+            </div>
+            <div>
+              <h3>Shedding Type: {selectedLoom.SheddingType}</h3>
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                padding: "0 10% 0 0",
+              }}
+            >
+              <div>
+                <div>
+                  <h3>Width: {selectedLoom.Width}</h3>
+                </div>
+                <div>
+                  <h3>RPM: {selectedLoom.RPM}</h3>
+                </div>
+              </div>
+              <div>
+                <div>
+                  <h3>No of Frames: {selectedLoom.NoofFrame}</h3>
+                </div>
+                <div>
+                  <h3>No of Feeders: {selectedLoom.NoofFeedero}</h3>
+                </div>
+              </div>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                padding: "0 5% 0 0",
+              }}
+            >
+              {" "}
+              <div>
+                {selectedLoom.SelvageJacquard === 1 && (
+                  <div>
+                    <h3>Selvage Jacquard: Available </h3>
+                  </div>
+                )}
+                {selectedLoom.TopBeam === 1 && (
+                  <div>
+                    <h3>Top Beam: Available</h3>
+                  </div>
+                )}
+              </div>{" "}
+              <div>
+                {" "}
+                {selectedLoom.Cramming === 1 && (
+                  <div>
+                    <h3>Cramming: Available </h3>
+                  </div>
+                )}
+                {selectedLoom.LenoDesignEquipment === 1 && (
+                  <div>
+                    <h3>Leno Design Equipment: Available </h3>
+                  </div>
+                )}
+              </div>
+            </div>
+            {selectedLoom.Photopath && (
+              <div>
+                <img
+                  src={selectedLoom.Photopath}
+                  style={{
+                    width: "50%",
+                    maxHeight: "25vh",
+                    borderRadius: "5px",
+                    border: "1px solid black",
+                  }}
+                  alt="designpaper"
+                />
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+      <div
+        className={`loom_booking_infoform-container ${
+          traderinfoform ? "form-open" : ""
+        }`}
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <h2 style={{ color: "var(--primary-color)", padding: "20px" }}>
+            {traderinfo && traderinfo.Name} Information
+          </h2>
+          <IoClose
+            style={{
+              fontSize: "30px",
+              color: "var(--primary-color)",
+              marginRight: "20%",
+            }}
+            onClick={handletraderformclose}
+          />
+        </div>
+        {traderinfo && (
+          <div style={{ marginLeft: "50px" }}>
+            <div>
+              <h3>Email: {traderinfo.AppUserId}</h3>
+            </div>
+            <div>
+              <h3>Company Name: {traderinfo.Name}</h3>
+            </div>
+            <div>
+              <h3>Owner Name: {traderinfo.OwnerName}</h3>
+            </div>
+            <div>
+              <h3>Primary Contact: {traderinfo.PrimaryContact}</h3>
+            </div>
+            <div>
+              <h3>City: {traderinfo.City}</h3>
+            </div>
+            <div>
+              <h3>Pincode: {traderinfo.Pincode}</h3>
+            </div>
+          
+            {traderinfo.Profilepic && (
+              <div>
+                <img
+                  src={traderinfo.Profilepic}
+                  style={{
+                    width: "50%",
+                    maxHeight: "25vh",
+                    borderRadius: "5px",
+                    border: "1px solid black",
+                  }}
+                  alt="designpaper"
+                />
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

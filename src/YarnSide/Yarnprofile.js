@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "../common/static/css/profile.css";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
-import loomimage from "../common/static/image/loom.jpg";
+
 import { IoIosAddCircle } from "react-icons/io";
 const Profile = () => {
   const userString = sessionStorage.getItem("user");
@@ -11,9 +10,8 @@ const Profile = () => {
 
   const [editable, setEditable] = useState(false);
   const [editContact, seteditContact] = useState(false);
-
-  const [picstate, setpicstate] = useState(false);
-
+  const [previewUrl, setPreviewUrl] = useState(null);
+  const [designpaper, setDesignpaper] = useState();
   const [email, setEmail] = useState("");
   const [ownerName, setOwnerName] = useState("");
   const [country, setCountry] = useState("");
@@ -25,8 +23,8 @@ const Profile = () => {
   const [state, setState] = useState("");
   const [pincode, setPincode] = useState("");
   const [registrationNo, setRegistrationNo] = useState("");
-  const [role, setRole] = useState("");
-
+  const [role, setRole] = useState(""); 
+const[picstate,setpicstate]=useState(false)
   const [ownerContact, setOwnerContact] = useState("");
   const [managerContact, setManagerContact] = useState("");
   const [otherContact, setOtherContact] = useState("");
@@ -34,18 +32,7 @@ const Profile = () => {
   const [ownerContactid, setOwnerContactid] = useState("");
   const [managerContactid, setManagerContactid] = useState("");
   const [otherContactid, setOtherContactid] = useState("");
-  const [previewUrl, setPreviewUrl] = useState(null);
-  const [designpaper, setDesignpaper] = useState();
-
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      setDesignpaper(file); // Store the selected file in the state
-      setPreviewUrl(URL.createObjectURL(file));
-      console.log("Selected image:", file.name);
-      // Further handling if needed
-    }
-  };
+  
   const handleEdit = () => {
     setEditable(true);
   };
@@ -53,31 +40,16 @@ const Profile = () => {
   const handleContactEdit = () => {
     seteditContact(true);
   };
-  const saveprofilepic = () => {
-    const updateprofilepic = new FormData();
-    updateprofilepic.append("Id", user.Id);
-    updateprofilepic.append("Profilepic", designpaper);
-
-    const updateprofilepicconnection = {
-      method: "POST",
-      body: updateprofilepic,
-      redirect: "follow",
-    };
-
-    fetch(
-      "https://textileapp.microtechsolutions.co.in/php/updateprofile.php",
-      updateprofilepicconnection
-    )
-      .then((response) => response.text())
-      .then((result) => {
-        console.log(result);
-        toast.success("Profile Picutre Updated");
-        setpicstate(false);
-        getcomapnyinfo();
-      })
-      .catch((error) => console.error(error));
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setDesignpaper(file); // Store the selected file in the state
+      setPreviewUrl(URL.createObjectURL(file));
+      setpicstate(true)
+      console.log("Selected image:", file.name);
+      // Further handling if needed
+    }
   };
-
   const handleSave = () => {
     // Check if required fields are filled
     if (
@@ -122,7 +94,7 @@ const Profile = () => {
       body: formdata,
       redirect: "follow",
     };
-
+   
     fetch(
       "https://textileapp.microtechsolutions.co.in/php/editcompany.php",
       requestOptions
@@ -159,6 +131,7 @@ const Profile = () => {
       toast.error("Other contact should be 10 digits");
       return;
     }
+
     const formdata = new FormData();
     formdata.append("LoomTraderDetailId", user.Id);
     formdata.append("PrimaryContact", primaryContact);
@@ -181,15 +154,11 @@ const Profile = () => {
     )
       .then((response) => response.text())
       .then((result) => {
-        //console.log(result);
+        ////console.log(result);
         toast.success("Contact Updated");
       })
       .catch((error) => console.error(error));
     seteditContact(false);
-  };
-  const navigate = useNavigate();
-  const handleMyloomClick = () => {
-    navigate("/sidebar/my-loom");
   };
 
   const getcomapnyinfo = () => {
@@ -205,7 +174,7 @@ const Profile = () => {
     )
       .then((response) => response.json())
       .then((result) => {
-        //console.log(result);
+        console.log(result);
 
         if (result.length > 0) {
           const enquiry = result[0];
@@ -216,10 +185,10 @@ const Profile = () => {
           setGst(enquiry.GSTNumber);
           setCompanyName(enquiry.Name);
           setAddress(enquiry.Address);
-          setDesignpaper(enquiry.Profilepic);
-          setPreviewUrl(enquiry.Profilepic);
           setState(enquiry.State);
           setPincode(enquiry.Pincode);
+          setDesignpaper(enquiry.Profilepic);
+          setPreviewUrl(enquiry.Profilepic);
           setRegistrationNo(enquiry.RegistrationNumber);
           if (enquiry.LoomOrTrader === "L") {
             setRole("Loom");
@@ -231,6 +200,30 @@ const Profile = () => {
 
           setPrimaryContact(enquiry.PrimaryContact);
         }
+      })
+      .catch((error) => console.error(error));
+  };
+
+  const saveprofilepic = () => {
+    const updateprofilepic = new FormData();
+    updateprofilepic.append("Id", user.Id);
+    updateprofilepic.append("Profilepic", designpaper);
+
+    const updateprofilepicconnection = {
+      method: "POST",
+      body: updateprofilepic,
+      redirect: "follow",
+    };
+
+    fetch(
+      "https://textileapp.microtechsolutions.co.in/php/updateprofile.php",
+      updateprofilepicconnection
+    )
+      .then((response) => response.text())
+      .then((result) => {console.log(result)
+        toast.success('Profile Picutre Updated')
+        setpicstate(false)
+        getcomapnyinfo()
       })
       .catch((error) => console.error(error));
   };
@@ -248,7 +241,7 @@ const Profile = () => {
     )
       .then((response) => response.json())
       .then((result) => {
-        //console.log("contactttt info:", result);
+        console.log("contactttt info:", result);
 
         if (result.length > 0) {
           const owner = result.find(
@@ -257,7 +250,7 @@ const Profile = () => {
           const manager = result.find(
             (contact) => contact.Designation === "Manager"
           );
-          const other = result.find(
+          const other = result.find( 
             (contact) => contact.Designation === "Other"
           );
 
@@ -277,72 +270,8 @@ const Profile = () => {
       })
       .catch((error) => console.error(error));
   };
-  const [loomcount, setloomcount] = useState();
-  const getloomcount = () => {
-    const myloomconnection = {
-      method: "GET",
-      redirect: "follow",
-    };
-
-    fetch(
-      "https://textileapp.microtechsolutions.co.in/php/getbyid.php?Table=LoomsDetails&Colname=LoomTraderId&Colvalue=" +
-        user.Id,
-      myloomconnection
-    )
-      .then((response) => response.json())
-      .then((result) => {
-        //console.log(result.filter((loom)=>loom.Active===1));
-        setloomcount(result.filter((loom) => loom.Active === 1).length);
-      })
-      .catch((error) => console.error(error));
-  };
-  const [airjetcount, setairjetcount] = useState(0);
-  const [projectilecount, setprojectilecount] = useState(0);
-  const [rapiercount, setrapiercount] = useState(0);
-  const [samplingcount, setsamplingcount] = useState(0);
-  const [shuttlecount, setshuttlecount] = useState(0);
-
-  const getotherlooms = () => {
-    const otherloomconnection = {
-      method: "GET",
-      redirect: "follow",
-    };
-
-    fetch(
-      "https://textileapp.microtechsolutions.co.in/php/userloomcount.php?LoomTraderId=" +
-        user.Id,
-      otherloomconnection
-    )
-      .then((response) => response.json())
-      .then((result) => {
-        console.log(result);
-        const airjet = result.filter(
-          (data) => data.MachineType === "Airjet"
-        )[0];
-        const projectile = result.filter(
-          (data) => data.MachineType === "Projectile"
-        )[0];
-        const rapier = result.filter(
-          (data) => data.MachineType === "Rapier"
-        )[0];
-        const sampling = result.filter(
-          (data) => data.MachineType === "Sampling loom"
-        )[0];
-        const shuttle = result.filter(
-          (data) => data.MachineType === "Shuttle loom"
-        )[0];
-        setairjetcount(airjet.Count);
-        setprojectilecount(projectile.Count)
-setrapiercount(rapier.Count)
-setsamplingcount(sampling.Count)
-setshuttlecount(shuttle.Count)
-      })
-      .catch((error) => console.error(error));
-  };
   useEffect(() => {
-    getloomcount();
     getcontactinfo();
-    getotherlooms();
     getcomapnyinfo();
   }, []);
 
@@ -383,6 +312,8 @@ setshuttlecount(shuttle.Count)
               >
                 Company Information
               </h3>
+              
+           
             </div>
             <div className="profile-loom-compamyinfo-form">
               <div style={{ margin: "5px" }}>
@@ -475,6 +406,25 @@ setshuttlecount(shuttle.Count)
                     disabled={!editable}
                   />
                 </div>
+                <div style={{ marginTop: "10px" }}>
+                  <button
+                    style={{ width: "30%", margin: "10px" }}
+                    className="btn1"
+                    onClick={handleEdit}
+                  >
+                    Edit
+                  </button>
+                  {editable && (
+                    <button
+                      style={{ width: "30%", margin: "10px" }}
+                      className="btn2"
+                      onClick={handleSave}
+                    >
+                      Save
+                    </button>
+                  )}
+                 
+                </div>
               </div>
               <div style={{ margin: "5px" }}>
                 <div style={{ marginTop: "10px" }}>
@@ -566,41 +516,28 @@ setshuttlecount(shuttle.Count)
                   />
                 </div>
               </div>
-              <div
+              {/* <div
                 className=" profile-loom-compamyinfo-form-btns"
-                style={{ margin: "3.5% 0" }}
+                // style={{ margin: "3.5% 0" }}
               >
-                <button
-                  style={{ width: "30%", margin: "10px" }}
-                  className="btn1"
-                  onClick={handleEdit}
-                >
-                  Edit
-                </button>
-                {editable && (
-                  <button
-                    style={{ width: "30%", margin: "10px" }}
-                    className="btn2"
-                    onClick={handleSave}
-                  >
-                    Save
-                  </button>
-                )}
-              </div>
+             
+              </div> */}
             </div>
           </div>
           <div
-            className="company-details"
             style={{
               display: "flex",
               margin: "30px",
-              padding: "3% 0",
+              padding: "20px",
               boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.5)",
               background: "#fff",
-              marginRight: "7%",
+              width: "85%",
+              gap: "30px",
+
+              flexDirection: "column",
             }}
           >
-            <div style={{ marginTop: "10px", width: "50%" }}>
+            <div style={{ marginTop: "10px" }}>
               <label
                 style={{
                   fontWeight: "bold",
@@ -612,8 +549,8 @@ setshuttlecount(shuttle.Count)
               </label>
               <input
                 style={{
-                  width: "90%",
-                  margin: "10px",
+                  // width: "90%",
+                  // margin: "10px",
                   border: "1px solid var(--primary-color)",
                 }}
                 type="text"
@@ -622,8 +559,7 @@ setshuttlecount(shuttle.Count)
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
-
-            <div style={{ marginTop: "10px", width: "22%", marginRight: "3%" }}>
+            <div style={{ marginTop: "10px" }}>
               <label
                 style={{
                   fontWeight: "bold",
@@ -635,8 +571,8 @@ setshuttlecount(shuttle.Count)
               </label>
               <input
                 style={{
-                  width: "90%",
-                  margin: "10px",
+                  //   width: "90%",
+                  //   margin: "10px",
                   border: "1px solid var(--primary-color)",
                   fontWeight: "bold",
                 }}
@@ -647,7 +583,7 @@ setshuttlecount(shuttle.Count)
                 readOnly
               />
             </div>
-            <div style={{ marginTop: "10px", width: "22%" }}>
+            <div style={{ marginTop: "10px" }}>
               <label
                 style={{
                   fontWeight: "bold",
@@ -659,8 +595,8 @@ setshuttlecount(shuttle.Count)
               </label>
               <input
                 style={{
-                  width: "90%",
-                  margin: "10px",
+                  //   width: "90%",
+                  // margin: "10px",
                   border: "1px solid var(--primary-color)",
                   fontWeight: "bold",
                 }}
@@ -670,126 +606,6 @@ setshuttlecount(shuttle.Count)
                 // disabled={!editable}
                 readOnly
               />
-            </div>
-          </div>
-          <div
-            className="loom-profile-myloom"
-            style={{
-              display: "flex",
-              flex: 1,
-
-              width: "90%",
-              flexDirection: "row",
-              height: "16vh",
-              padding: "0",
-              cursor: "pointer",
-            }}
-            onClick={handleMyloomClick}
-          >
-            <img
-              style={{ width: "17%", height: "16vh", margin: "0" }}
-              src={loomimage}
-              alt="loom"
-            />
-            <div
-              style={{
-                display: "flex",
-                flex: 1,
-                justifyContent: "space-between",
-                padding: "0 2%",
-                alignItems: "center",
-              }}
-            >
-              <div style={{ textAlign: "center" }}>
-                <h3 style={{ color: "var(--primary-color)", margin: 0 }}>
-                  Total Loom
-                </h3>
-                <label
-                  style={{
-                    fontWeight: "700",
-                    fontSize: "20px",
-                    margin: 0,
-                    color: "var(--primary-color)",
-                  }}
-                >
-                  {loomcount}
-                </label>
-              </div>
-              <div style={{ textAlign: "center" }}>
-                <h3 style={{ color: "var(--primary-color)", margin: 0 }}>
-                  Airjet
-                </h3>
-                <label
-                  style={{
-                    fontWeight: "700",
-                    fontSize: "20px",
-                    margin: 0,
-                    color: "var(--primary-color)",
-                  }}
-                >
-                  {airjetcount}
-                </label>
-              </div>
-              <div style={{ textAlign: "center" }}>
-                <h3 style={{ color: "var(--primary-color)", margin: 0 }}>
-                  Projectile
-                </h3>
-                <label
-                  style={{
-                    fontWeight: "700",
-                    fontSize: "20px",
-                    margin: 0,
-                    color: "var(--primary-color)",
-                  }}
-                >
-                  {projectilecount}
-                </label>
-              </div>
-              <div style={{ textAlign: "center" }}>
-                <h3 style={{ color: "var(--primary-color)", margin: 0 }}>
-                  Rapier
-                </h3>
-                <label
-                  style={{
-                    fontWeight: "700",
-                    fontSize: "20px",
-                    margin: 0,
-                    color: "var(--primary-color)",
-                  }}
-                >
-                  {rapiercount}
-                </label>
-              </div>
-              <div style={{ textAlign: "center" }}>
-                <h3 style={{ color: "var(--primary-color)", margin: 0 }}>
-                  Sampling
-                </h3>
-                <label
-                  style={{
-                    fontWeight: "700",
-                    fontSize: "20px",
-                    margin: 0,
-                    color: "var(--primary-color)",
-                  }}
-                >
-                  {samplingcount}
-                </label>
-              </div>
-              <div style={{ textAlign: "center" }}>
-                <h3 style={{ color: "var(--primary-color)", margin: 0 }}>
-                  Shuttle
-                </h3>
-                <label
-                  style={{
-                    fontWeight: "700",
-                    fontSize: "20px",
-                    margin: 0,
-                    color: "var(--primary-color)",
-                  }}
-                >
-                  {shuttlecount}
-                </label>
-              </div>
             </div>
           </div>
         </div>
@@ -814,16 +630,10 @@ setshuttlecount(shuttle.Count)
               style={{ padding: "5px" }}
               className="profile-loom-contact-form"
             >
-              <div
-                style={{
-                  marginTop: "10px",
-                  display: "flex",
-                  justifyContent: "center",
-                  marginBottom: "20px",
-                }}
-              >
-                <div>
-                  <div
+             <div style={{ marginTop: "10px", display: "flex",justifyContent:'center',marginBottom:'20px' }}>
+                <div >
+                
+                    <div
                     style={{ position: "relative", display: "inline-block" }}
                   >
                     <label htmlFor="imageUpload">
@@ -832,65 +642,60 @@ setshuttlecount(shuttle.Count)
                         style={{
                           width: "150px",
                           borderRadius: "5px",
-                          cursor: "pointer",
+                          cursor:'pointer',
                           border: "1px solid black",
                         }}
                         alt="profileimage"
                       />
-                      {picstate && (
-                        <IoIosAddCircle
-                          style={{
-                            color: "var(--primary-color)",
-                            position: "absolute",
-                            bottom: "-5px",
-                            right: "-10px",
-                            cursor: "pointer",
-                            backgroundColor: "white",
-                            borderRadius: "50%",
-                            border: "2px solid var(--primary-color)",
-                            fontSize: "30px", // Adjust the size as needed
-                            // Optional: Rounded background
-                          }}
-                        />
-                      )}
+                     {picstate && <IoIosAddCircle
+                        style={{
+                          color: "var(--primary-color)",
+                          position: "absolute",
+                          bottom: "-5px",
+                          right: "-10px",  cursor:'pointer',
+                          backgroundColor:'white',
+                          borderRadius:'50%',
+                          border:'2px solid var(--primary-color)',
+                          fontSize: "30px", // Adjust the size as needed
+                        // Optional: Rounded background
+                        }}
+                      />}
                     </label>
                   </div>
                 </div>
-                <input
-                  id="imageUpload"
-                  type="file"
-                  accept="image/*"
-                  style={{ display: "none" }}
-                  onChange={handleImageChange}
+                  <input
+                    id="imageUpload"
+                    type="file"
+                    accept="image/*"
+                    style={{ display: "none" }}
+                    onChange={handleImageChange}
                   disabled={!picstate}
-                />
-              </div>
-
+                  />
+                </div>
+             
               <div
                 style={{
                   display: "flex",
-                  justifyContent: "center",
+                  justifyContent:'center',
                   alignItems: "center",
                   margin: "3.5px 0",
                 }}
                 className="profile-loom-contact-form-btns"
               >
                 <button
-                  style={{ margin: "10px", width: "40%" }}
+                  style={{ margin: "10px",width:'40%' }}
                   className="btn1"
-                  onClick={() => setpicstate(!picstate)}
+                  onClick={()=>setpicstate(!picstate)}
                 >
                   Edit
                 </button>
-                {picstate && (
-                  <button
-                    style={{ width: "40%", margin: "10px" }}
-                    className="btn2"
-                    onClick={saveprofilepic}
-                  >
-                    Save
-                  </button>
-                )}
+                {picstate &&  <button
+                      style={{ width: "40%", margin: "10px" }}
+                      className="btn2"
+                      onClick={saveprofilepic}
+                    >
+                      Save
+                    </button>}
               </div>
             </div>
           </div>
@@ -914,7 +719,7 @@ setshuttlecount(shuttle.Count)
               style={{ padding: "5px" }}
               className="profile-loom-contact-form"
             >
-              <div style={{ marginTop: "25px" }}>
+              <div style={{ marginTop: "15px" }}>
                 <label
                   style={{
                     fontWeight: "bold",
@@ -1003,11 +808,15 @@ setshuttlecount(shuttle.Count)
                 />
               </div>
               <div
-                style={{ display: "flex", alignItems: "center" }}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  margin: "3.5px 0",
+                }}
                 className="profile-loom-contact-form-btns"
               >
                 <button
-                  style={{ margin: "10px", width: "30%" }}
+                  style={{ margin: "10px" }}
                   className="btn1"
                   onClick={handleContactEdit}
                 >
@@ -1015,7 +824,7 @@ setshuttlecount(shuttle.Count)
                 </button>
                 {editContact && (
                   <button
-                    style={{ margin: "10px", width: "30%" }}
+                    style={{ margin: "10px" }}
                     className="btn2"
                     onClick={handleContactSave}
                   >
@@ -1027,7 +836,6 @@ setshuttlecount(shuttle.Count)
           </div>
         </div>
       </div>
-      <ToastContainer />
     </div>
   );
 };

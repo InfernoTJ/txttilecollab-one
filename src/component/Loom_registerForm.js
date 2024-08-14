@@ -115,10 +115,33 @@ const RegistrationForm = () => {
     setShowSignup(true);
   };
 
-  const handleSignupSubmit = (e) => {
+  const checkmailexists =()=>{
+    const checkmailexistsform = {
+      method: "GET",
+      redirect: "follow"
+    };
+    
+    fetch("https://textileapp.microtechsolutions.co.in/php/getbyid.php?Table=LoomTraderDetail&Colname=AppUserId&Colvalue="+email, checkmailexistsform)
+      .then((response) => response.json())
+      .then((result) => {console.log(result)
+
+        if(!(result.length===0))
+        {
+          toast.error("Email already in use")
+        }else
+        {
+          handleSignupSubmit()
+        }
+
+      })
+      .catch((error) => console.error(error));
+
+     
+
+  }
+  const handleSignupSubmit = () => {
     if (email && username && password) {
       if (password.length > 5) {
-        e.preventDefault();
         setIsLoading(true);
         const sendotp = new FormData();
         sendotp.append("Email", email);
@@ -154,6 +177,68 @@ const RegistrationForm = () => {
 
   };
 
+  
+  
+  const senddetails=()=>{
+    const detailsform = new FormData();
+  detailsform.append("AppUserId", email);
+  detailsform.append("Name", companyName);
+  detailsform.append("OwnerName", ownername);
+  detailsform.append("Address", address);
+  detailsform.append("City", selectedCity ? selectedCity.name : selectedCity);
+  detailsform.append("State",selectedState ? selectedState.name : selectedState);
+  detailsform.append("Country", selectedCountry ? selectedCountry.name : selectedCountry);
+  detailsform.append("Pincode", pincode);
+  detailsform.append("GSTNumber", gstNo);
+  detailsform.append("RegistrationNumber", selectedCategory==="L"?"LU":selectedCategory==='T'?"TR":"YR");
+  detailsform.append("PrimaryContact",primaryContact);
+  detailsform.append("LoomOrTrader", selectedCategory);
+
+  const detailsconnection = {
+    method: "POST",
+    body: detailsform,
+    redirect: "follow",
+  };
+  fetch(
+    "https://textileapp.microtechsolutions.co.in/php/postdetail.php",
+    detailsconnection
+  )
+    .then((response) => response.text())
+    .then((result) => {
+      //console.log(result);
+      contactform.append("LoomTraderDetailId", result);
+      sendcontactdetails()
+     
+    })
+    .catch((error) => {console.error(error)
+    });
+  
+  }
+
+  const contactform = new FormData();
+
+const sendcontactdetails=()=>{
+  contactform.append("OwnerNo", ownerContact);
+  contactform.append("ManagerNo", managerContact);
+  contactform.append("OtherNo", otherContact);
+
+  const contactconnection = {
+    method: "POST",
+    body: contactform,
+    redirect: "follow",
+  };
+  fetch(
+    "https://textileapp.microtechsolutions.co.in/php/postcontact.php",
+    contactconnection
+  )
+    .then((response) => response.text())
+    .then((result) => {//console.log(result)
+    toast.success('Account created')
+    navigate("/");
+    })
+    .catch((error) => {console.error(error)
+    });
+}
   const sendata = () => {
 
     const appuserform = new FormData();
@@ -167,37 +252,6 @@ const RegistrationForm = () => {
       body: appuserform,
       redirect: "follow",
     };
-    const detailsform = new FormData();
-    detailsform.append("AppUserId", email);
-    detailsform.append("Name", companyName);
-    detailsform.append("OwnerName", ownername);
-    detailsform.append("Address", address);
-    detailsform.append("City", selectedCity ? selectedCity.name : selectedCity);
-    detailsform.append("State",selectedState ? selectedState.name : selectedState);
-    detailsform.append("Country", selectedCountry ? selectedCountry.name : selectedCountry);
-    detailsform.append("Pincode", pincode);
-    detailsform.append("GSTNumber", gstNo);
-    detailsform.append("RegistrationNumber", selectedCategory==="L"?"LU":selectedCategory==='T'?"TR":"YR");
-    detailsform.append("PrimaryContact",primaryContact);
-    detailsform.append("LoomOrTrader", selectedCategory);
-
-    const detailsconnection = {
-      method: "POST",
-      body: detailsform,
-      redirect: "follow",
-    };
-    const contactform = new FormData();
-    contactform.append("OwnerNo", ownerContact);
-    contactform.append("ManagerNo", managerContact);
-    contactform.append("OtherNo", otherContact);
-
-    const contactconnection = {
-      method: "POST",
-      body: contactform,
-      redirect: "follow",
-    };
-
-  
 
     fetch(
       "https://textileapp.microtechsolutions.co.in/php/postappuser.php",
@@ -205,42 +259,18 @@ const RegistrationForm = () => {
     )
       .then((response) => response.text())
       .then((result) => {
-        //console.log(result);
-        if(result==='Value Not Inserted')
-        {
-            return false
-
-        }
-        
-        fetch(
-          "https://textileapp.microtechsolutions.co.in/php/postdetail.php",
-          detailsconnection
-        )
-          .then((response) => response.text())
-          .then((result) => {
-            //console.log(result);
-            contactform.append("LoomTraderDetailId", result);
-            fetch(
-              "https://textileapp.microtechsolutions.co.in/php/postcontact.php",
-              contactconnection
-            )
-              .then((response) => response.text())
-              .then((result) => {//console.log(result)
-              toast.success('User created')
-              return true
-              })
-              .catch((error) => {console.error(error)
-              });
-          })
-          .catch((error) => {console.error(error)
-          });
+        //console.log(result)
+        senddetails()
       })
       .catch((error) => {console.error(error)
       });
   };
-  const handleOtpSubmit = (e) => {
 
-    e.preventDefault()
+
+
+  const handleOtpSubmit = () => {
+
+  
     const checkotp = {
       method: "GET",
       redirect: "follow",
@@ -254,15 +284,16 @@ const RegistrationForm = () => {
     )
       .then((response) => response.json())
       .then((result) => {
-        //console.log(result);
-       if (sendata()) {
+        console.log(result);
+        sendata();
+      //  if (sendata()) {
          
-         toast.success("Account Created");
-         navigate("/");
-       }else{
-        toast.error("Email already Exists")
-        setShowOtp(false)
-       }
+      //    toast.success("Account Created");
+      //    navigate("/");
+      //  }else{
+      //   toast.error("Email already Exists")
+      //   setShowOtp(false)
+      //  }
       })
       .catch((error) => {
         console.error(error);
@@ -769,7 +800,7 @@ const RegistrationForm = () => {
                 <button
                   style={{ width: "45%" }}
                   className="btn2"
-                  onClick={handleSignupSubmit}
+                  onClick={checkmailexists}
                   disabled={isLoading}
                 >
                   {isLoading ? "Loading..." : "Submit"}

@@ -72,7 +72,7 @@ import { GrCompliance,GrDocumentTime  } from "react-icons/gr";
 import { MdPeople } from "react-icons/md";
 import { PiUsersFill, PiUsersFourFill } from "react-icons/pi";
 // import { BsPersonWorkspace } from "react-icons/bs";
-import { RiHome2Fill, RiCalculatorLine, RiPriceTag3Fill, RiStickyNoteAddLine, RiAdminFill } from "react-icons/ri";
+import { RiHome2Fill, RiCalculatorLine, RiPriceTag3Fill, RiStickyNoteAddLine, RiAdminFill, RiBroadcastLine } from "react-icons/ri";
 import { FaChartLine, FaUserTie, FaUser, FaBell, FaUsers, } from "react-icons/fa"; // Import additional icons for trader, yarn, and admin
 import { MdPostAdd,  MdNotificationAdd,MdOutlineAddToPhotos } from "react-icons/md";
 import { SiGitbook } from "react-icons/si";
@@ -80,6 +80,9 @@ import { AiOutlineAudit } from "react-icons/ai";
 import { BsFillStickiesFill ,BsCardChecklist } from "react-icons/bs";
 import { CgDatabase } from "react-icons/cg";
 import { GiYarn } from "react-icons/gi";
+import { IoLogoWechat } from "react-icons/io5";
+
+
 export const menuItems = [
   // Common items
   {
@@ -270,20 +273,40 @@ export const menuItems = [
   //   roles: ["Y"],
   // },
 
+ 
   {
-    title: "Loom",
-    path: "yarn-loom",
-    icon: <SiGitbook />,
+    title: "Broadcast",
+    icon: <RiBroadcastLine />,
+    path: "broadcast", 
     roles: ["Y"],
   },
-
   {
-    title: "Trader",
-    path: "yarn-Trader",
-    icon: <GiYarn style={{fontWeight:'bold'}} />,
+    title: "My chat",
+    // path: "plan-loom",
+    icon: <IoLogoWechat />,
+    roles: ["Y"],
+    submenus: [
+      {
+        title: "Loom",
+        path: "yarn-loom",
+        icon: <SiGitbook />,
+        roles: ["Y"],
+      },
+    
+      {
+        title: "Trader",
+        path: "yarn-Trader",
+        icon: <GiYarn style={{fontWeight:'bold'}} />,
+        roles: ["Y"],
+      },
+    ]
+  },
+  {
+    title: "Profile",
+    icon: <FaUser  />,
+    path: "yarn-profile",
     roles: ["Y"],
   },
-
 
 
   // Admin-specific items

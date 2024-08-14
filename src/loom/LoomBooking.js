@@ -201,11 +201,14 @@ function LoomBooking() {
               Loom Booking panel{" "}
             </h1>
           </div>  {Array.isArray(data) && data.length > 0 && (
-          <div className="live-orderCards-btns"
+          <div 
             style={{
-            //  border:'2px solid red',
-              gridTemplateColumns:"repeat(5, 0.3fr)",
-              gridTemplateRows:"repeat(4,0.3fr)",
+              // border:'2px solid red',
+              height:'80vh',
+              overflow:'auto',
+              display:'grid',
+              gridTemplateColumns:"repeat(4, 1fr)",
+              gridTemplateRows:"repeat(4,1fr)",
               gap: "30px",
             }}
             >

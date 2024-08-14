@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 const Y_trader = () => {
 
@@ -6,24 +7,33 @@ const Y_trader = () => {
   const userString = sessionStorage.getItem("user");
   const user = userString ? JSON.parse(userString) : null;
 
- const[trader,settrader]=useState([]);
-
-
-
+  const navigate = useNavigate(); 
+const[uniquetrader,setuniquetrader]=useState([])
+ 
+ 
 const gettrader =()=>{
   const gettrader = {
     method: "GET",
     redirect: "follow"
   };
   
-  fetch("https://textileapp.microtechsolutions.co.in/php/getbyid.php?Table=YarnRate &Colname=YarnId&Colvalue="+user.Id, gettrader)
+  fetch(`https://textileapp.microtechsolutions.co.in/php/getyarnrate.php?YarnId=${user.Id}&LoomId=&TraderId=`, gettrader)
     .then((response) => response.json())
-    .then((result) => {console.log(result.filter((trader)=>trader.LoomId!=null && trader.TraderId===null))
-      settrader(result.filter((trader)=>trader.LoomId===null && trader.TraderId!=null))
+    .then((result) => {console.log(result)
+
+      setuniquetrader(result.filter((loom)=>loom.LoomOrTrader==='T'))
+
     })
     .catch((error) => console.error(error));
 }
-
+const gotochat =(trader)=>{
+  const dataToSend = {
+    chatingid: trader.Id,
+    receivername: trader.LoomOrTraderName,
+    roleofreceiver:trader.LoomOrTrader
+  };
+  navigate('../notifications',{ state: dataToSend })
+ }
   useEffect(()=>{
 
     gettrader()
@@ -34,15 +44,29 @@ const gettrader =()=>{
 
 
   return (
-    <div style={{height:'100vh'}} className='y-loomcontainer'>
+    <div style={{height:'100vh',padding:'3% 2%'}} className='y-loomcontainer'>
+
+<h5 style={{
+              fontSize: "16px",
+              fontWeight: 300,
+              color: "#fff",
+              backgroundColor: "var(--primary-color)",
+              padding: "7px",
+              margin:0,
+             marginBottom:'3%',
+              width:'15vw',
+              borderRadius: "5px",
+            }}>Traders</h5>
+
+
     <div className='Y-loom_cards-container' style={{display:'grid',gridTemplateColumns:'repeat(10,1fr)',gridTemplateRows:'repeat(10 ,1fr)'}}>
 
 
-    {[...new Map(trader.map(trader => [trader.TraderId, trader])).values()]
+    {uniquetrader && uniquetrader
     .map((trader) => (
-      <div key={trader.TraderId} style={{border: '2px solid blue'}}>
+      <div key={trader.TraderId} style={{boxShadow: '0px 0px 10px 0px rgba(0, 0, 0, 0.5)',borderRadius:'15px' , textAlign:'center',alignContent:'center' ,cursor:'pointer'}} onClick={()=>gotochat(trader)}>
         <p>
-        Trader: {trader.TraderId}
+        Trader:<br/> {trader.LoomOrTraderName}
         </p>
       </div>
   ))}

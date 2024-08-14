@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import '../common/static/css/sidebar.css';
 import { menuItems } from './menuItems';
@@ -42,7 +42,7 @@ function Sidebar() {
 
   const [themeMode, setThemeMode] = useState("light");
   const [userName, setUserName] = useState('ABC');
-  const [loomnum, setLoomNum] = useState('LU00529 ');
+
 
   // Filter menu items based on user role
   const filteredMenuItems = menuItems.filter(item => item.roles.includes(userRole));
@@ -52,10 +52,26 @@ function Sidebar() {
 
 
   const handleLogOut = (e) => {
-    e.preventDefault()
+    e.preventDefault() 
+    sessionStorage.removeItem('user')
     navigate('/');
 };
-
+const getuserinfo=()=>{
+  const getuserinfocon = {
+    method: "GET",
+    redirect: "follow"
+  };
+  
+  fetch("https://textileapp.microtechsolutions.co.in/php/getbyid.php?Table=LoomTraderDetail&Colname=Id&Colvalue="+user.Id, getuserinfocon)
+    .then((response) => response.json())
+    .then((result) => {console.log(result)
+      setUserName(result[0])
+    })
+    .catch((error) => console.error(error));
+} 
+useEffect(()=>{
+  getuserinfo()
+},[])
   return (
     <div className={`grid-container ${themeMode === "dark" ? "dark-theme" : ""}`}>
       <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: 'var(--primary-color)', padding: '20px', fontWeight: '800' }} className="header">
@@ -63,8 +79,8 @@ function Sidebar() {
         <div style={{ display: "flex", flex: "1", gap: '50px' }}>
           <div>Welcome to Kapada Banao !!</div>
           <div style={{ flex: '1', display: "flex", flexDirection: "row", gap: '50px', justifyContent: "flex-end", marginRight: '35px' }}>
-          <div>{user.Name}</div>
-          <div>{user.RegistrationNumber}</div>
+          {userName && <><div>{userName.Name}</div>
+          <div>{userName.RegistrationNumber}</div></>}
           </div>
         </div>
         <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>

@@ -729,7 +729,8 @@ fetch(
                       <h3>Leno Design Equipment: Available </h3>
                     </div>
                   )}
-                  <button className="btn2" style={{marginTop:'5%'}} onClick={()=>navigate('../L-Profile')}>Go to profile</button>
+                  <button className="btn2" style={{marginTop:'5%'}} onClick={()=>navigate(`../myloomdetails/`+selectedLoom.Id)}>Edit Loom</button>
+                  
                 </div>
               </div>
             </div>

@@ -8,7 +8,8 @@ const Trliveorder = () => {
 
   const handlecardclick = (order) => {
     navigate(`../trader-live-orders/trorderdetails/${order.LoomOrderId}`, {
-      state: { Name: order.Name, Completed: order.Completed },
+      state: { Name: order.Name, Completed: order.Completed, enquiryid:order.EnquiryId,
+        orderno:order.OrderNo,loomid:order.LoomTraderId},
     });
   };
 
@@ -28,11 +29,11 @@ const Trliveorder = () => {
       )
         .then((response) => response.json())
         .then((result) => {
-          // console.log(
-          //   result.filter(
-          //     (order) => order.Confirmed === 1 && order.Completed === null
-          //   )
-          // );
+          console.log(
+            result.filter(
+              (order) => order.Confirmed === 1 && order.Completed === null
+            )
+          );
           setLiveOrders(
             result.filter(
               (order) => order.Confirmed === 1 && order.Completed === null

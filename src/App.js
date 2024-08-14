@@ -49,12 +49,14 @@ import Notification from '../src/YarnSide/Notification';
 import Y_loom from './YarnSide/Y_loom.js';
 import Y_trader from './YarnSide/Y_trader.js';
 import TKnottingliveorder from './trader_Side/knottingliveorders.js'
+import Yarnprofile from './YarnSide/Yarnprofile.js';
 
 import GenerateknottingOffer from '../src/loom/GenerateknottingOffer.js';
 import KnottingResponse from './loom/KnottingResponse.js';
 
 import Update_myenquiries from './trader_Side/Update_myenquiries.js';
 import UpdateMyEnquiry_form from './trader_Side/UpdateMyEnquiry_form.js';
+import Broadcast from './YarnSide/Broadcast.js';
 
 function App() {
   return (
@@ -113,6 +115,8 @@ function App() {
             <Route path='notifications' element={<Notification />} />
             <Route path='yarn-loom' element={<Y_loom/>} />
             <Route path='yarn-Trader' element={<Y_trader/>} />
+            <Route path='broadcast' element={<Broadcast/>} /> 
+            <Route path='yarn-profile' element={<Yarnprofile/>} /> 
           </Route>
 
           {/* <Route path='/loom_register' element={<LoomRegister />} /> */}

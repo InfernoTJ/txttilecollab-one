@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import "../common/static/css/profile.css";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
 
+import { IoIosAddCircle } from "react-icons/io";
 const Profile = () => {
   const userString = sessionStorage.getItem("user");
   const user = userString ? JSON.parse(userString) : null;
 
   const [editable, setEditable] = useState(false);
   const [editContact, seteditContact] = useState(false);
-
+  const [previewUrl, setPreviewUrl] = useState(null);
+  const [designpaper, setDesignpaper] = useState();
   const [email, setEmail] = useState("");
   const [ownerName, setOwnerName] = useState("");
   const [country, setCountry] = useState("");
@@ -22,15 +23,19 @@ const Profile = () => {
   const [state, setState] = useState("");
   const [pincode, setPincode] = useState("");
   const [registrationNo, setRegistrationNo] = useState("");
-  const [role, setRole] = useState("");
+  const [role, setRole] = useState(""); 
 
-  const [ownerContact, setOwnerContact] = useState("");
+const[picstate,setpicstate]=useState(false)
+  
+
+const [ownerContact, setOwnerContact] = useState("");
   const [managerContact, setManagerContact] = useState("");
   const [otherContact, setOtherContact] = useState("");
 
   const [ownerContactid, setOwnerContactid] = useState("");
   const [managerContactid, setManagerContactid] = useState("");
   const [otherContactid, setOtherContactid] = useState("");
+  
   const handleEdit = () => {
     setEditable(true);
   };
@@ -38,7 +43,16 @@ const Profile = () => {
   const handleContactEdit = () => {
     seteditContact(true);
   };
-
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setDesignpaper(file); // Store the selected file in the state
+      setPreviewUrl(URL.createObjectURL(file));
+      setpicstate(true)
+      console.log("Selected image:", file.name);
+      // Further handling if needed
+    }
+  };
   const handleSave = () => {
     // Check if required fields are filled
     if (
@@ -83,7 +97,7 @@ const Profile = () => {
       body: formdata,
       redirect: "follow",
     };
-
+   
     fetch(
       "https://textileapp.microtechsolutions.co.in/php/editcompany.php",
       requestOptions
@@ -149,95 +163,117 @@ const Profile = () => {
       .catch((error) => console.error(error));
     seteditContact(false);
   };
-  const navigate = useNavigate();
-  const handleMyenquiriesClick = () => {
-    navigate("/sidebar/myenquiries");
+
+  const getcomapnyinfo = () => {
+    const requestOptions = {
+      method: "GET",
+      redirect: "follow",
+    };
+
+    fetch(
+      "https://textileapp.microtechsolutions.co.in/php/getbyid.php?Table=LoomTraderDetail&Colname=Id&Colvalue=" +
+        user.Id,
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result);
+
+        if (result.length > 0) {
+          const enquiry = result[0];
+          setEmail(enquiry.AppUserId);
+          setOwnerName(enquiry.OwnerName);
+          setCountry(enquiry.Country);
+          setCity(enquiry.City);
+          setGst(enquiry.GSTNumber);
+          setCompanyName(enquiry.Name);
+          setAddress(enquiry.Address);
+          setState(enquiry.State);
+          setPincode(enquiry.Pincode);
+          setDesignpaper(enquiry.Profilepic);
+          setPreviewUrl(enquiry.Profilepic);
+          setRegistrationNo(enquiry.RegistrationNumber);
+          if (enquiry.LoomOrTrader === "L") {
+            setRole("Loom");
+          } else if (enquiry.LoomOrTrader === "T") {
+            setRole("Trader");
+          } else if (enquiry.LoomOrTrader === "Y") {
+            setRole("Yarn");
+          }
+
+          setPrimaryContact(enquiry.PrimaryContact);
+        }
+      })
+      .catch((error) => console.error(error));
   };
 
+  const saveprofilepic = () => {
+    const updateprofilepic = new FormData();
+    updateprofilepic.append("Id", user.Id);
+    updateprofilepic.append("Profilepic", designpaper);
+
+    const updateprofilepicconnection = {
+      method: "POST",
+      body: updateprofilepic,
+      redirect: "follow",
+    };
+
+    fetch(
+      "https://textileapp.microtechsolutions.co.in/php/updateprofile.php",
+      updateprofilepicconnection
+    )
+      .then((response) => response.text())
+      .then((result) => {console.log(result)
+        toast.success('Profile Picutre Updated')
+        setpicstate(false)
+        getcomapnyinfo()
+      })
+      .catch((error) => console.error(error));
+  };
+
+  const getcontactinfo = () => {
+    const requestOptions = {
+      method: "GET",
+      redirect: "follow",
+    };
+
+    fetch(
+      "https://textileapp.microtechsolutions.co.in/php/getbyid.php?Table=ContactDetail&Colname=LoomTraderDetailId&Colvalue=" +
+        user.Id,
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        console.log("contactttt info:", result);
+
+        if (result.length > 0) {
+          const owner = result.find(
+            (contact) => contact.Designation === "Owner"
+          );
+          const manager = result.find(
+            (contact) => contact.Designation === "Manager"
+          );
+          const other = result.find( 
+            (contact) => contact.Designation === "Other"
+          );
+
+          if (owner) {
+            setOwnerContact(owner.ContactNumber);
+            setOwnerContactid(owner.Id);
+          }
+          if (manager) {
+            setManagerContact(manager.ContactNumber);
+            setManagerContactid(manager.Id);
+          }
+          if (other) {
+            setOtherContact(other.ContactNumber);
+            setOtherContactid(other.Id);
+          }
+        }
+      })
+      .catch((error) => console.error(error));
+  };
   useEffect(() => {
-    const getcomapnyinfo = () => {
-      const requestOptions = {
-        method: "GET",
-        redirect: "follow",
-      };
-
-      fetch(
-        "https://textileapp.microtechsolutions.co.in/php/getbyid.php?Table=LoomTraderDetail&Colname=Id&Colvalue=" +
-          user.Id,
-        requestOptions
-      )
-        .then((response) => response.json())
-        .then((result) => {
-          //console.log(result);
-
-          if (result.length > 0) {
-            const enquiry = result[0];
-            setEmail(enquiry.AppUserId);
-            setOwnerName(enquiry.OwnerName);
-            setCountry(enquiry.Country);
-            setCity(enquiry.City);
-            setGst(enquiry.GSTNumber);
-            setCompanyName(enquiry.Name);
-            setAddress(enquiry.Address);
-            setState(enquiry.State);
-            setPincode(enquiry.Pincode);
-            setRegistrationNo(enquiry.RegistrationNumber);
-            if (enquiry.LoomOrTrader === "L") {
-              setRole("Loom");
-            } else if (enquiry.LoomOrTrader === "T") {
-              setRole("Trader");
-            } else if (enquiry.LoomOrTrader === "Y") {
-              setRole("Yarn");
-            }
-
-            setPrimaryContact(enquiry.PrimaryContact);
-          }
-        })
-        .catch((error) => console.error(error));
-    };
-
-    const getcontactinfo = () => {
-      const requestOptions = {
-        method: "GET",
-        redirect: "follow",
-      };
-
-      fetch(
-        "https://textileapp.microtechsolutions.co.in/php/getbyid.php?Table=ContactDetail&Colname=LoomTraderDetailId&Colvalue=" +
-          user.Id,
-        requestOptions
-      )
-        .then((response) => response.json())
-        .then((result) => {
-          //console.log("contactttt info:", result);
-
-          if (result.length > 0) {
-            const owner = result.find(
-              (contact) => contact.Designation === "Owner"
-            );
-            const manager = result.find(
-              (contact) => contact.Designation === "Manager"
-            );
-            const other = result.find(
-              (contact) => contact.Designation === "Other"
-            );
-
-            if (owner) {
-              setOwnerContact(owner.ContactNumber);
-              setOwnerContactid(owner.Id);
-            }
-            if (manager) {
-              setManagerContact(manager.ContactNumber);
-              setManagerContactid(manager.Id);
-            }
-            if (other) {
-              setOtherContact(other.ContactNumber);
-              setOtherContactid(other.Id);
-            }
-          }
-        })
-        .catch((error) => console.error(error));
-    };
     getcontactinfo();
     getcomapnyinfo();
   }, []);
@@ -260,16 +296,28 @@ const Profile = () => {
               marginRight: "7%",
             }}
           >
-            <h3
-              className="profile-company-info-tittle"
+            <div
               style={{
-                color: "var(--primary-color)",
-                textAlign: "center",
-                paddingTop: "40px",
+                display: "flex",
+                flex: 1,
+                justifyContent: "space-between",
+                padding: "0 15% 0 5%",
+                alignContent: "center",
+                justifyItems: "center",
+                alignItems: "center",
               }}
             >
-              Company Information
-            </h3>
+              <h3
+                className="profile-company-info-tittle"
+                style={{
+                  color: "var(--primary-color)",
+                }}
+              >
+                Company Information
+              </h3>
+              
+           
+            </div>
             <div className="profile-loom-compamyinfo-form">
               <div style={{ margin: "5px" }}>
                 <div style={{ marginTop: "10px" }}>
@@ -360,6 +408,25 @@ const Profile = () => {
                     onChange={(e) => setGst(e.target.value)}
                     disabled={!editable}
                   />
+                </div>
+                <div style={{ marginTop: "10px" }}>
+                  <button
+                    style={{ width: "30%", margin: "10px" }}
+                    className="btn1"
+                    onClick={handleEdit}
+                  >
+                    Edit
+                  </button>
+                  {editable && (
+                    <button
+                      style={{ width: "30%", margin: "10px" }}
+                      className="btn2"
+                      onClick={handleSave}
+                    >
+                      Save
+                    </button>
+                  )}
+                 
                 </div>
               </div>
               <div style={{ margin: "5px" }}>
@@ -452,41 +519,28 @@ const Profile = () => {
                   />
                 </div>
               </div>
-              <div
+              {/* <div
                 className=" profile-loom-compamyinfo-form-btns"
-                style={{ margin: "3.5% 0" }}
+                // style={{ margin: "3.5% 0" }}
               >
-                <button
-                  style={{ width: "30%", margin: "10px" }}
-                  className="btn1"
-                  onClick={handleEdit}
-                >
-                  Edit
-                </button>
-                {editable && (
-                  <button
-                    style={{ width: "30%", margin: "10px" }}
-                    className="btn2"
-                    onClick={handleSave}
-                  >
-                    Save
-                  </button>
-                )}
-              </div>
+             
+              </div> */}
             </div>
           </div>
-          <div className="trader-details"
+          <div
             style={{
               display: "flex",
               margin: "30px",
               padding: "20px",
               boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.5)",
               background: "#fff",
-             gap:"30px",
-             flexDirection: "column",
+              width: "85%",
+              gap: "30px",
+
+              flexDirection: "column",
             }}
           >
-            <div style={{ marginTop: "10px",  }}>
+            <div style={{ marginTop: "10px" }}>
               <label
                 style={{
                   fontWeight: "bold",
@@ -508,7 +562,7 @@ const Profile = () => {
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
-            <div style={{ marginTop: "10px", }}>
+            <div style={{ marginTop: "10px" }}>
               <label
                 style={{
                   fontWeight: "bold",
@@ -520,8 +574,8 @@ const Profile = () => {
               </label>
               <input
                 style={{
-                  // width: "90%",
-                  // margin: "10px",
+                  //   width: "90%",
+                  //   margin: "10px",
                   border: "1px solid var(--primary-color)",
                   fontWeight: "bold",
                 }}
@@ -532,7 +586,7 @@ const Profile = () => {
                 readOnly
               />
             </div>
-            <div style={{ marginTop: "10px", }}>
+            <div style={{ marginTop: "10px" }}>
               <label
                 style={{
                   fontWeight: "bold",
@@ -544,7 +598,7 @@ const Profile = () => {
               </label>
               <input
                 style={{
-                  width: "90%",
+                  //   width: "90%",
                   // margin: "10px",
                   border: "1px solid var(--primary-color)",
                   fontWeight: "bold",
@@ -559,6 +613,95 @@ const Profile = () => {
           </div>
         </div>
         <div className="Lprofile-contact-info">
+          <div
+            style={{
+              margin: "30px",
+              boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.5)",
+              background: "#fff",
+            }}
+          >
+            <h3
+              style={{
+                color: "var(--primary-color)",
+                textAlign: "center",
+                paddingTop: "40px",
+              }}
+            >
+              Profile Picture
+            </h3>
+            <div
+              style={{ padding: "5px" }}
+              className="profile-loom-contact-form"
+            >
+             <div style={{ marginTop: "10px", display: "flex",justifyContent:'center',marginBottom:'20px' }}>
+                <div >
+                
+                    <div
+                    style={{ position: "relative", display: "inline-block" }}
+                  >
+                    <label htmlFor="imageUpload">
+                      <img
+                        src={previewUrl}
+                        style={{
+                          width: "150px",
+                          borderRadius: "5px",
+                          cursor:'pointer',
+                          border: "1px solid black",
+                        }}
+                        alt="profileimage"
+                      />
+                     {picstate && <IoIosAddCircle
+                        style={{
+                          color: "var(--primary-color)",
+                          position: "absolute",
+                          bottom: "-5px",
+                          right: "-10px",  cursor:'pointer',
+                          backgroundColor:'white',
+                          borderRadius:'50%',
+                          border:'2px solid var(--primary-color)',
+                          fontSize: "30px", // Adjust the size as needed
+                        // Optional: Rounded background
+                        }}
+                      />}
+                    </label>
+                  </div>
+                </div>
+                  <input
+                    id="imageUpload"
+                    type="file"
+                    accept="image/*"
+                    style={{ display: "none" }}
+                    onChange={handleImageChange}
+                  disabled={!picstate}
+                  />
+                </div>
+             
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent:'center',
+                  alignItems: "center",
+                  margin: "3.5px 0",
+                }}
+                className="profile-loom-contact-form-btns"
+              >
+                <button
+                  style={{ margin: "10px",width:'40%' }}
+                  className="btn1"
+                  onClick={()=>setpicstate(!picstate)}
+                >
+                  Edit
+                </button>
+                {picstate &&  <button
+                      style={{ width: "40%", margin: "10px" }}
+                      className="btn2"
+                      onClick={saveprofilepic}
+                    >
+                      Save
+                    </button>}
+              </div>
+            </div>
+          </div>
           <div
             style={{
               margin: "30px",
@@ -676,7 +819,7 @@ const Profile = () => {
                 className="profile-loom-contact-form-btns"
               >
                 <button
-                  style={{  margin: "10px" }}
+                  style={{ margin: "10px" }}
                   className="btn1"
                   onClick={handleContactEdit}
                 >
@@ -684,7 +827,7 @@ const Profile = () => {
                 </button>
                 {editContact && (
                   <button
-                    style={{margin: "10px" }}
+                    style={{ margin: "10px" }}
                     className="btn2"
                     onClick={handleContactSave}
                   >
@@ -696,10 +839,8 @@ const Profile = () => {
           </div>
         </div>
       </div>
-      <ToastContainer />
     </div>
   );
 };
 
 export default Profile;
-

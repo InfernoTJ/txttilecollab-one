@@ -34,10 +34,10 @@ border-radius: 5px;
 .output{
     display: flex;
     flex:1;
-    
+   
     justify-content: space-between;
     font-weight: 600;
-    padding: 0 10%; 
+    padding: 0 7%; 
     color: var(--complementary-color);
     margin:0 10%;
     margin-top: 3%;
@@ -47,7 +47,7 @@ border-radius: 5px;
     font-size: 17px;
 }
 .warpweight{
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
     padding: 3% 6%;
     margin-bottom: 4%;
     display: flex;
@@ -71,7 +71,7 @@ border-radius: 5px;
 
 
 .sizingcost{
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
     padding: 3% 6%;
     display: flex;
     border-radius: 10px;
@@ -86,6 +86,25 @@ border-radius: 5px;
     margin-bottom: 3%;
 }
 .sizingcost input{
+    width: 40%;
+    margin: 0;
+}
+.jobworkbiling{
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+    padding: 1.5% 3%;
+    display: flex;
+    border-radius: 10px;
+    flex-direction: column;
+}
+.jobworkbiling button{
+    background-color: var(--secondary-color);
+    width: 30%;
+
+}
+.jobworkbiling h2{
+    margin-bottom: 1.5%;
+}
+.jobworkbiling input{
     width: 40%;
     margin: 0;
 }
@@ -105,7 +124,7 @@ border-radius: 5px;
     /* background-color: aquamarine; */
 }
 .totalfabric{
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
     margin: 1%;
     padding: 2% 6%;
     

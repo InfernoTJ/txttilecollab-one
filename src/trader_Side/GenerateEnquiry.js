@@ -22,35 +22,35 @@ const GenerateEnquiry = () => {
 
   const [selectedFile, setSelectedFile] = useState(null);
 
-  const [dateFrom, setDateFrom] = useState("");
+  const [dateFrom, setDateFrom] = useState(null);
 
-  const [dateTo, setDateTo] = useState("");
+  const [dateTo, setDateTo] = useState(null);
 
-  const [enqid, setenqid] = useState("");
-  const [reed, setReed] = useState("");
-  const [PPI, setPPI] = useState("");
-  const [wrapCount, setWrapCount] = useState("");
-  const [weftCount, setWeftCount] = useState("");
-  const [reedSpace, setReedSpace] = useState("");
+  const [enqid, setenqid] = useState(null);
+  const [reed, setReed] = useState(null);
+  const [PPI, setPPI] = useState(null);
+  const [wrapCount, setWrapCount] = useState(null);
+  const [weftCount, setWeftCount] = useState(null);
+  const [reedSpace, setReedSpace] = useState(null);
 
-  const [fabricLength, setFabricLenth] = useState("");
-  const [deliveryDate, setDeliveryDate] = useState("");
-  const [fabricWidth, setFabricWidth] = useState("");
-  const [agentName, setAgentName] = useState("");
-  const [machineWidth, setMachineWidth] = useState("");
-  const [Rpm, setRpm] = useState("");
-  const [numOFFrames, setNumOfFrames] = useState("");
-  const [numOfLooms, setNumOfLooms] = useState("");
-  const [jobRate, setjobRate] = useState("");
-  const [machineType, setMachineType] = useState(" ");
-  const [numoFFeeders, setNumOfFeeders] = useState("");
-  const [sheddingType, setSheddingType] = useState("");
-  const [frames, setFrames] = useState("");
+  const [fabricLength, setFabricLenth] = useState(null);
+  const [deliveryDate, setDeliveryDate] = useState(null);
+  const [fabricWidth, setFabricWidth] = useState(null);
+  const [agentName, setAgentName] = useState(null);
+  const [machineWidth, setMachineWidth] = useState(null);
+  const [Rpm, setRpm] = useState(null);
+  const [numOFFrames, setNumOfFrames] = useState(null);
+  const [numOfLooms, setNumOfLooms] = useState(null);
+  const [jobRate, setjobRate] = useState(0);
+  const [machineType, setMachineType] = useState(null);
+  const [numoFFeeders, setNumOfFeeders] = useState(null);
+  const [sheddingType, setSheddingType] = useState(null);
+  const [frames, setFrames] = useState(null);
   const [SelvadgeJacquard, setSelvedgeJacquard] = useState(false);
   const [TopBeam, setTopBeam] = useState(false);
   const [Cramming, setCramming] = useState(false);
   const [LenoDesignEquipment, setLenoDesignEquipment] = useState(false);
-  const [description, setdescription] = useState("");
+  const [description, setdescription] = useState(null);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -66,39 +66,32 @@ const GenerateEnquiry = () => {
 
   const handleSubmit = () => {
     // Reset all fields
-    if (
-      !dateFrom ||
-      !dateTo ||
+    if (!machineWidth||
+      !Rpm||
+      !numOfLooms||
+      !jobRate||
       !reed ||
       !PPI ||
       !wrapCount ||
       !weftCount ||
       !reedSpace ||
       !fabricLength ||
-      !numOfLooms ||
-      !jobRate ||
-      !fabricWidth ||
       !machineType ||
-      !machineWidth ||
-      !Rpm ||
-      !sheddingType ||
-      !numOFFrames ||
-      !numoFFeeders
+      !numOFFrames
     ) {
       toast.error("Enter * fields");
       return;
     }
-    if(dateFrom>dateTo)
-      {
-        toast.error('Invalid from date and to date format')
-        return;
-      }
-      
+    if (dateFrom > dateTo) {
+      toast.error("Invalid from date and to date format");
+      return;
+    }
+
     const formdata = new FormData();
     formdata.append("EnquiryDate", todaysdate);
     formdata.append("TraderId", user.Id);
-    formdata.append("BookingFrom", dateFrom);
-    formdata.append("BookingTo", dateTo);
+    formdata.append("BookingFrom", dateFrom ? dateFrom : todaysdate);
+    formdata.append("BookingTo", dateTo ? dateTo : todaysdate);
     formdata.append(
       "FabricQuality",
       reed + "*" + PPI + "/" + wrapCount + "*" + weftCount + ":" + reedSpace
@@ -108,21 +101,13 @@ const GenerateEnquiry = () => {
     formdata.append("AgentName", agentName);
     formdata.append("OfferedJobRate", jobRate);
     formdata.append("FabricWidth", fabricWidth);
-    formdata.append("DeliveryDate", deliveryDate);
+    formdata.append("DeliveryDate", deliveryDate ? deliveryDate : todaysdate);
     formdata.append("Description", description);
     formdata.append("Photopath", selectedFile);
 
     const requestOptions = {
       method: "POST",
       body: formdata,
-      redirect: "follow",
-    };
-
-    const newform = new FormData();
-
-    const requestOption = {
-      method: "POST",
-      body: newform,
       redirect: "follow",
     };
 
@@ -136,65 +121,82 @@ const GenerateEnquiry = () => {
         setenqid(result);
 
         newform.append("EnquiryId", result);
-        newform.append("LoomNo", "");
-        newform.append("MachineType", machineType.value);
-        newform.append("Width", machineWidth);
-        newform.append("RPM", Rpm);
-        newform.append("SheddingType", sheddingType.value);
-        newform.append("NoofFrame", numOFFrames.value);
-        newform.append("NoofFeedero", numoFFeeders.value);
-        newform.append("SelvageJacquard", SelvadgeJacquard);
-        newform.append("TopBeam", TopBeam);
-        newform.append("Cramming", Cramming);
-        newform.append("LenoDesignEquipment", LenoDesignEquipment);
-
-        fetch(
-          "https://textileapp.microtechsolutions.co.in/php/postenquirydetail.php",
-          requestOption
-        )
-          .then((response) => response.text())
-          .then((result) => {
-            //console.log(result);
-            setDateFrom("");
-            setDateTo("");
-            setReed("");
-            setPPI("");
-            setWrapCount("");
-            setWeftCount("");
-            setReedSpace("");
-
-            setFabricLenth("");
-            setDeliveryDate("");
-            setFabricWidth("");
-            setAgentName("");
-            setMachineWidth("");
-            setRpm("");
-            setSelectedFile(null);
-            if (fileInputRef.current) {
-              fileInputRef.current.value = null;
-            } else {
-              console.error("File upload failed");
-            }
-            setPreview(null);
-            setNumOfFrames("");
-            setNumOfLooms("");
-            setjobRate("");
-            setMachineType("");
-            setNumOfFeeders("");
-            setSheddingType("");
-            setFrames("");
-            setdescription("");
-            setCramming(false);
-            setLenoDesignEquipment(false);
-            setTopBeam(false);
-            setSelvedgeJacquard(false);
-            toast.success("Enquiry has created Successfully");
-          })
-          .catch((error) => console.error(error));
+        postenquirydetails();
       })
       .catch((error) => console.error(error));
   };
 
+  const newform = new FormData();
+
+
+  const postenquirydetails = () => {
+    newform.append("LoomNo", "");
+    newform.append("MachineType", machineType.value);
+    newform.append("Width", machineWidth);
+    newform.append("RPM", Rpm);
+    newform.append("SheddingType", sheddingType ? sheddingType.value : "");
+    newform.append("NoofFrame", numOFFrames.value);
+    newform.append("NoofFeedero", numoFFeeders ? numoFFeeders.value : "");
+    newform.append("SelvageJacquard", SelvadgeJacquard);
+    newform.append("TopBeam", TopBeam);
+    newform.append("Cramming", Cramming);
+    newform.append("LenoDesignEquipment", LenoDesignEquipment);
+    const requestOption = {
+      method: "POST",
+      body: newform,
+      redirect: "follow",
+    };
+    fetch(
+      "https://textileapp.microtechsolutions.co.in/php/postenquirydetail.php",
+      requestOption
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        //console.log(result);
+        clearform()
+        toast.success("Enquiry has created Successfully");
+      })
+      .catch((error) => {
+        console.error(error);
+        toast.error("Enquiry has not created");
+      });
+  };
+
+  const clearform=()=>{
+    setDateFrom("");
+    setDateTo("");
+    setReed("");
+    setPPI("");
+    setWrapCount("");
+    setWeftCount("");
+    setReedSpace("");
+
+    setFabricLenth("");
+    setDeliveryDate("");
+    setFabricWidth("");
+    setAgentName("");
+    setMachineWidth("");
+    setRpm("");
+    setSelectedFile(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = null;
+    } else {
+      console.error("File upload failed");
+    }
+    setPreview(null);
+    setNumOfFrames("");
+    setNumOfLooms("");
+    setjobRate("");
+    setMachineType("");
+    setNumOfFeeders("");
+    setSheddingType("");
+    setFrames("");
+    setdescription("");
+    setCramming(false);
+    setLenoDesignEquipment(false);
+    setTopBeam(false);
+    setSelvedgeJacquard(false);
+  }
   const handlenumoFFeeders = (selectedOptions) => {
     setNumOfFeeders(selectedOptions);
   };
@@ -317,7 +319,7 @@ const GenerateEnquiry = () => {
             <div style={{ margin: "5px" }}>
               <div style={{ marginTop: "13px" }}>
                 <label style={{ fontWeight: "bold", margin: "10px" }}>
-                  Date From <span style={{ color: "red" }}>*</span>
+                  Date From
                 </label>
                 <input
                   value={dateFrom}
@@ -381,7 +383,7 @@ const GenerateEnquiry = () => {
               </div>
               <div style={{ marginTop: "16px" }}>
                 <label style={{ fontWeight: "bold", margin: "10px" }}>
-                  RPM <span style={{ color: "red" }}>*</span>
+                  RPM
                 </label>
                 <input
                   value={Rpm}
@@ -400,7 +402,7 @@ const GenerateEnquiry = () => {
             <div style={{ margin: "5px" }}>
               <div style={{ marginTop: "13px" }}>
                 <label style={{ fontWeight: "bold", margin: "10px" }}>
-                  Date To <span style={{ color: "red" }}>*</span>
+                  Date To
                 </label>
                 <input
                   value={dateTo}
@@ -416,7 +418,7 @@ const GenerateEnquiry = () => {
 
               <div style={{ marginTop: "13px" }}>
                 <label style={{ fontWeight: "bold", margin: "10px" }}>
-                  Delivery Date 
+                  Delivery Date
                 </label>
                 <input
                   value={deliveryDate}
@@ -433,7 +435,7 @@ const GenerateEnquiry = () => {
               <div style={{ marginTop: "8px" }}>
                 <div className="label-container">
                   <label style={{ fontWeight: "bold", fontSize: "16px" }}>
-                    Shedding Type <span style={{ color: "red" }}>*</span>
+                    Shedding Type
                   </label>
                 </div>
                 <Select
@@ -448,7 +450,7 @@ const GenerateEnquiry = () => {
 
               <div style={{ marginTop: "13px" }}>
                 <label style={{ fontWeight: "bold", margin: "10px" }}>
-                  Machine Width <span style={{ color: "red" }}>*</span>
+                  Machine Width
                 </label>
                 <input
                   value={machineWidth}
@@ -669,7 +671,7 @@ const GenerateEnquiry = () => {
                     border: "1px solid var(--primary-color)",
                   }}
                   type="number"
-                  placeholder="warp count"
+                  placeholder="Warp count"
                 />
                 <div
                   style={{
@@ -689,7 +691,7 @@ const GenerateEnquiry = () => {
                     border: "1px solid var(--primary-color)",
                   }}
                   type="number"
-                  placeholder="weft count"
+                  placeholder="Weft count"
                 />
                 <div
                   style={{
@@ -709,7 +711,7 @@ const GenerateEnquiry = () => {
                     border: "1px solid var(--primary-color)",
                   }}
                   type="number"
-                  placeholder="reed space"
+                  placeholder="Reed space"
                 />
               </div>
             </div>
@@ -724,7 +726,7 @@ const GenerateEnquiry = () => {
               <div>
                 <div style={{ marginTop: "18px" }}>
                   <label style={{ fontWeight: "bold", margin: "10px" }}>
-                    Fabric Width <span style={{ color: "red" }}>*</span>
+                    Fabric Width
                   </label>
                   <input
                     value={fabricWidth}
@@ -756,7 +758,7 @@ const GenerateEnquiry = () => {
                 </div>
                 <div style={{ marginTop: "13px" }}>
                   <label style={{ fontWeight: "bold", margin: "10px" }}>
-                    No of Looms Required <span style={{ color: "red" }}>*</span>
+                    No of Looms Required
                   </label>
                   <input
                     value={numOfLooms}
@@ -792,7 +794,7 @@ const GenerateEnquiry = () => {
               <div>
                 <div style={{ marginTop: "18px" }}>
                   <label style={{ fontWeight: "bold", margin: "10px" }}>
-                    Dalal/Agent Name 
+                    Dalal/Agent Name
                   </label>
                   <input
                     value={agentName}
@@ -816,7 +818,7 @@ const GenerateEnquiry = () => {
                         fontSize: "16px",
                       }}
                     >
-                      No. of Feeders <span style={{ color: "red" }}>*</span>
+                      No. of Feeders
                     </label>
                   </div>
                   <Select
@@ -831,7 +833,7 @@ const GenerateEnquiry = () => {
 
                 <div style={{ marginTop: "13px" }}>
                   <label style={{ fontWeight: "bold", margin: "10px" }}>
-                    Job Rate Offered <span style={{ color: "red" }}>*</span>
+                    Job Rate Offered
                   </label>
                   <div
                     style={{

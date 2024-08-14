@@ -69,25 +69,17 @@ const UpdateEnquiry_form = () => {
 
   const handleSubmit = () => {
     if (
-      !dateFrom ||
-      !dateTo ||
+      !machineWidth||
+      !Rpm||
+      !numOfLooms||
+      !jobRate||
       !reed ||
       !PPI ||
       !wrapCount ||
       !weftCount ||
       !reedSpace ||
-      !fabricLength ||
-      !numOfLooms ||
-      !agentName ||
-      !jobRate ||
-      !fabricWidth ||
-      !deliveryDate ||
-      !machineType ||
-      !machineWidth ||
-      !Rpm ||
-      !sheddingType ||
-      !numOFFrames ||
-      !numoFFeeders
+      !fabricLength 
+   
     ) {
       toast.error("Enter * fields");
       return;
