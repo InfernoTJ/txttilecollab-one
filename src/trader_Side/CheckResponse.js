@@ -429,10 +429,6 @@ fetch("https://textileapp.microtechsolutions.co.in/php/sendemail.php", senemailt
                         {selectedEnquiry.FabricQuality}{" "}
                       </p>
                       <p>
-                        <strong>From To: </strong>{" "}
-                        {selectedEnquiry.BookingTo.date.substring(0, 10)}{" "}
-                      </p>
-                      <p>
                         <strong>Total Fabric length:</strong>{" "}
                         {selectedEnquiry.FabricLength}
                       </p>

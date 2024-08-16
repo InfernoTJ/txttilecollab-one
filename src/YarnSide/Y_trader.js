@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-
+import nochat from "../common/static/image/nochat.jpg";
 const Y_trader = () => {
 
 
@@ -57,7 +57,24 @@ const gotochat =(trader)=>{
               width:'15vw',
               borderRadius: "5px",
             }}>Traders</h5>
-
+   {uniquetrader.length <= 0 && (
+        <div
+          style={{
+            // backgroundColor:'red',
+            display: "flex",
+            flex: 1,
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {" "}
+          <img src={nochat} style={{ width: "30%" }} alt="" />
+          <h2 style={{ color: "#9c9c9c", fontSize: "35px" }}>
+            No Chats Yet
+          </h2>
+        </div>
+      )}
 
     <div className='Y-loom_cards-container' style={{display:'grid',gridTemplateColumns:'repeat(10,1fr)',gridTemplateRows:'repeat(10 ,1fr)'}}>
 

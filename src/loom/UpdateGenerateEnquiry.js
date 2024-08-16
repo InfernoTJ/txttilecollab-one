@@ -51,8 +51,8 @@ const UpdateGenerateEnquiry = () => {
           setTopBeam(enquiry.TopBeam);
           setCramming(enquiry.Cramming);
           setLenoDesignEquipment(enquiry.LenoDesignEquipment);
-          setfromdate(enquiry.BookingFrom?.date?.substring(0, 10) || "");
-          settodate(enquiry.BookingTo?.date?.substring(0, 10) || "");
+          // setfromdate(enquiry.BookingFrom?.date?.substring(0, 10) || "");
+          // settodate(enquiry.BookingTo?.date?.substring(0, 10) || "");
         }
       })
       .catch((error) => {
@@ -120,7 +120,18 @@ const UpdateGenerateEnquiry = () => {
         toast.error("Fill Counter Offer");
         return;
       }
-    }
+    } 
+    if(!fromdate ||
+      !todate){
+        toast.error("Select From and To dates");
+        return;
+      } 
+      if(fromdate>todate){
+        toast.error("From date should be less than To date.");
+        return;
+      }
+
+
     const formdata = new FormData();
     formdata.append("EnquiryId", enquiryNo);
     formdata.append("LoomTraderId", user.Id);
@@ -245,27 +256,7 @@ const UpdateGenerateEnquiry = () => {
                     <p>cm</p>
                   </b>
                 </div>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    marginTop: "20px",
-                  }}
-                >
-                  <b>No of Looms Required</b>
-                  <div
-                    style={{
-                      background: "white",
-                      padding: "5px",
-                      borderRadius: "10px",
-                      width: "30%",
-                      textAlign: "center",
-                      marginLeft: "20px",
-                    }}
-                  >
-                    {data.LoomRequired}
-                  </div>
-                </div>
+               
 
                 <div
                   style={{
@@ -310,7 +301,7 @@ const UpdateGenerateEnquiry = () => {
                   </div>
                 </div>
 
-                <div
+                {/* <div
                   style={{
                     display: "flex",
                     alignItems: "center",
@@ -330,16 +321,15 @@ const UpdateGenerateEnquiry = () => {
                   >
                     {data.BookingTo.date.substring(0, 10)}
                   </div>
-                </div>
-
-                <div
+                </div> */}
+ <div
                   style={{
                     display: "flex",
                     alignItems: "center",
                     marginTop: "20px",
                   }}
                 >
-                  <b>RPM </b>
+                  <b>No of Looms Required</b>
                   <div
                     style={{
                       background: "white",
@@ -350,9 +340,10 @@ const UpdateGenerateEnquiry = () => {
                       marginLeft: "20px",
                     }}
                   >
-                    {data.RPM}
+                    {data.LoomRequired}
                   </div>
                 </div>
+               
 
                 <div
                   style={{
@@ -370,13 +361,36 @@ const UpdateGenerateEnquiry = () => {
                       width: "30%",
                       textAlign: "center",
                       marginLeft: "20px",
-                    }}
-                  >
-                    {data.OfferedJobRate}
+                    }}   
+                  > 
+                    {parseFloat(data.OfferedJobRate)===0?<span style={{ color: "red" }}>Send Quotation</span>:parseFloat(data.OfferedJobRate)}
                   </div>
                   <b>
                     <p>paisa</p>
                   </b>
+                </div>
+
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginTop: "20px",
+                    marginLeft: '22%'
+                  }}
+                >
+                  <b>RPM </b>
+                  <div
+                    style={{
+                      background: "white",
+                      padding: "5px",
+                      borderRadius: "10px",
+                      width: "30%",
+                      textAlign: "center",
+                      marginLeft: "20px",
+                    }}
+                  >
+                    {data.RPM}
+                  </div>
                 </div>
               </div>
 

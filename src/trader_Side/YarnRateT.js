@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-
-const YarnRateT = () => {
+import norboadcast from "../common/static/image/nobroadcast.jpg";
+import nochat from "../common/static/image/nochat.jpg";
+const YarnRateT = () => { 
   const userString = sessionStorage.getItem("user");
   const user = userString ? JSON.parse(userString) : null;
 
@@ -171,7 +172,24 @@ const YarnRateT = () => {
                   <br/>
                   <button className="btn2" style={{backgroundColor:'var(--secondary-color)', margin:'3% 0'}} onClick={sendbroadcast}>Send</button>
                 </div>
-
+                {broadcast.length <= 0 && (
+        <div
+          style={{
+            // backgroundColor:'red',
+            display: "flex",
+            flex: 1,
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {" "}
+          <img src={norboadcast} style={{ width: "25%" }} alt="" />
+          <h2 style={{ color: "#9c9c9c", fontSize: "35px" }}>
+            No Broadcasts Yet
+          </h2>
+        </div>
+      )}
                 <div
                   style={{
                     display: "grid",
@@ -228,10 +246,27 @@ const YarnRateT = () => {
                 >
                   Yarns
                 </h5>
-
+                {uniqueyarn.length <= 0 && (
+        <div 
+          style={{
+            // backgroundColor:'red',
+            display: "flex",
+            flex: 1,
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {" "}
+          <img src={nochat} style={{ width: "30%" }} alt="" />
+          <h2 style={{ color: "#9c9c9c", fontSize: "35px" }}>
+            No Chats Yet
+          </h2>
+        </div>
+      )}
                 <div style={{ height: "70vh" }} className="y-loomcontainer">
                   <div
-                    className="Y-loom_cards-container"
+                    className="Y-loom_cards-container" 
                     style={{
                       display: "grid",
                       gridTemplateColumns: "repeat(10,1fr)",

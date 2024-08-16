@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import norboadcast from "../common/static/image/nobroadcast.jpg";
 
 function Broadcast() {
-
   const userString = sessionStorage.getItem("user");
   const user = userString ? JSON.parse(userString) : null;
 
   const [broadcast, setbroadcast] = useState([]);
-const navigate = useNavigate()
+  const navigate = useNavigate();
   const getbroadcasts = () => {
     const getbroadcasts = {
       method: "GET",
@@ -27,15 +27,13 @@ const navigate = useNavigate()
   };
 
   const replytouser = (data) => {
-    
     const dataToSend = {
-      
-      chatingid: data.LoomId===null?data.TraderId:data.LoomId, 
+      chatingid: data.LoomId === null ? data.TraderId : data.LoomId,
       receivername: data.TraderOrLoomName,
-      roleofreceiver:data.Sender,
-      replyingto:data.Message
+      roleofreceiver: data.Sender,
+      replyingto: data.Message,
     };
-   navigate('../notifications',{ state: dataToSend })
+    navigate("../notifications", { state: dataToSend });
 
     // const replyform = new FormData();
 
@@ -82,6 +80,25 @@ const navigate = useNavigate()
         Broadcasted Messages
       </h5>
 
+      {broadcast.length <= 0 && (
+        <div
+          style={{
+            // backgroundColor:'red',
+            display: "flex",
+            flex: 1,
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {" "}
+          <img src={norboadcast} style={{ width: "30%" }} alt="" />
+          <h2 style={{ color: "#666666", fontSize: "35px" }}>
+            No Broadcasts Yet
+          </h2>
+        </div>
+      )}
+
       <div
         style={{
           display: "grid",
@@ -111,7 +128,7 @@ const navigate = useNavigate()
                 : "Yarn"}
             </h3>
             <p>{broadcast.Message}</p>
-            <button className="btn2" onClick={()=>replytouser(broadcast)}>
+            <button className="btn2" onClick={() => replytouser(broadcast)}>
               Reply
             </button>
           </div>

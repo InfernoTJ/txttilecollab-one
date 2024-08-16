@@ -6,11 +6,11 @@ import { toast } from "react-toastify";
 const GenerateEnquiry = () => {
   const userString = sessionStorage.getItem("user");
   const user = userString ? JSON.parse(userString) : null;
-  const [preview, setPreview] = useState(null);
-  const [machineTypeoption, setMachineTypeoption] = useState(null);
-  const [shreddingtypeoptions, setshreddingtypeoptions] = useState(null);
-  const [nooffeedersoptions, setnooffeedersoptions] = useState(null);
-  const [noofframesoptions, setnoofframesoptions] = useState(null);
+  const [preview, setPreview] = useState('');
+  const [machineTypeoption, setMachineTypeoption] = useState('');
+  const [shreddingtypeoptions, setshreddingtypeoptions] = useState('');
+  const [nooffeedersoptions, setnooffeedersoptions] = useState('');
+  const [noofframesoptions, setnoofframesoptions] = useState('');
 
   const fileInputRef = useRef(null);
   const today = new Date();
@@ -20,37 +20,37 @@ const GenerateEnquiry = () => {
 
   const todaysdate = `${year}-${month}-${day}`;
 
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState('');
 
-  const [dateFrom, setDateFrom] = useState(null);
+  const [dateFrom, setDateFrom] = useState('');
 
-  const [dateTo, setDateTo] = useState(null);
+  const [dateTo, setDateTo] = useState('');
 
-  const [enqid, setenqid] = useState(null);
-  const [reed, setReed] = useState(null);
-  const [PPI, setPPI] = useState(null);
-  const [wrapCount, setWrapCount] = useState(null);
-  const [weftCount, setWeftCount] = useState(null);
-  const [reedSpace, setReedSpace] = useState(null);
+  const [enqid, setenqid] = useState('');
+  const [reed, setReed] = useState('');
+  const [PPI, setPPI] = useState('');
+  const [wrapCount, setWrapCount] = useState('');
+  const [weftCount, setWeftCount] = useState('');
+  const [reedSpace, setReedSpace] = useState('');
 
-  const [fabricLength, setFabricLenth] = useState(null);
-  const [deliveryDate, setDeliveryDate] = useState(null);
-  const [fabricWidth, setFabricWidth] = useState(null);
-  const [agentName, setAgentName] = useState(null);
-  const [machineWidth, setMachineWidth] = useState(null);
-  const [Rpm, setRpm] = useState(null);
-  const [numOFFrames, setNumOfFrames] = useState(null);
-  const [numOfLooms, setNumOfLooms] = useState(null);
+  const [fabricLength, setFabricLenth] = useState('');
+  const [deliveryDate, setDeliveryDate] = useState('');
+  const [fabricWidth, setFabricWidth] = useState('');
+  const [agentName, setAgentName] = useState('');
+  const [machineWidth, setMachineWidth] = useState();
+  const [Rpm, setRpm] = useState();
+  const [numOFFrames, setNumOfFrames] = useState('');
+  const [numOfLooms, setNumOfLooms] = useState('');
   const [jobRate, setjobRate] = useState(0);
-  const [machineType, setMachineType] = useState(null);
-  const [numoFFeeders, setNumOfFeeders] = useState(null);
-  const [sheddingType, setSheddingType] = useState(null);
-  const [frames, setFrames] = useState(null);
+  const [machineType, setMachineType] = useState('');
+  const [numoFFeeders, setNumOfFeeders] = useState('');
+  const [sheddingType, setSheddingType] = useState('');
+  const [frames, setFrames] = useState('');
   const [SelvadgeJacquard, setSelvedgeJacquard] = useState(false);
   const [TopBeam, setTopBeam] = useState(false);
   const [Cramming, setCramming] = useState(false);
   const [LenoDesignEquipment, setLenoDesignEquipment] = useState(false);
-  const [description, setdescription] = useState(null);
+  const [description, setdescription] = useState('');
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -66,32 +66,28 @@ const GenerateEnquiry = () => {
 
   const handleSubmit = () => {
     // Reset all fields
-    if (!machineWidth||
-      !Rpm||
-      !numOfLooms||
-      !jobRate||
+    if (  
+
+     
+
       !reed ||
       !PPI ||
       !wrapCount ||
       !weftCount ||
       !reedSpace ||
-      !fabricLength ||
-      !machineType ||
-      !numOFFrames
+      !fabricLength
+   
     ) {
       toast.error("Enter * fields");
       return;
     }
-    if (dateFrom > dateTo) {
-      toast.error("Invalid from date and to date format");
-      return;
-    }
+   
 
     const formdata = new FormData();
     formdata.append("EnquiryDate", todaysdate);
     formdata.append("TraderId", user.Id);
     formdata.append("BookingFrom", dateFrom ? dateFrom : todaysdate);
-    formdata.append("BookingTo", dateTo ? dateTo : todaysdate);
+   formdata.append("BookingTo", '');
     formdata.append(
       "FabricQuality",
       reed + "*" + PPI + "/" + wrapCount + "*" + weftCount + ":" + reedSpace
@@ -99,9 +95,9 @@ const GenerateEnquiry = () => {
     formdata.append("FabricLength", fabricLength);
     formdata.append("LoomRequired", numOfLooms);
     formdata.append("AgentName", agentName);
-    formdata.append("OfferedJobRate", jobRate);
+    formdata.append("OfferedJobRate", jobRate?jobRate:0);
     formdata.append("FabricWidth", fabricWidth);
-    formdata.append("DeliveryDate", deliveryDate ? deliveryDate : todaysdate);
+     formdata.append("DeliveryDate", '');
     formdata.append("Description", description);
     formdata.append("Photopath", selectedFile);
 
@@ -132,8 +128,8 @@ const GenerateEnquiry = () => {
   const postenquirydetails = () => {
     newform.append("LoomNo", "");
     newform.append("MachineType", machineType.value);
-    newform.append("Width", machineWidth);
-    newform.append("RPM", Rpm);
+    newform.append("Width", machineWidth?machineWidth:0);
+    newform.append("RPM", Rpm?Rpm:0);
     newform.append("SheddingType", sheddingType ? sheddingType.value : "");
     newform.append("NoofFrame", numOFFrames.value);
     newform.append("NoofFeedero", numoFFeeders ? numoFFeeders.value : "");
@@ -329,7 +325,7 @@ const GenerateEnquiry = () => {
                     margin: "10px",
                     border: "1px solid var(--primary-color)",
                   }}
-                  type="date"
+                  type="text"
                 />
               </div>
 
@@ -381,7 +377,42 @@ const GenerateEnquiry = () => {
                   options={machineTypeoption}
                 />
               </div>
-              <div style={{ marginTop: "16px" }}>
+             
+            </div>
+
+            <div style={{ margin: "5px" }}>
+              {/* <div style={{ marginTop: "13px" }}>
+                <label style={{ fontWeight: "bold", margin: "10px" }}>
+                  Date To
+                </label>
+                <input
+                  value={dateTo}
+                  onChange={(e) => setDateTo(e.target.value)}
+                  style={{
+                    width: "90%",
+                    margin: "10px",
+                    border: "1px solid var(--primary-color)",
+                  }}
+                  type="date"
+                />
+              </div> */}
+
+              {/* <div style={{ marginTop: "13px" }}>
+                <label style={{ fontWeight: "bold", margin: "10px" }}>
+                  Delivery Date
+                </label>
+                <input
+                  value={deliveryDate}
+                  onChange={(e) => setDeliveryDate(e.target.value)}
+                  style={{
+                    width: "90%",
+                    margin: "10px",
+                    border: "1px solid var(--primary-color)",
+                  }}
+                  type="date"
+                />
+              </div> */}
+ <div style={{ marginTop: "16px" }}>
                 <label style={{ fontWeight: "bold", margin: "10px" }}>
                   RPM
                 </label>
@@ -397,38 +428,24 @@ const GenerateEnquiry = () => {
                   placeholder="RPM"
                 />
               </div>
-            </div>
 
-            <div style={{ margin: "5px" }}>
+
+              
+
               <div style={{ marginTop: "13px" }}>
                 <label style={{ fontWeight: "bold", margin: "10px" }}>
-                  Date To
+                  Machine Width
                 </label>
                 <input
-                  value={dateTo}
-                  onChange={(e) => setDateTo(e.target.value)}
+                  value={machineWidth}
+                  onChange={(e) => setMachineWidth(e.target.value)}
                   style={{
                     width: "90%",
                     margin: "10px",
                     border: "1px solid var(--primary-color)",
                   }}
-                  type="date"
-                />
-              </div>
-
-              <div style={{ marginTop: "13px" }}>
-                <label style={{ fontWeight: "bold", margin: "10px" }}>
-                  Delivery Date
-                </label>
-                <input
-                  value={deliveryDate}
-                  onChange={(e) => setDeliveryDate(e.target.value)}
-                  style={{
-                    width: "90%",
-                    margin: "10px",
-                    border: "1px solid var(--primary-color)",
-                  }}
-                  type="date"
+                  type="number"
+                  placeholder="Machine Width in CM"
                 />
               </div>
 
@@ -445,23 +462,6 @@ const GenerateEnquiry = () => {
                   onChange={handlesheddingType}
                   isSearchable
                   options={shreddingtypeoptions}
-                />
-              </div>
-
-              <div style={{ marginTop: "13px" }}>
-                <label style={{ fontWeight: "bold", margin: "10px" }}>
-                  Machine Width
-                </label>
-                <input
-                  value={machineWidth}
-                  onChange={(e) => setMachineWidth(e.target.value)}
-                  style={{
-                    width: "90%",
-                    margin: "10px",
-                    border: "1px solid var(--primary-color)",
-                  }}
-                  type="number"
-                  placeholder="Machine Width in CM"
                 />
               </div>
             </div>

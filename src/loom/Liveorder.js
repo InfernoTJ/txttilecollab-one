@@ -16,6 +16,9 @@ function Liveorder() {
 
   const [confirmOrders, setConfirmOrders] = useState([]);
 
+  const authorization = new Headers();
+  authorization.append("x-api-key", "yZiloFufnrsaWI_SRfNjZHoPkdUAJOTnVVeC3");
+  
   const handleLiveOrdersClick = () => {
     setView("liveOrders");
   };
@@ -25,13 +28,16 @@ function Liveorder() {
   };
 
   const handleStartOrderClick = (order) => {
+    
+    
     const confirmform = {
       method: "GET",
       redirect: "follow",
+        // headers: authorization,
+       
     };
 
     getmail(order, "started");
-
     fetch(
       `https://textileapp.microtechsolutions.co.in/php/updateloomorder.php?LoomOrderId=${order.LoomOrderId}&Confirmed=true`,
       confirmform
@@ -61,6 +67,7 @@ function Liveorder() {
   //   const confirmform = {
   //     method: "GET",
   //     redirect: "follow",
+   // headers: authorization,
   //   };
 
   //   const emailform = new FormData();
@@ -74,11 +81,13 @@ function Liveorder() {
   //     method: "POST",
   //     body: emailform,
   //     redirect: "follow",
+   // headers: authorization,
   //   };
 
   //   const getmailconnection = {
   //     method: "GET",
   //     redirect: "follow",
+   // headers: authorization,
   //   };
 
   //   fetch(
@@ -120,9 +129,12 @@ function Liveorder() {
   const emailform = new FormData();
 
   const getmail = (order, status) => {
+    
+    
     const gettradermailconnection = {
       method: "GET",
       redirect: "follow",
+       // headers: authorization,
     };
 
     fetch(
@@ -145,10 +157,13 @@ function Liveorder() {
       `Your order ${order.OrderNo} has been ${status} by ${user.Name}`
     );
 
+   
+   
     const emailconnection = {
       method: "POST",
       body: emailform,
       redirect: "follow",
+       // headers: authorization,
     };
 
     fetch(
@@ -163,9 +178,12 @@ function Liveorder() {
   };
 
   const handleCancelOrderClick = (order) => {
+    
+    
     const requestOptions = {
       method: "GET",
       redirect: "follow",
+       // headers: authorization,
     };
 
     getmail(order, "cancelled");
@@ -194,9 +212,12 @@ function Liveorder() {
     navigate("../live-orders/orderdetails/" + order.LoomOrderId,{state:data});
   };
   const loadliveorders = () => {
+    
+    
     const requestOptions = {
       method: "GET",
       redirect: "follow",
+       // headers: authorization,
     };
 
     fetch(

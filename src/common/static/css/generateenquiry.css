@@ -1,7 +1,8 @@
 .generate_enquiry {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    height: 100%;
+    height: 55vh;
+       /* border: 3px solid red; */
 }
 
 .generate_enquiry-left {

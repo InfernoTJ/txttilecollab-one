@@ -17,7 +17,9 @@ function Loom_booking() {
 const [knottingid,setknottingid]=useState('');
 
   const [bookingdata, setbookingdata] = useState([]);
-
+  const authorization = new Headers();
+  authorization.append("x-api-key", "yZiloFufnrsaWI_SRfNjZHoPkdUAJOTnVVeC3");
+  
   const today = new Date();
   const formatDate = (date) => {
     const year = date.getFullYear();
@@ -33,8 +35,12 @@ const [knottingid,setknottingid]=useState('');
   const [data, setData] = useState();
 
   const getloom = () => {
+
+    
+
     const requestOptions = {
-      method: "GET",
+      method: "GET", 
+      // headers: authorization,
       redirect: "follow",
     };
 
@@ -53,8 +59,11 @@ const [knottingid,setknottingid]=useState('');
   };
 
   const getknottingid = async () => {
+    
+
     const rqoption = {
       method: "GET",
+      // headers: authorization,
       redirect: "follow",
     };
 
@@ -113,6 +122,8 @@ const [knottingid,setknottingid]=useState('');
 
 
 const confirmknottingoffer =()=>{
+  const authorization = new Headers();
+  authorization.append("x-api-key", "yZiloFufnrsaWI_SRfNjZHoPkdUAJOTnVVeC3");
 
   const confirmknottingform = new FormData();
     confirmknottingform.append("Id", knottingid);
@@ -122,6 +133,7 @@ const confirmknottingoffer =()=>{
       method: "POST",
       body: confirmknottingform,
       redirect: "follow",
+        // headers: authorization,
     };
 
   fetch(
@@ -145,12 +157,15 @@ const confirmknottingoffer =()=>{
     updateloomavailabilityform.append("BookedFromDate", fromdate);
     updateloomavailabilityform.append("BookedToDate", todate);
 
+    const authorization = new Headers();
+    authorization.append("x-api-key", "yZiloFufnrsaWI_SRfNjZHoPkdUAJOTnVVeC3");
+
     const updateloomavailabilityconnection = {
       method: "POST",
       body: updateloomavailabilityform,
       redirect: "follow",
+        // headers: authorization,
     };
-
     fetch(
       "https://textileapp.microtechsolutions.co.in/php/updateloomavailabilitynew.php",
       updateloomavailabilityconnection
@@ -170,10 +185,13 @@ const postloombooking =()=>{
   postloombookingform.append("BookedFromDate", fromdate);
   postloombookingform.append("BookedToDate", todate);
 
+
+
   const postloomcon = {
     method: "POST",
     body: postloombookingform,
     redirect: "follow",
+      // headers: authorization,
   };
 fetch(
         "https://textileapp.microtechsolutions.co.in/php/postloombooking.php",
@@ -210,10 +228,13 @@ fetch(
     checkform.append("Todate", todate);
     checkform.append("LoomDetailId", selectedLoom.LoomDetailId);
 
+    const authorization = new Headers();
+    authorization.append("x-api-key", "yZiloFufnrsaWI_SRfNjZHoPkdUAJOTnVVeC3");
     const checkpost = {
       method: "POST",
       body: checkform,
       redirect: "follow",
+        // headers: authorization,
     };
 
     fetch(
@@ -245,9 +266,12 @@ fetch(
     setfromdate("");
     settodate("");
     setSelectedLoom(loomNumber);
+
+    
     const getloombookings = {
       method: "GET",
       redirect: "follow",
+        // headers: authorization,
     };
 
     fetch(
@@ -356,9 +380,9 @@ fetch(
                     <hr />
 
                     <>
-                      {(data.LoomAvailableFrom.date.substring(0, 10) <
+                      {(data.LoomAvailableFrom.date.substring(0, 10) <=
                         formattedToday &&
-                      data.LoomAvailableTo.date.substring(0, 10) >
+                      data.LoomAvailableTo.date.substring(0, 10) >=
                         formattedToday )?(
                         <>
                           {" "}

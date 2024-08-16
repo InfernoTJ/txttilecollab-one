@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import "../common/static/css/getYarn.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import norboadcast from "../common/static/image/nobroadcast.jpg"; 
+import nochat from "../common/static/image/nochat.jpg";
 
 function GetYarn() {
   const userString = sessionStorage.getItem("user");
@@ -165,7 +167,7 @@ function GetYarn() {
         My Broadcasted Messages
       </h5> */}
       <div style={{width:'80%'}}>
-                  <h3 >Send Broadcast</h3>
+                  <h3 >Create Broadcast</h3>
                   <textarea
                     type="text"
                     style={{ width:'100%',border:'1.5px solid var(--primary-color)',borderRadius:'10px'}}
@@ -175,7 +177,24 @@ function GetYarn() {
                   <br/>
                   <button className="btn2" style={{backgroundColor:'var(--secondary-color)', margin:'3% 0'}} onClick={sendbroadcast}>Send</button>
                 </div>
-     
+                {broadcast.length <= 0 && (
+        <div
+          style={{
+            // backgroundColor:'red',
+            display: "flex",
+            flex: 1,
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {" "}
+          <img src={norboadcast} style={{ width: "25%" }} alt="" />
+          <h2 style={{ color: "#9c9c9c", fontSize: "35px" }}>
+            No Broadcasts Yet
+          </h2>
+        </div>
+      )}
       <div
         style={{
           display: "grid",
@@ -220,7 +239,24 @@ function GetYarn() {
                 >
                   Yarns
                 </h5>
-
+                {uniqueyarn.length <= 0 && (
+        <div 
+          style={{
+            // backgroundColor:'red',
+            display: "flex",
+            flex: 1,
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {" "}
+          <img src={nochat} style={{ width: "30%" }} alt="" />
+          <h2 style={{ color: "#9c9c9c", fontSize: "35px" }}>
+            No Chats Yet
+          </h2>
+        </div>
+      )}
                 <div style={{ height: "70vh" }} className="y-loomcontainer">
                   <div
                     className="Y-loom_cards-container"

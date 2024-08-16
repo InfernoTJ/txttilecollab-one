@@ -70,38 +70,31 @@ const UpdateEnquiry_form = () => {
   const handleSubmit = () => {
     if (
       !machineWidth||
-      !Rpm||
-      !numOfLooms||
-      !jobRate||
       !reed ||
       !PPI ||
       !wrapCount ||
       !weftCount ||
       !reedSpace ||
-      !fabricLength 
+      !fabricLength
    
     ) {
       toast.error("Enter * fields");
       return;
     }
-    if(dateFrom>dateTo)
-      {
-        toast.error('Invalid from date and to date format')
-        return;
-      }
+  
 
     const formdata = new FormData();
     formdata.append("EnquiryId", enquiryid);
     formdata.append("EnquiryDate", enquiryDate);
     formdata.append("BookingFrom", dateFrom);
-    formdata.append("BookingTo", dateTo);
+    // formdata.append("BookingTo", dateTo);
     formdata.append("FabricQuality", (reed + "*" + PPI + "/" + wrapCount + "*" + weftCount + ":" + reedSpace));
     formdata.append("FabricLength", fabricLength);
     formdata.append("LoomRequired", numOfLooms);
     formdata.append("AgentName", agentName);
     formdata.append("OfferedJobRate", jobRate);
     formdata.append("FabricWidth",fabricWidth);
-    formdata.append("DeliveryDate", deliveryDate);
+    // formdata.append("DeliveryDate", deliveryDate);
     formdata.append("Description", description);
     formdata.append("Photopath", photopath);
     formdata.append("EnquiryNo", enquiryno);
@@ -194,7 +187,7 @@ const confirmDelete = () => {
     if (result.length > 0) {
       const enquiry = result[0];
       setDateFrom(enquiry.BookingFrom.date.substring(0, 10));
-      setDateTo(enquiry.BookingTo.date.substring(0, 10));
+      // setDateTo(enquiry.BookingTo.date.substring(0, 10));
       const { reed, PPI, warpCount, weftCount, reedSpace } = parseFabricQuality(
         enquiry.FabricQuality
       );
@@ -205,7 +198,7 @@ const confirmDelete = () => {
       setReedSpace(reedSpace);
  
       setFabricLenth(enquiry.FabricLength);
-      setDeliveryDate(enquiry.DeliveryDate.date.substring(0, 10));
+      // setDeliveryDate(enquiry.DeliveryDate.date.substring(0, 10));
       setFabricWidth(enquiry.FabricWidth);
       setAgentName(enquiry.AgentName);
       setMachineWidth(enquiry.Width);
@@ -214,7 +207,7 @@ const confirmDelete = () => {
       setPreview(enquiry.Photopath);
       setphotopath(enquiry.Photopath);
       setNumOfLooms(enquiry.LoomRequired);
-      setjobRate(enquiry.OfferedJobRate);
+      setjobRate(parseFloat(enquiry.OfferedJobRate));
       setenquiryno(enquiry.EnquiryNo);
       setdescription(enquiry.Description);
       setMachineType(enquiry.MachineType);
@@ -352,7 +345,7 @@ const confirmDelete = () => {
             <div style={{ margin: "5px" }}>
               <div style={{ marginTop: "13px" }}>
                 <label style={{ fontWeight: "bold", margin: "10px" }}>
-                  Date From <span style={{ color: "red" }}>*</span>
+                  Date From 
                 </label>
                 <input
                   value={dateFrom}
@@ -363,7 +356,7 @@ const confirmDelete = () => {
                     margin: "10px",
                     border: "1px solid var(--primary-color)",
                   }}
-                  type="date"
+                  type="text"
                 />
               </div>
 
@@ -433,6 +426,10 @@ const confirmDelete = () => {
                   isDisabled={!editable}
                 />
               </div>
+            </div>
+
+            <div style={{ margin: "5px" }}>
+
               <div style={{ marginTop: "16px" }}>
                 <label style={{ fontWeight: "bold", margin: "10px" }}>
                   RPM <span style={{ color: "red" }}>*</span>
@@ -450,10 +447,7 @@ const confirmDelete = () => {
                   disabled={!editable}
                 />
               </div>
-            </div>
-
-            <div style={{ margin: "5px" }}>
-              <div style={{ marginTop: "13px" }}>
+              {/* <div style={{ marginTop: "13px" }}>
                 <label style={{ fontWeight: "bold", margin: "10px" }}>
                   Date To <span style={{ color: "red" }}>*</span>
                 </label>
@@ -485,12 +479,32 @@ const confirmDelete = () => {
                   type="date"
                   disabled={!editable}
                 />
+              </div> */}
+
+
+            
+              <div style={{ marginTop: "13px" }}>
+                <label style={{ fontWeight: "bold", margin: "10px" }}>
+                  Machine Width 
+                </label>
+                <input
+                  value={machineWidth}
+                  onChange={(e) => setMachineWidth(e.target.value)}
+                  style={{
+                    width: "90%",
+                    margin: "10px",
+                    border: "1px solid var(--primary-color)",
+                  }}
+                  type="number"
+                  placeholder="Machine Width in CM"
+                  disabled={!editable}
+                />
               </div>
 
               <div style={{ marginTop: "8px" }}>
                 <div className="label-container">
                   <label style={{ fontWeight: "bold", fontSize: "16px" }}>
-                    Shedding Type <span style={{ color: "red" }}>*</span>
+                    Shedding Type
                   </label>
                 </div>
                 <Select
@@ -517,24 +531,6 @@ const confirmDelete = () => {
                   isSearchable
                   options={sheddingTypeOptions}
                   isDisabled={!editable}
-                />
-              </div>
-
-              <div style={{ marginTop: "13px" }}>
-                <label style={{ fontWeight: "bold", margin: "10px" }}>
-                  Machine Width <span style={{ color: "red" }}>*</span>
-                </label>
-                <input
-                  value={machineWidth}
-                  onChange={(e) => setMachineWidth(e.target.value)}
-                  style={{
-                    width: "90%",
-                    margin: "10px",
-                    border: "1px solid var(--primary-color)",
-                  }}
-                  type="number"
-                  placeholder="Machine Width in CM"
-                  disabled={!editable}
                 />
               </div>
             </div>
@@ -862,7 +858,7 @@ const confirmDelete = () => {
                 </div>
                 <div style={{ marginTop: "13px" }}>
                   <label style={{ fontWeight: "bold", margin: "10px" }}>
-                    No of Looms Required <span style={{ color: "red" }}>*</span>
+                    No of Looms Required 
                   </label>
                   <input
                     value={numOfLooms}
@@ -900,7 +896,7 @@ const confirmDelete = () => {
               <div>
                 <div style={{ marginTop: "18px" }}>
                   <label style={{ fontWeight: "bold", margin: "10px" }}>
-                    Dalal/Agent Name <span style={{ color: "red" }}>*</span>
+                    Dalal/Agent Name 
                   </label>
                   <input
                     value={agentName}
@@ -925,7 +921,7 @@ const confirmDelete = () => {
                         fontSize: "16px",
                       }}
                     >
-                      No. of Feeders <span style={{ color: "red" }}>*</span>
+                      No. of Feeders 
                     </label>
                   </div>
                   <Select
