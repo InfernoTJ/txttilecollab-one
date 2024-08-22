@@ -162,7 +162,8 @@ function LoomBooking() {
     
     fetch("https://textileapp.microtechsolutions.co.in/php/getbyid.php?Table=LoomBooking&Colname=OrderNoId&Colvalue="+oid, getloombookedhistory)
       .then((response) => response.json())
-      .then((result) => {//console.log(result)
+      .then((result) => {
+        //console.log(result)
         setloomhistory(result)
       })
       .catch((error) => console.error(error));

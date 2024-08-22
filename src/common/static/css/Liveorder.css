@@ -95,7 +95,8 @@ color:var(--primary-color)
   display: grid;
   grid-template-columns:repeat(8, 1fr) !important ;
   grid-template-rows: repeat(10, 1fr)!important ;
-  gap: 15px
+  gap: 15px;
+
 }
 
 .live-ordersCards-all{

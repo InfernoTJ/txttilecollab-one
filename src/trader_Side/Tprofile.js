@@ -49,7 +49,7 @@ const [ownerContact, setOwnerContact] = useState("");
       setDesignpaper(file); // Store the selected file in the state
       setPreviewUrl(URL.createObjectURL(file));
       setpicstate(true)
-      console.log("Selected image:", file.name);
+      //console.log("Selected image:", file.name);
       // Further handling if needed
     }
   };
@@ -177,7 +177,7 @@ const [ownerContact, setOwnerContact] = useState("");
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
 
         if (result.length > 0) {
           const enquiry = result[0];
@@ -223,7 +223,7 @@ const [ownerContact, setOwnerContact] = useState("");
       updateprofilepicconnection
     )
       .then((response) => response.text())
-      .then((result) => {console.log(result)
+      .then((result) => {//console.log(result)
         toast.success('Profile Picutre Updated')
         setpicstate(false)
         getcomapnyinfo()
@@ -244,7 +244,7 @@ const [ownerContact, setOwnerContact] = useState("");
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log("contactttt info:", result);
+        //console.log("contactttt info:", result);
 
         if (result.length > 0) {
           const owner = result.find(

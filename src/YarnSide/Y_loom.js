@@ -20,7 +20,7 @@ const getlooms =()=>{
   
   fetch(`https://textileapp.microtechsolutions.co.in/php/getyarnrate.php?YarnId=${user.Id}&LoomId=&TraderId=`, yarnforloom)
     .then((response) => response.json())
-    .then((result) => {console.log(result)
+    .then((result) => {//console.log(result)
       setuniqueLooms(result.filter((loom)=>loom.LoomOrTrader==='L'))
     })
     .catch((error) => console.error(error));

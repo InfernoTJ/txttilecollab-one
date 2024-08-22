@@ -86,8 +86,8 @@ const GenerateEnquiry = () => {
     const formdata = new FormData();
     formdata.append("EnquiryDate", todaysdate);
     formdata.append("TraderId", user.Id);
-    formdata.append("BookingFrom", dateFrom ? dateFrom : todaysdate);
-   formdata.append("BookingTo", '');
+    formdata.append("Date", dateFrom);
+   //formdata.append("BookingTo", '');
     formdata.append(
       "FabricQuality",
       reed + "*" + PPI + "/" + wrapCount + "*" + weftCount + ":" + reedSpace
@@ -97,7 +97,7 @@ const GenerateEnquiry = () => {
     formdata.append("AgentName", agentName);
     formdata.append("OfferedJobRate", jobRate?jobRate:0);
     formdata.append("FabricWidth", fabricWidth);
-     formdata.append("DeliveryDate", '');
+    // formdata.append("DeliveryDate", '');
     formdata.append("Description", description);
     formdata.append("Photopath", selectedFile);
 

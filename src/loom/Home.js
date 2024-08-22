@@ -28,71 +28,8 @@ function Home() {
 
   
   
-  const testingONE=async()=>{
-    try {
-      const response = await fetch('https://textileapp.microtechsolutions.co.in/file/Test/test.php', {
-        method: 'GET',
-        headers: { 
-          Authorization: 'Basic ' + btoa('Test:12345!@#$%QWERTqw'),
-          'x-api-key': 'yZiloFufnrsaWI_SRfNjZHoPkdUAJOTnVVeC3'
-
-        }
-      });
-  
-      if (!response.ok) {
-        throw new Error(`Error: ${response.status}`);
-      }
-      if (response.ok) {
-        console.log('asdasdasda')
-      }
-  
-      const data = await response.json();
-      console.log(data);
-    } catch (error) {
-      console.error('Fetch error:', error);
-    }
-}
-  
-const testing=()=>{
-//   const username = 'Test';
-// const password = '12345!@#$%QWERTqw';
-// const basicAuth = 'Basic ' + btoa(`${username}:${password}`);
 
 
-// authorization.append("Authorization", basicAuth);
-
-// const requestOptions = {
-//   method: "GET",
-//   headers: authorization,
-//   redirect: "follow"
-// };
-
-// fetch("https://textileapp.microtechsolutions.co.in/file/Test/test.php", requestOptions)
-//   .then((response) => response.json())
-//   .then((result) => {console.log(result)})
-//   .catch((error) => console.error(error));
-const username = 'Test';
-const password = '12345!@#$%QWERTqw';
-
-// Encode the credentials in Base64
-const encodedCredentials = btoa(`${username}:${password}`);
-
-// Define the URL of the API endpoint
-const apiUrl = 'https://textileapp.microtechsolutions.co.in/file/Test/test.php';
-
-// Make the GET request with fetch
-fetch(apiUrl, {
-  method: 'GET',
-  headers: {
-    Authorization: `Basic ${encodedCredentials}`,
-    'x-api-key' : 'yZiloFufnrsaWI_SRfNjZHoPkdUAJOTnVVeC3'
-  }
-})
-.then(response => response.json())  // Parse the response as JSON
-.then(data => console.log(data))     // Handle the data
-.catch(error => console.error('Error:', error));  // Handle any errors
-
-}
 
   const calculateuser = () => {
     const requestOptions = {
@@ -289,7 +226,7 @@ fetch(apiUrl, {
             </p>
             <SiLoom className="homeicons" style={{ color: "#ff9363" }} />
           </div>
-          <button onClick={testingONE}>testingggggg</button>
+         
         </div>
       </div>
     </div>

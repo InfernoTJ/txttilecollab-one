@@ -24,7 +24,7 @@ const YarnRateT = () => {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         setbroadcast(result.filter((data) => data.TraderId === user.Id));
       })
       .catch((error) => console.error(error));
@@ -58,7 +58,7 @@ const YarnRateT = () => {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
 
         setuniqueyarn(result.filter((yarn) => yarn.Id != null));
         // getnames()
@@ -89,7 +89,7 @@ const YarnRateT = () => {
     )
       .then((response) => response.text())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         setbroadcastmessage('')
         toast.success("Broadcast Sent")
         getbroadcasts();

@@ -218,12 +218,12 @@ export const menuItems = [
     roles: ["T"],
   },
 
-  // {
-  //   title: "Calculation",
-  //   icon: <RiCalculatorLine />,
-  //   path: "calculation",
-  //   roles: ["L"],
-  // },
+  {
+    title: "Calculation",
+    icon: <RiCalculatorLine />,
+    path: "Tcalculation",
+    roles: ["L"],
+  },
 
   {
     title: "Calculation",
@@ -253,12 +253,12 @@ export const menuItems = [
     roles: ["L"],
   },
 
-  {
-    title: "Incomplete Task",
-    path: "incomplete-task",
-    icon: <FaUserTie />,
-    roles: ["T"],
-  },
+  // {
+  //   title: "Incomplete Task",
+  //   path: "incomplete-task",
+  //   icon: <FaUserTie />,
+  //   roles: ["T"],
+  // },
   {
     title: "Profile",
     icon: <FaUser  />,
@@ -300,6 +300,12 @@ export const menuItems = [
         roles: ["Y"],
       },
     ]
+  },
+  {
+    title: "Calculation",
+    icon: <RiCalculatorLine />,
+    path: "Tcalculation",
+    roles: ["Y"],
   },
   {
     title: "Profile",

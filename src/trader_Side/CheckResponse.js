@@ -396,7 +396,7 @@ fetch("https://textileapp.microtechsolutions.co.in/php/sendemail.php", senemailt
                       </p>
                       <p>
                         <strong>From Date : </strong>{" "}
-                        {selectedEnquiry.BookingFrom.date.substring(0, 10)}{" "}
+                        {selectedEnquiry.Date}{" "}
                       </p>
                       <p>
                         <strong>Machine Type: </strong>{" "}

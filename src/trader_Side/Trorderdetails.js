@@ -287,8 +287,8 @@ export default function VerticalTabs() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log("tttttt", result);
-        const data=result[0]
+        //console.log("tttttt", result);
+        // const data=result[0]
         setSelectedLoom(result[0]);
       
       })
@@ -304,7 +304,7 @@ const[traderinfo,settraderinfo]=useState([])
     
     fetch("https://textileapp.microtechsolutions.co.in/php/getbyid.php?Table=LoomTraderDetail&Colname=Id&Colvalue="+loomid, gettraderinfo)
       .then((response) => response.json())
-      .then((result) => {console.log('the trader infoo',result)
+      .then((result) => {//console.log('the trader infoo',result)
         settraderinfo(result[0])
       })
       .catch((error) => console.error(error));

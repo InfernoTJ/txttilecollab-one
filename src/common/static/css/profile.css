@@ -16,7 +16,22 @@
     z-index: 10;
     width: calc(66%)
 }
-
+.loomscountcontent{
+    text-align: center;
+    /* background-color: dodgerblue; */
+    height: 100%;
+    align-items: center;
+    align-content: center;
+    width:25%;
+    border:  1px solid #000000;
+}
+.Loomalignment{
+ display: flex;
+ flex:1;
+ width: 100%;
+ /* background-color: crimson; */
+ justify-content: space-between;
+}
 .Lprofile-contact-info {
     position: absolute;
     top: 30px;

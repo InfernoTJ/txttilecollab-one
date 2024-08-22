@@ -20,7 +20,7 @@ function Broadcast() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         setbroadcast(result);
       })
       .catch((error) => console.error(error));
@@ -56,7 +56,7 @@ function Broadcast() {
     //   replyconnection
     // )
     //   .then((response) => response.text())
-    //   .then((result) => console.log(result))
+    //   .then((result) => //console.log(result))
     //   .catch((error) => console.error(error));
   };
   useEffect(() => {

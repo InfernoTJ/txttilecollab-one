@@ -29,11 +29,11 @@ const Trliveorder = () => {
       )
         .then((response) => response.json())
         .then((result) => {
-          console.log(
-            result.filter(
-              (order) => order.Confirmed === 1 && order.Completed === null
-            )
-          );
+          // console.log(
+          //   result.filter(
+          //     (order) => order.Confirmed === 1 && order.Completed === null
+          //   )
+          // );
           setLiveOrders(
             result.filter(
               (order) => order.Confirmed === 1 && order.Completed === null

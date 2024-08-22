@@ -125,7 +125,7 @@ function Cancelledorder() {
           Cancelled Order
         </h3>
       </div>
-      {cancelledorder.length === 0 && (
+      {(cancelledorder.length === 0 && cancelledknotting.length===0) && (
         <div>
           <div
             style={{

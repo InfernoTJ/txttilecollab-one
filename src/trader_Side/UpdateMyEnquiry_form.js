@@ -69,13 +69,14 @@ const UpdateEnquiry_form = () => {
 
   const handleSubmit = () => {
     if (
-      !machineWidth||
+    
       !reed ||
       !PPI ||
       !wrapCount ||
       !weftCount ||
       !reedSpace ||
       !fabricLength
+    
    
     ) {
       toast.error("Enter * fields");
@@ -86,10 +87,10 @@ const UpdateEnquiry_form = () => {
     const formdata = new FormData();
     formdata.append("EnquiryId", enquiryid);
     formdata.append("EnquiryDate", enquiryDate);
-    formdata.append("BookingFrom", dateFrom);
+    formdata.append("Date", dateFrom);
     // formdata.append("BookingTo", dateTo);
     formdata.append("FabricQuality", (reed + "*" + PPI + "/" + wrapCount + "*" + weftCount + ":" + reedSpace));
-    formdata.append("FabricLength", fabricLength);
+    formdata.append("FabricLength", fabricLength?fabricLength:0);
     formdata.append("LoomRequired", numOfLooms);
     formdata.append("AgentName", agentName);
     formdata.append("OfferedJobRate", jobRate);
@@ -99,8 +100,8 @@ const UpdateEnquiry_form = () => {
     formdata.append("Photopath", photopath);
     formdata.append("EnquiryNo", enquiryno);
     formdata.append("MachineType", machineType);
-    formdata.append("Width", machineWidth);
-    formdata.append("RPM", Rpm);
+    formdata.append("Width", machineWidth?machineWidth:0);
+    formdata.append("RPM", Rpm?Rpm:0);
     formdata.append("SheddingType", sheddingType);
     formdata.append("NoofFrame", numOFFrames);
     formdata.append("NoofFeedero", numoFFeeders);
@@ -163,7 +164,7 @@ const UpdateEnquiry_form = () => {
      
      fetch("https://textileapp.microtechsolutions.co.in/php/delenquiry.php", requestOptions)
        .then((response) => response.text())
-       .then((result) => {//console.log(result)
+       .then((result) => {////console.log(result)
          toast.success( enquiryno+" has deleted successfully");
          navigate('../updatemyenquiries');
        })
@@ -186,7 +187,7 @@ const confirmDelete = () => {
   const getdata = (result) => {
     if (result.length > 0) {
       const enquiry = result[0];
-      setDateFrom(enquiry.BookingFrom.date.substring(0, 10));
+      setDateFrom(enquiry.Date);
       // setDateTo(enquiry.BookingTo.date.substring(0, 10));
       const { reed, PPI, warpCount, weftCount, reedSpace } = parseFabricQuality(
         enquiry.FabricQuality
@@ -201,8 +202,8 @@ const confirmDelete = () => {
       // setDeliveryDate(enquiry.DeliveryDate.date.substring(0, 10));
       setFabricWidth(enquiry.FabricWidth);
       setAgentName(enquiry.AgentName);
-      setMachineWidth(enquiry.Width);
-      setRpm(enquiry.RPM);
+      setMachineWidth(parseFloat(enquiry.Width)); 
+      setRpm(parseFloat(enquiry.RPM));
       setenquiryDate(enquiry.CreatedOn.date.substring(0, 10));
       setPreview(enquiry.Photopath);
       setphotopath(enquiry.Photopath);
@@ -432,7 +433,7 @@ const confirmDelete = () => {
 
               <div style={{ marginTop: "16px" }}>
                 <label style={{ fontWeight: "bold", margin: "10px" }}>
-                  RPM <span style={{ color: "red" }}>*</span>
+                  RPM 
                 </label>
                 <input
                   value={Rpm}
@@ -808,7 +809,7 @@ const confirmDelete = () => {
               <div>
                 <div style={{ marginTop: "18px" }}>
                   <label style={{ fontWeight: "bold", margin: "10px" }}>
-                    Fabric Width <span style={{ color: "red" }}>*</span>
+                    Fabric Width 
                   </label>
                   <input
                     value={fabricWidth}
@@ -953,7 +954,7 @@ const confirmDelete = () => {
 
                 <div style={{ marginTop: "13px" }}>
                   <label style={{ fontWeight: "bold", margin: "10px" }}>
-                    Job Rate Offered <span style={{ color: "red" }}>*</span>
+                    Job Rate Offered 
                   </label>
                   <div
                     style={{

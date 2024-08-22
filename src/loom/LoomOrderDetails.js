@@ -261,7 +261,7 @@ export default function VerticalTabs() {
     )
       .then((response) => response.text())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         toast.success("Message Sent");
         setInputText("");
         firstpicedetails();
@@ -281,7 +281,7 @@ export default function VerticalTabs() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        ////console.log(result);
         setdata(result);
       })
       .catch((error) => console.error(error));
@@ -311,7 +311,7 @@ export default function VerticalTabs() {
       )
         .then((response) => response.text())
         .then((result) => {
-          console.log(result);
+          //console.log(result);
           beamindetails();
           setTableRows([]);
           toast.success("Response submitted");
@@ -343,7 +343,7 @@ export default function VerticalTabs() {
       )
         .then((response) => response.text())
         .then((result) => {
-          console.log(result);
+          //console.log(result);
           toast.success("Response submitted");
           setWeftRow([]);
           weftyarndetails();
@@ -370,7 +370,7 @@ export default function VerticalTabs() {
     )
       .then((response) => response.text())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         toast.success("Response submitted");
         drawingindetails();
       })
@@ -394,7 +394,7 @@ export default function VerticalTabs() {
     )
       .then((response) => response.text())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         toast.success("Response submitted");
         beamgettingdetails();
       })
@@ -429,7 +429,7 @@ export default function VerticalTabs() {
       )
         .then((response) => response.text())
         .then((result) => {
-          console.log(result);
+          //console.log(result);
           toast.success("Response submitted");
           setFabricRow([]);
           fabricdispatchdetails();
@@ -466,7 +466,7 @@ export default function VerticalTabs() {
       )
         .then((response) => response.text())
         .then((result) => {
-          console.log(result);
+          //console.log(result);
           toast.success("Response submitted");
           goodsreturnsdetails();
           setReturnRow([]);
@@ -488,7 +488,7 @@ export default function VerticalTabs() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         setbeamindata(result);
       })
       .catch((error) => console.error(error));
@@ -507,7 +507,7 @@ export default function VerticalTabs() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         setweftyarnindata(result);
       })
       .catch((error) => console.error(error));
@@ -525,7 +525,7 @@ export default function VerticalTabs() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         const enq = result[0];
         setdrawingindata(enq.Status);
         setdrawingindate(enq.CreatedOn.date.substring(0, 10));
@@ -545,7 +545,7 @@ export default function VerticalTabs() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         const enq = result[0];
         setbeamgettingdata(enq.Status);
         setbeamgettingdate(enq.CreatedOn.date.substring(0, 10));
@@ -565,7 +565,7 @@ export default function VerticalTabs() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         setfirstpiecechatdata(result);
       })
       .catch((error) => console.error(error));
@@ -583,7 +583,7 @@ export default function VerticalTabs() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         setfabricdispatchdata(result);
       })
       .catch((error) => console.error(error));
@@ -601,7 +601,7 @@ export default function VerticalTabs() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         setgoodsreturnsdata(result);
       })
       .catch((error) => console.error(error));
@@ -639,7 +639,7 @@ export default function VerticalTabs() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log("tttttt", result);
+        //console.log("tttttt", result);
         const data=result[0]
         setSelectedLoom(result[0]);
         gettraderinfo(data.Id)
@@ -676,7 +676,7 @@ export default function VerticalTabs() {
     
     fetch("https://textileapp.microtechsolutions.co.in/php/getbyid.php?Table=LoomTraderDetail&Colname=Id&Colvalue="+traderid, gettraderinfo)
       .then((response) => response.json())
-      .then((result) => {console.log('the trader infoo',result)
+      .then((result) => {//console.log('the trader infoo',result)
         settraderinfo(result[0])
       })
       .catch((error) => console.error(error));
@@ -693,7 +693,7 @@ export default function VerticalTabs() {
     firstpicedetails();
     fabricdispatchdetails();
     goodsreturnsdetails();
-    console.log("this is the main", tableRows.photo);
+    //console.log("this is the main", tableRows.photo);
   }, []);
 
   const convertDateFormat = (dateString) => {
@@ -730,7 +730,7 @@ export default function VerticalTabs() {
     )
       .then((response) => response.text())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         toast.success("Order Completed");
         navigate("../completed-orders");
       })

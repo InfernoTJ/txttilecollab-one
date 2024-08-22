@@ -44,7 +44,7 @@ function Liveorder() {
     )
       .then((response) => response.text())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         toast.success(`Order ${order.OrderNo} confirmed`);
         navigate(`../loom/LoomBooking/${order.LoomOrderId}`);
       })
@@ -62,69 +62,6 @@ function Liveorder() {
   const handleLoomSelection = (loomNumber) => {
     setSelectedLoom(loomNumber);
   };
-  // const handleCancelOrderClick = (order) => {
-
-  //   const confirmform = {
-  //     method: "GET",
-  //     redirect: "follow",
-   // headers: authorization,
-  //   };
-
-  //   const emailform = new FormData();
-
-  //   emailform.append(
-  //     "Body",
-  //     `Your order ${order.OrderNo} has been cancelled by ${user.Name}`
-  //   );
-
-  //   const emailconnection = {
-  //     method: "POST",
-  //     body: emailform,
-  //     redirect: "follow",
-   // headers: authorization,
-  //   };
-
-  //   const getmailconnection = {
-  //     method: "GET",
-  //     redirect: "follow",
-   // headers: authorization,
-  //   };
-
-  //   fetch(
-  //     "https://textileapp.microtechsolutions.co.in/php/getbyid.php?Table=LoomTraderDetail&Colname=Id&Colvalue=" +
-  //       order.TraderId,
-  //     getmailconnection
-  //   )
-  //     .then((response) => response.json())
-  //     .then((result) => {
-  //       console.log(result);
-  //       const emaildata = result[0];
-  //       emailform.append("AppUserId", emaildata.AppUserId);
-  //       fetch(
-  //         `https://textileapp.microtechsolutions.co.in/php/updateloomorder.php?LoomOrderId=${order.LoomOrderId}&Confirmed=false`,
-  //         confirmform
-  //       )
-  //         .then((response) => response.text())
-  //         .then((result) => {
-  //           console.log(result);
-  //           toast.success("Order is cancelling please wait");
-  //           fetch(
-  //             "https://textileapp.microtechsolutions.co.in/php/sendemail.php",
-  //             emailconnection
-  //           )
-  //             .then((response) => response.text())
-  //             .then((result) => {
-  //               console.log(result);
-  //               toast.success(`Cancelled ${order.OrderNo}`);
-  //               loadliveorders();
-  //             })
-  //             .catch((error) => console.error(error));
-  //         })
-  //         .catch((error) => console.error(error));
-  //     })
-  //     .catch((error) => console.error(error));
-
-  // };
 
   const emailform = new FormData();
 
@@ -172,7 +109,7 @@ function Liveorder() {
     )
       .then((response) => response.text())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
       })
       .catch((error) => console.error(error));
   };
@@ -196,7 +133,7 @@ function Liveorder() {
     )
       .then((response) => response.text())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
 
         toast.success(`Cancelled ${order.OrderNo}`);
         loadliveorders();
@@ -227,11 +164,11 @@ function Liveorder() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(
-          result.filter(
-            (order) => order.Confirmed === null && order.Completed === null
-          )
-        );
+        //console.log(
+        //   result.filter(
+        //     (order) => order.Confirmed === null && order.Completed === null
+        //   )
+        // );
         setLiveOrders(
           result.filter(
             (order) => order.Confirmed === null && order.Completed === null

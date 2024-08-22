@@ -20,7 +20,7 @@ function GetYarn() {
     
     fetch("https://textileapp.microtechsolutions.co.in/php/getyarnrate.php?YarnId=&TraderId=&LoomId=", getbroadcasts)
       .then((response) => response.json())
-      .then((result) => {console.log(result)
+      .then((result) => {//console.log(result)
         setbroadcast(result.filter((data)=>data.LoomId===user.Id))
       })
       .catch((error) => console.error(error));
@@ -52,9 +52,9 @@ function GetYarn() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(
-          result.filter((yarn) => yarn.Id != null)
-        );
+        //console.log(
+        //   result.filter((yarn) => yarn.Id != null)
+        // );
 
         setuniqueyarn( result
             .filter((yarn) => yarn.Id != null));
@@ -96,7 +96,7 @@ function GetYarn() {
     )
       .then((response) => response.text())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         setbroadcastmessage('')
         toast.success("Broadcast Sent")
         getbroadcasts();

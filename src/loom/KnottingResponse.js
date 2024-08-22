@@ -85,10 +85,10 @@ fetch("https://textileapp.microtechsolutions.co.in/php/confirmknottingoffer.php"
   .catch((error) => console.error(error));
   };
 
-  const handleCardClickNavigate = (e) => { 
-    e.preventDefault();
-    navigate('../live-orders/orderdetails');
-  };
+  // const handleCardClickNavigate = (e) => { 
+  //   e.preventDefault();
+  //   navigate('../live-orders/orderdetails');
+  // };
 
   React.useEffect(() => {
     getliveorders();
@@ -154,13 +154,13 @@ fetch("https://textileapp.microtechsolutions.co.in/php/confirmknottingoffer.php"
               <h2 style={{color:'#dda960',fontSize:'35px'}}>No order yet</h2></div> 
               </div>} 
             <div 
-            // className='live-ordersCards-container'
-             > 
+             className='live-ordersCards-container'  style={{height:'75vh',overflow:'auto',paddingRight:'5%'}}
+             >  
            
            
               {view === 'liveOrders' && liveOrders.map((order) => (<>
                 <div
-                //  className='live-ordersCards-all'
+                  className='live-ordersCards-all'
                  key={order.id} >
                   <div  
                   style={{ marginLeft: '10px', cursor: 'pointer' }}
@@ -185,7 +185,9 @@ fetch("https://textileapp.microtechsolutions.co.in/php/confirmknottingoffer.php"
                       Cancel Order
                     </button>
                   </div>
-                </div></>
+                </div>
+           
+                </>
               ))}
             </div></>
           )}
@@ -196,7 +198,7 @@ fetch("https://textileapp.microtechsolutions.co.in/php/confirmknottingoffer.php"
               <h2 style={{color:'#dda960',fontSize:'35px'}}>No order yet</h2></div> 
               </div>} 
           <div
-           className='confirmOrdersCards-container'
+           className='confirmOrdersCards-container' style={{height:'75vh',overflow:'auto',paddingRight:'5%'}}
              >
             {confirmOrders.map((order) => (
               <div className='confirmOrdersCards-all' key={order.id}  >

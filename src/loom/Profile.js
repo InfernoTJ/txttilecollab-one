@@ -42,7 +42,7 @@ const Profile = () => {
     if (file) {
       setDesignpaper(file); // Store the selected file in the state
       setPreviewUrl(URL.createObjectURL(file));
-      console.log("Selected image:", file.name);
+      //console.log("Selected image:", file.name);
       // Further handling if needed
     }
   };
@@ -70,7 +70,7 @@ const Profile = () => {
     )
       .then((response) => response.text())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         toast.success("Profile Picutre Updated");
         setpicstate(false);
         getcomapnyinfo();
@@ -129,7 +129,7 @@ const Profile = () => {
     )
       .then((response) => response.text())
       .then((result) => {
-        //console.log(result);
+        ////console.log(result);
         toast.success("Company Details Updated Successfully");
       })
       .catch((error) => console.error(error));
@@ -181,7 +181,7 @@ const Profile = () => {
     )
       .then((response) => response.text())
       .then((result) => {
-        //console.log(result);
+        ////console.log(result);
         toast.success("Contact Updated");
       })
       .catch((error) => console.error(error));
@@ -205,7 +205,7 @@ const Profile = () => {
     )
       .then((response) => response.json())
       .then((result) => {
-        //console.log(result);
+        ////console.log(result);
 
         if (result.length > 0) {
           const enquiry = result[0];
@@ -248,7 +248,7 @@ const Profile = () => {
     )
       .then((response) => response.json())
       .then((result) => {
-        //console.log("contactttt info:", result);
+        ////console.log("contactttt info:", result);
 
         if (result.length > 0) {
           const owner = result.find(
@@ -291,7 +291,7 @@ const Profile = () => {
     )
       .then((response) => response.json())
       .then((result) => {
-        //console.log(result.filter((loom)=>loom.Active===1));
+        ////console.log(result.filter((loom)=>loom.Active===1));
         setloomcount(result.filter((loom) => loom.Active === 1).length);
       })
       .catch((error) => console.error(error));
@@ -315,7 +315,7 @@ const Profile = () => {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         const airjet = result.filter(
           (data) => data.MachineType === "Airjet"
         )[0];
@@ -698,9 +698,12 @@ setshuttlecount(shuttle.Count)
                 justifyContent: "space-between",
                 padding: "0 2%",
                 alignItems: "center",
+                flexDirection:'column' 
               }}
             >
-              <div style={{ textAlign: "center" }}>
+              <div className="Loomalignment">
+
+              <div className='loomscountcontent' >
                 <h3 style={{ color: "var(--primary-color)", margin: 0 }}>
                   Total Loom
                 </h3>
@@ -715,7 +718,7 @@ setshuttlecount(shuttle.Count)
                   {loomcount}
                 </label>
               </div>
-              <div style={{ textAlign: "center" }}>
+              <div className='loomscountcontent' >
                 <h3 style={{ color: "var(--primary-color)", margin: 0 }}>
                   Airjet
                 </h3>
@@ -730,7 +733,7 @@ setshuttlecount(shuttle.Count)
                   {airjetcount}
                 </label>
               </div>
-              <div style={{ textAlign: "center" }}>
+              <div className='loomscountcontent' >
                 <h3 style={{ color: "var(--primary-color)", margin: 0 }}>
                   Projectile
                 </h3>
@@ -745,7 +748,11 @@ setshuttlecount(shuttle.Count)
                   {projectilecount}
                 </label>
               </div>
-              <div style={{ textAlign: "center" }}>
+              </div>
+
+              <div className="Loomalignment">
+
+              <div className='loomscountcontent' >
                 <h3 style={{ color: "var(--primary-color)", margin: 0 }}>
                   Rapier
                 </h3>
@@ -760,7 +767,7 @@ setshuttlecount(shuttle.Count)
                   {rapiercount}
                 </label>
               </div>
-              <div style={{ textAlign: "center" }}>
+              <div className='loomscountcontent' >
                 <h3 style={{ color: "var(--primary-color)", margin: 0 }}>
                   Sampling
                 </h3>
@@ -775,7 +782,7 @@ setshuttlecount(shuttle.Count)
                   {samplingcount}
                 </label>
               </div>
-              <div style={{ textAlign: "center" }}>
+              <div className='loomscountcontent' >
                 <h3 style={{ color: "var(--primary-color)", margin: 0 }}>
                   Shuttle
                 </h3>
@@ -790,6 +797,10 @@ setshuttlecount(shuttle.Count)
                   {shuttlecount}
                 </label>
               </div>
+</div>
+
+
+
             </div>
           </div>
         </div>

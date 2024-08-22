@@ -52,7 +52,7 @@ const Notification = () => {
     fetch(url, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         setfirstpiecechatdata(result);
       })
       .catch((error) => console.error(error));
@@ -113,7 +113,7 @@ const Notification = () => {
     )
       .then((response) => response.text())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         toast.success("Message sent");
         getchattings(user.LoomOrTrader, user.Id, roleofreceiver, chatingid);
         setInputText("");
@@ -129,7 +129,7 @@ const Notification = () => {
     if (file) {
       setDesignpaper(file); // Store the selected file in the state
       setPreviewUrl(URL.createObjectURL(file));
-      console.log("Selected image:", file.name);
+      //console.log("Selected image:", file.name);
       // Further handling if needed
     }
   };
