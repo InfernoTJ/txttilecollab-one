@@ -4,10 +4,13 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { IoIosAddCircle } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 const Profile = () => {
   const userString = sessionStorage.getItem("user");
   const user = userString ? JSON.parse(userString) : null;
 
+
+  const navigate = useNavigate()
   const [editable, setEditable] = useState(false);
   const [editContact, seteditContact] = useState(false);
   const [previewUrl, setPreviewUrl] = useState(null);
@@ -602,7 +605,7 @@ const [ownerContact, setOwnerContact] = useState("");
                   // margin: "10px",
                   border: "1px solid var(--primary-color)",
                   fontWeight: "bold",
-                }}
+                }} 
                 type="text"
                 value={role}
                 onChange={(e) => setRole(e.target.value)}
@@ -610,6 +613,7 @@ const [ownerContact, setOwnerContact] = useState("");
                 readOnly
               />
             </div>
+            <button className="btn2"  style={{width:'90%', margin:'0 auto'}} onClick={()=>navigate('../privacy-policy')}>View Privacy Policy</button>
           </div>
         </div>
         <div className="Lprofile-contact-info">

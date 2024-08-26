@@ -600,7 +600,11 @@ setshuttlecount(shuttle.Count)
               marginRight: "7%",
             }}
           >
-            <div style={{ marginTop: "10px", width: "50%" }}>
+
+  <div style={{display:'flex',flexDirection:'column',alignItems:'center'}}>
+           <div style={{display:'flex',}}>
+
+           <div style={{ marginTop: "10px", width: "50%" }}>
               <label
                 style={{
                   fontWeight: "bold",
@@ -671,6 +675,12 @@ setshuttlecount(shuttle.Count)
                 readOnly
               />
             </div>
+
+
+           </div>
+            <button className="btn2" style={{marginTop:'2%', width:'90%'}}  onClick={()=>navigate('../privacy-policy')}>View Privacy Policy</button> 
+</div>
+
           </div>
           <div
             className="loom-profile-myloom"

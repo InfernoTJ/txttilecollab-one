@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { IoIosAddCircle } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 const Profile = () => {
   const userString = sessionStorage.getItem("user");
   const user = userString ? JSON.parse(userString) : null;
@@ -29,6 +30,8 @@ const[picstate,setpicstate]=useState(false)
   const [managerContact, setManagerContact] = useState("");
   const [otherContact, setOtherContact] = useState("");
 
+
+  const navigate=useNavigate()
   const [ownerContactid, setOwnerContactid] = useState("");
   const [managerContactid, setManagerContactid] = useState("");
   const [otherContactid, setOtherContactid] = useState("");
@@ -607,6 +610,7 @@ const[picstate,setpicstate]=useState(false)
                 readOnly
               />
             </div>
+            <button className="btn2"  style={{width:'90%', margin:'0 auto'}} onClick={()=>navigate('../privacy-policy')}>View Privacy Policy</button>
           </div>
         </div>
         <div className="Lprofile-contact-info">

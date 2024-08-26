@@ -57,6 +57,7 @@ import KnottingResponse from './loom/KnottingResponse.js';
 import Update_myenquiries from './trader_Side/Update_myenquiries.js';
 import UpdateMyEnquiry_form from './trader_Side/UpdateMyEnquiry_form.js';
 import Broadcast from './YarnSide/Broadcast.js';
+import Privacypolicy from './component/Privacypolicy.js';
 
 function App() {
   return (
@@ -111,6 +112,7 @@ function App() {
             <Route path='yarn' element={<Admin_yarn />} />
             <Route path='userinfo/:uid' element={<Addminuserinfo/>} />
 
+            <Route path='privacy-policy' element={<Privacypolicy />} />
 
             <Route path='notifications' element={<Notification />} />
             <Route path='yarn-loom' element={<Y_loom/>} />
