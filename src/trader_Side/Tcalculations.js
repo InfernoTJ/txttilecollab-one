@@ -170,7 +170,7 @@ const firstcal=(orderqual*expectedppitime*39.37)/(loomspeedtime*60*(efficiencyti
   }
   return (
     <div className="calallcontent">
-      <div style={{ display: "flex" }}>
+      <div className='responsivediv' >
         <div className="main2contentalign">
           {/* warpinggg costttt */}
           <div className="warpweight" >
@@ -331,7 +331,7 @@ const firstcal=(orderqual*expectedppitime*39.37)/(loomspeedtime*60*(efficiencyti
       </div>
       <div className="jobworkbiling" >
             <h2>Job work billing calculations</h2>
-            <p>Job rate work (in Rs)</p>
+            <p >Job rate work (in Rs)</p>
             <div className="operationsfield">
               <input
                 value={orderquantity}
@@ -347,7 +347,7 @@ const firstcal=(orderqual*expectedppitime*39.37)/(loomspeedtime*60*(efficiencyti
             </p>
           </div>
       {/* expecteddd time etc */}
-      <div style={{display:'flex'}} > 
+      <div className='responsivediv'  > 
       <div className="main2contentalign">
         <div className="warpweight" >
             <h2>Expected Prodcution calculations</h2>

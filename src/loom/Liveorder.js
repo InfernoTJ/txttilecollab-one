@@ -16,8 +16,7 @@ function Liveorder() {
 
   const [confirmOrders, setConfirmOrders] = useState([]);
 
-  const authorization = new Headers();
-  authorization.append("x-api-key", "yZiloFufnrsaWI_SRfNjZHoPkdUAJOTnVVeC3");
+
   
   const handleLiveOrdersClick = () => {
     setView("liveOrders");
@@ -33,7 +32,7 @@ function Liveorder() {
     const confirmform = {
       method: "GET",
       redirect: "follow",
-        // headers: authorization,
+        
        
     };
 
@@ -71,7 +70,7 @@ function Liveorder() {
     const gettradermailconnection = {
       method: "GET",
       redirect: "follow",
-       // headers: authorization,
+       
     };
 
     fetch(
@@ -100,7 +99,7 @@ function Liveorder() {
       method: "POST",
       body: emailform,
       redirect: "follow",
-       // headers: authorization,
+       
     };
 
     fetch(
@@ -120,7 +119,7 @@ function Liveorder() {
     const requestOptions = {
       method: "GET",
       redirect: "follow",
-       // headers: authorization,
+       
     };
 
     getmail(order, "cancelled");
@@ -154,7 +153,7 @@ function Liveorder() {
     const requestOptions = {
       method: "GET",
       redirect: "follow",
-       // headers: authorization,
+       
     };
 
     fetch(

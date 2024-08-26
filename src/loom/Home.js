@@ -14,8 +14,7 @@ function Home() {
   const userString = sessionStorage.getItem("user");
   const user = userString ? JSON.parse(userString) : null;
 
-  const authorization = new Headers();
-  authorization.append("x-api-key", "yZiloFufnrsaWI_SRfNjZHoPkdUAJOTnVVeC3");
+
 
   const [userinfo, setuserinfo] = useState(null);
 
@@ -114,7 +113,7 @@ function Home() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
         setuserinfo(result[0]);
       })
       .catch((error) => console.error(error));

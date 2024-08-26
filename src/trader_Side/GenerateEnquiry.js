@@ -66,17 +66,13 @@ const GenerateEnquiry = () => {
 
   const handleSubmit = () => {
     // Reset all fields
-    if (  
-
-     
-
+    if (
       !reed ||
       !PPI ||
       !wrapCount ||
       !weftCount ||
       !reedSpace ||
       !fabricLength
-   
     ) {
       toast.error("Enter * fields");
       return;
@@ -885,17 +881,19 @@ const GenerateEnquiry = () => {
           </div>
         </div>
       </div>
+
       <div
         style={{
           padding: "20px",
           display: "flex",
+
           justifyContent: "center",
           alignItems: "center",
         }}
       >
         <button
           onClick={handleSubmit}
-          style={{ width: "10%" }}
+          style={{ width: "15VW" }}
           className="btn2"
         >
           Submit

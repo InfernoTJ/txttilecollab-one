@@ -491,11 +491,15 @@ function LoomBooking() {
                   />
                 </div>
               </div>
+             
+           
             </div>
 
             <div
               style={{
                 display: "flex",
+                backgroundColor:'red',
+   
                 justifyContent: "center",
                 alignItems: "center",
               }}
@@ -514,7 +518,6 @@ function LoomBooking() {
                 </button>
               )}
             </div>
-
             {/*  */}
             {selectedLoom && (
               <div

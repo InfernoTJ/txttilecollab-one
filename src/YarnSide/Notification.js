@@ -230,6 +230,7 @@ const Notification = () => {
                             user.LoomOrTrader === msg.Sender ? "right" : "left",
                           margin: "10px",
                           borderRadius: "10px",
+                          maxHeight:'25vh' 
                         }}
                         src={msg.DesignPaper}
                         alt=""

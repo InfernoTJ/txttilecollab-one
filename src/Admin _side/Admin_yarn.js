@@ -28,11 +28,7 @@ const Admin_yarn = () => {
       try {
         const response = await fetch('https://textileapp.microtechsolutions.co.in/php/getdetail.php',{
           method: 'GET', // or POST, PUT, DELETE, etc.
-          headers: {
-            'Content-Type': 'application/json',   // Specify the content type
-            'x-api-key': 'yZiloFufnrsaWI_SRfNjZHoPkdUAJOTnVVeC3',     // Add your x-api-key here
-            // Add any other necessary headers
-          }
+        
         });
         const result = await response.json();
 

@@ -44,7 +44,7 @@ const CheckResponse = () => {
         const name = result[0];
 
         setemailsending(name.AppUserId);
-        
+
         setlooominfo(result);
       })
       .catch((error) => console.error(error));
@@ -62,7 +62,6 @@ const CheckResponse = () => {
   };
 
   const handleCheckResponseClick = (enquiry) => {
-
     setShowNewTable(enquiry);
     setfabricqual(enquiry.FabricQuality);
     const requestOptions = {
@@ -134,31 +133,19 @@ const CheckResponse = () => {
       redirect: "follow",
     };
 
-    const sendmail = new FormData();
-    sendmail.append("AppUserId", emailsending);
-    sendmail.append("Body", `Your response was confirmed by ${user.Name} for enquiry ${showNewTable.EnquiryNo}`);
-    
-    const senemailconnection = {
-      method: "POST",
-      body: sendmail,
-      redirect: "follow"
-    };
-    const sendmailtrader = new FormData();
-sendmailtrader.append("AppUserId", user.AppUserId );
-sendmailtrader.append("Body",  `You  confirmed response for enquiry ${showNewTable.EnquiryNo}`);
+    sendmail.append(
+      "Body",
+      `Your response was confirmed by ${user.Name} for enquiry ${showNewTable.EnquiryNo}`
+    );
 
-const senemailtraderconnection = {
-  method: "POST",
-  body: sendmailtrader,
-  redirect: "follow"
-};
+    sendmailtrader.append(
+      "Body",
+      `You  confirmed response for enquiry ${showNewTable.EnquiryNo}`
+    );
 
-fetch("https://textileapp.microtechsolutions.co.in/php/sendemail.php", senemailtraderconnection)
-  .then((response) => response.text())
-  // .then((result) => console.log(result))
-  .catch((error) => console.error(error));
-   
-    toast.info("Sending your response please wait")
+    sendmailtraders();
+    sendmaillooms();
+
     fetch(
       "https://textileapp.microtechsolutions.co.in/php/postloomorder.php",
       requestOptio
@@ -166,20 +153,55 @@ fetch("https://textileapp.microtechsolutions.co.in/php/sendemail.php", senemailt
       .then((response) => response.text())
       .then((result) => {
         //console.log(result);
-        fetch("https://textileapp.microtechsolutions.co.in/php/sendemail.php", senemailconnection)
-        .then((response) => response.text())
-        .then((result) => {//console.log(result)
-          toast.success("Live Order has Created successfully");
-          setConfirmDetail(null);
-          setlooominfo([]);
-          setShowNewTable("");
-          navigate("../check-response");
-        })
-        .catch((error) => console.error(error));
-       
+        toast.success("Live Order has Created successfully");
+        setConfirmDetail(null);
+        setlooominfo([]);
+        setShowNewTable("");
+        navigate("../check-response");
       })
       .catch((error) => console.error(error));
   };
+
+  const sendmailtrader = new FormData();
+
+  const sendmail = new FormData();
+  const sendmaillooms = () => {
+    sendmail.append("AppUserId", emailsending);
+
+    const senemailconnection = {
+      method: "POST",
+      body: sendmail,
+      redirect: "follow",
+    };
+
+    fetch(
+      "https://textileapp.microtechsolutions.co.in/php/sendemail.php",
+      senemailconnection
+    )
+      .then((response) => response.text())
+      .then((result) => {
+        //console.log(result)
+      })
+      .catch((error) => console.error(error));
+  };
+
+  const sendmailtraders = () => {
+    sendmailtrader.append("AppUserId", user.AppUserId);
+    const senemailtraderconnection = {
+      method: "POST",
+      body: sendmailtrader,
+      redirect: "follow",
+    };
+
+    fetch(
+      "https://textileapp.microtechsolutions.co.in/php/sendemail.php",
+      senemailtraderconnection
+    )
+      .then((response) => response.text())
+      // .then((result) => console.log(result))
+      .catch((error) => console.error(error));
+  };
+
   const columns = useMemo(
     () => [
       {
@@ -279,13 +301,13 @@ fetch("https://textileapp.microtechsolutions.co.in/php/sendemail.php", senemailt
                 color: !cell.getValue() ? "var(--complementary-color" : "green",
                 fontSize: "25px",
               }}
-              onClick={(e) => {if (cell.getValue()===0) {
-                e.stopPropagation();
-                handleBiSolidUserDetailClick(row.original);
-              } else {
-                toast.info('Already Confirmed')
-              }
-              
+              onClick={(e) => {
+                if (cell.getValue() === 0) {
+                  e.stopPropagation();
+                  handleBiSolidUserDetailClick(row.original);
+                } else {
+                  toast.info("Already Confirmed");
+                }
               }}
             />
           </div>
@@ -334,7 +356,8 @@ fetch("https://textileapp.microtechsolutions.co.in/php/sendemail.php", senemailt
     };
 
     fetch(
-      "https://textileapp.microtechsolutions.co.in/php/getjoin.php?TraderId="+user.Id,
+      "https://textileapp.microtechsolutions.co.in/php/getjoin.php?TraderId=" +
+        user.Id,
       requestOptions
     )
       .then((response) => response.json())
@@ -395,8 +418,7 @@ fetch("https://textileapp.microtechsolutions.co.in/php/sendemail.php", senemailt
                         {selectedEnquiry.EnquiryId}
                       </p>
                       <p>
-                        <strong>From Date : </strong>{" "}
-                        {selectedEnquiry.Date}{" "}
+                        <strong>From Date : </strong> {selectedEnquiry.Date}{" "}
                       </p>
                       <p>
                         <strong>Machine Type: </strong>{" "}
@@ -555,17 +577,16 @@ fetch("https://textileapp.microtechsolutions.co.in/php/sendemail.php", senemailt
           {confirmDetail &&
             looominfo.map((confirmloom) => (
               <div className="T-profile-confirm-overlay">
-                
                 <div className="T-profile-confirm-overlay-container">
-                <IoClose
-                      style={{
-                        cursor: "pointer",
-                        color: "var(--secondary-color)",
-                        fontSize: "22px",
-                        float:'right'
-                      }}
-                      onClick={OverlayCloseconfirm}
-                    />
+                  <IoClose
+                    style={{
+                      cursor: "pointer",
+                      color: "var(--secondary-color)",
+                      fontSize: "22px",
+                      float: "right",
+                    }}
+                    onClick={OverlayCloseconfirm}
+                  />
                   <p>
                     Your Enquiry No. <b> EN{showDetail.EnquiryId} </b> is
                     confirmed <br />

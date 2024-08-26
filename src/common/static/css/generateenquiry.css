@@ -1,7 +1,7 @@
 .generate_enquiry {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    height: 55vh;
+    height: auto;
        /* border: 3px solid red; */
 }
 

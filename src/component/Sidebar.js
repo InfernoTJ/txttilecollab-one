@@ -64,7 +64,7 @@ const getuserinfo=()=>{
   
   fetch("https://textileapp.microtechsolutions.co.in/php/getbyid.php?Table=LoomTraderDetail&Colname=Id&Colvalue="+user.Id, getuserinfocon)
     .then((response) => response.json())
-    .then((result) => {console.log(result)
+    .then((result) => {//console.log(result)
       setUserName(result[0])
     })
     .catch((error) => console.error(error));

@@ -17,8 +17,7 @@ function Loom_booking() {
   const [knottingid, setknottingid] = useState("");
 
   const [bookingdata, setbookingdata] = useState([]);
-  const authorization = new Headers();
-  authorization.append("x-api-key", "yZiloFufnrsaWI_SRfNjZHoPkdUAJOTnVVeC3");
+
 
   const today = new Date();
   const formatDate = (date) => {
@@ -37,7 +36,7 @@ function Loom_booking() {
   const getloom = () => {
     const requestOptions = {
       method: "GET",
-      // headers: authorization,
+      
       redirect: "follow",
     };
 
@@ -65,7 +64,7 @@ function Loom_booking() {
   const getknottingid = async () => {
     const rqoption = {
       method: "GET",
-      // headers: authorization,
+      
       redirect: "follow",
     };
 
@@ -111,7 +110,9 @@ function Loom_booking() {
           bookloom(methods.BookingId)
         }
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {console.error(error)
+        toast.error('Not Avaliable')
+      });
   };
 
   const updateloomavailabilityform = new FormData();
@@ -151,8 +152,7 @@ function Loom_booking() {
   };
 
   const confirmknottingoffer = () => {
-    const authorization = new Headers();
-    authorization.append("x-api-key", "yZiloFufnrsaWI_SRfNjZHoPkdUAJOTnVVeC3");
+   
 
     const confirmknottingform = new FormData();
     confirmknottingform.append("Id", knottingid);
@@ -162,7 +162,7 @@ function Loom_booking() {
       method: "POST",
       body: confirmknottingform,
       redirect: "follow",
-      // headers: authorization,
+      
     };
 
     fetch(
@@ -184,24 +184,25 @@ function Loom_booking() {
     updateloomavailabilityform.append("BookedFromDate", fromdate);
     updateloomavailabilityform.append("BookedToDate", todate);
 
-    const authorization = new Headers();
-    authorization.append("x-api-key", "yZiloFufnrsaWI_SRfNjZHoPkdUAJOTnVVeC3");
+
 
     const updateloomavailabilityconnection = {
       method: "POST",
       body: updateloomavailabilityform,
       redirect: "follow",
-      // headers: authorization,
+      
     };
     fetch(
       "https://textileapp.microtechsolutions.co.in/php/updateloomavailabilitynew.php",
       updateloomavailabilityconnection
     )
-      .then((response) => response.text())
+      .then((response) => response.json())
       .then((result) => {
         ////console.log(result);
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {console.error(error)
+        toast.error('Not Avaliable')
+      });
   };
   const postloombookingform = new FormData();
 
@@ -214,21 +215,21 @@ function Loom_booking() {
       method: "POST",
       body: postloombookingform,
       redirect: "follow",
-      // headers: authorization,
+      
     };
     fetch(
       "https://textileapp.microtechsolutions.co.in/php/postloombooking.php",
       postloomcon
     )
-      .then((response) => response.text())
+      .then((response) => response.json())
       .then((result) => {
         ////console.log(result);
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {console.error(error)
+        toast.error('Not Avaliable')
+      });
   };
-  // const bookloom=()=>{
-  //   toast('book')
-  // }
+
   const bookloom = (bookingid) => {
     postloombookingform.append("BookingId", bookingid);
     // toast("book");
@@ -249,13 +250,12 @@ function Loom_booking() {
     checkform.append("Todate", todate);
     checkform.append("LoomDetailId", selectedLoom.LoomDetailId);
 
-    const authorization = new Headers();
-    authorization.append("x-api-key", "yZiloFufnrsaWI_SRfNjZHoPkdUAJOTnVVeC3");
+   
     const checkpost = {
       method: "POST",
       body: checkform,
       redirect: "follow",
-      // headers: authorization,
+      
     };
 
     fetch(
@@ -290,7 +290,7 @@ function Loom_booking() {
     const getloombookings = {
       method: "GET",
       redirect: "follow",
-      // headers: authorization,
+      
     };
 
     fetch(

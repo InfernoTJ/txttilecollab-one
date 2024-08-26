@@ -28,7 +28,7 @@ function CompletedOrder() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result)
+        //console.log(result)
         setcompletedorder(Array.isArray(result) ? result.filter((order) => order.Completed === 1) : []);
       })
       .catch((error) => console.error(error));
@@ -46,7 +46,7 @@ function CompletedOrder() {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        //console.log(result);
 
         setknottingcompletedorder(
           result.filter(

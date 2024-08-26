@@ -57,7 +57,7 @@ export default function VerticalTabs() {
 
   const [beamindata, setbeamindata] = useState([]);
   const [weftyarnindata, setweftyarnindata] = useState([]);
-  const [drawingindata, setdrawingindata] = useState();
+  const [drawingindata, setdrawingindata] = useState(false);
   const [drawingindate, setdrawingindate] = useState(false);
   const [beamgettingdata, setbeamgettingdata] = useState(false);
   const [beamgettingdate, setbeamgettingdate] = useState();
@@ -357,10 +357,11 @@ const[traderinfo,settraderinfo]=useState([])
             color: "var(--primary-color)",
             marginLeft: "50px",
             paddingTop: "20px",
+           
           }}
         >
           {" "}
-          Order Details{" "}
+          Order Details{" "} <FaCircleInfo onClick={handleInfoBtnClick} style={{color: "var(--text-color)",cursor:'pointer', marginLeft:10}} />
         </h3>
         <div
           style={{
@@ -404,7 +405,7 @@ const[traderinfo,settraderinfo]=useState([])
             justifyContent: "space-evenly",
           }}
         >
-          <div>
+          {/* <div>
             <button
               className="btn2"
               style={{ backgroundColor: "var(--secondary-color)" ,height:'5vh' }}
@@ -412,7 +413,7 @@ const[traderinfo,settraderinfo]=useState([])
             >
               Enquiry Details
             </button> 
-          </div>
+          </div> */}
           
         </div>
       </div>
@@ -564,6 +565,7 @@ const[traderinfo,settraderinfo]=useState([])
                 <input
                   style={{ width: "30px", height: "25px" }}
                   checked={drawingindata}
+                  unselectable="true"
                   type="checkbox"
                 />{" "}
               </div>

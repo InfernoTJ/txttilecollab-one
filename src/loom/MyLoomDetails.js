@@ -65,8 +65,9 @@ const[isavailable,setisavailable]=useState()
     )
       .then((response) => response.text())
       .then((result) => {
-        //console.log(result);
+        console.log(result);
         toast.success("Loom details updated");
+        setEditable(!editable);
       })
       .catch((error) => console.error(error));
   };
@@ -83,7 +84,7 @@ const loomdeleteconnection = {
 
 fetch("https://textileapp.microtechsolutions.co.in/php/delloom.php", loomdeleteconnection)
   .then((response) => response.text())
-  .then((result) => {//console.log(result)
+  .then((result) => {console.log(result)
     toast.success(`Loom ${loomnumber} deleted.`);
     navigate('../my-loom')
     
@@ -103,7 +104,7 @@ fetch("https://textileapp.microtechsolutions.co.in/php/delloom.php", loomdeletec
     )
       .then((response) => response.json())
       .then((result) => {
-        //console.log(result);
+        console.log(result);
         getdata(result);
       })
       .catch((error) => console.error(error));
@@ -209,7 +210,7 @@ fetch("https://textileapp.microtechsolutions.co.in/php/delloom.php", loomdeletec
     
     fetch("https://textileapp.microtechsolutions.co.in/php/getbyid.php?Table=LoomBooking&Colname=LoomDetailId&Colvalue="+loomid, requestOptions)
       .then((response) => response.json())
-      .then((result) => {//console.log(result)
+      .then((result) => {console.log(result)
         setbookingdata(result)
       })
       .catch((error) => console.error(error));
